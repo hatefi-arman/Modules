@@ -278,6 +278,7 @@
     <Content Include="ClientBin\System.Windows.Controls.Data.zip" />
     <Content Include="ClientBin\System.Windows.Controls.Data.Input.zip" />
     <Content Include="ClientBin\System.Windows.Data.zip" />
+    <None Include="Config\Web.Debug.config" />
     <None Include="Properties\PublishProfiles\MITD.Main.pubxml" />
     <Content Include="Fms.aspx" />
     <Content Include="MITD.Main.Presentation.UI.SLTestPage.html" />
@@ -313,7 +314,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\" />
-    <Folder Include="Config\" />
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
