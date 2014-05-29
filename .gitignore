@@ -43,3 +43,5 @@ Migrate.exe.config
 /UpgradeLog2.htm
 Fuel/MITD.Fuel.Service.Host/Web.debug.config
 Fuel/MITD.Fuel.Service.Host/Web.config
+Main/MITD.Main.Service.Host/Web.debug.config
+Main/MITD.Main.Service.Host/Web.config

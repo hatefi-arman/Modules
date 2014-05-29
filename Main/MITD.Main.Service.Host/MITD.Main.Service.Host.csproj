@@ -309,11 +309,11 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\" />
+    <Folder Include="Config\" />
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
@@ -362,10 +362,7 @@
   </Target>
   <Target Name="AfterBuild">
   </Target> -->
-
-
   <Target Name="BeforeBuild">
     <TransformXml Source="Web.Base.config" Transform="Web.$(Configuration).config" Destination="Web.config" />
   </Target>
-
 </Project>
