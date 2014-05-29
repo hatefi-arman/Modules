@@ -1,0 +1,274 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{86200BB9-7D71-43AC-8E01-9EE0277AAC16}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MITD.Fuel.ACL.StorageSpace</RootNamespace>
+    <AssemblyName>MITD.Fuel.ACL.StorageSpace</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Without Test|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Without Test\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="MITD.Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\Dependencies\MITD.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="MITD.Domain.Model, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\Dependencies\MITD.Domain.Model.dll</HintPath>
+    </Reference>
+    <Reference Include="MITD.Domain.Repository, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\Dependencies\MITD.Domain.Repository.dll</HintPath>
+    </Reference>
+    <Reference Include="MITD.Presentation">
+      <HintPath>..\..\Dependencies\MITD.Presentation.dll</HintPath>
+    </Reference>
+    <Reference Include="MITD.Services">
+      <HintPath>..\..\Dependencies\MITD.Services.dll</HintPath>
+    </Reference>
+    <Reference Include="MITD.Services.AntiCorruption">
+      <HintPath>..\..\Dependencies\MITD.Services.AntiCorruption.dll</HintPath>
+    </Reference>
+    <Reference Include="MITD.StorageSpace.Presentation.Contracts">
+      <HintPath>..\..\Dependencies\MITD.StorageSpace.Presentation.Contracts.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Newtonsoft.Json.6.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Omu.ValueInjecter">
+      <HintPath>..\..\Dependencies\Omu.ValueInjecter.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Adapter\EnterprisePartyAntiCorruptionAdapter.cs" />
+    <Compile Include="Adapter\GoodAntiCorruptionAdapter.cs" />
+    <Compile Include="ClientHelper.cs" />
+    <Compile Include="DomainServices\ActivityLocationDomainService.cs" />
+    <Compile Include="DomainServices\Events\FinanceNotifier.cs" />
+    <Compile Include="DomainServices\Events\InventoryOperationNotifier.Fake.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DomainServices\Events\Inventory\DTOs\OrderItemBalanceDto.cs" />
+    <Compile Include="DomainServices\Events\Inventory\Enums\AccountingTypesEnum.cs" />
+    <Compile Include="DomainServices\Events\Inventory\Enums\ActionTypeEnum.cs" />
+    <Compile Include="DomainServices\Events\Inventory\Enums\CharterEndTypeEnum.cs" />
+    <Compile Include="DomainServices\Events\Inventory\Enums\CharteringPartyType.cs" />
+    <Compile Include="DomainServices\Events\Inventory\Enums\CharterStateTypeEnum.cs" />
+    <Compile Include="DomainServices\Events\Inventory\Enums\CharterType.cs" />
+    <Compile Include="DomainServices\Events\Inventory\Enums\CorrectionTypeEnum.cs" />
+    <Compile Include="DomainServices\Events\Inventory\Enums\DivisionMethodEnum.cs" />
+    <Compile Include="DomainServices\Events\Inventory\Enums\DtoTypeEnum.cs" />
+    <Compile Include="DomainServices\Events\Inventory\Enums\EffectiveFactorTypeEnum.cs" />
+    <Compile Include="DomainServices\Events\Inventory\Enums\FuelReportTypeEnum.cs" />
+    <Compile Include="DomainServices\Events\Inventory\Enums\FuelState.cs" />
+    <Compile Include="DomainServices\Events\Inventory\Enums\InventoryResultDtoActionType.cs" />
+    <Compile Include="DomainServices\Events\Inventory\Enums\InventoryState.cs" />
+    <Compile Include="DomainServices\Events\Inventory\Enums\InvoiceTypeEnum.cs" />
+    <Compile Include="DomainServices\Events\Inventory\Enums\OffHirePricingType.cs" />
+    <Compile Include="DomainServices\Events\Inventory\Enums\OrderTypeEnum.cs" />
+    <Compile Include="DomainServices\Events\Inventory\Enums\ReceiveTypeEnum.cs" />
+    <Compile Include="DomainServices\Events\Inventory\Enums\ReferenceTypeEnum.cs" />
+    <Compile Include="DomainServices\Events\Inventory\Enums\TransferTypeEnum.cs" />
+    <Compile Include="DomainServices\Events\Inventory\Enums\VesselStateEnum.cs" />
+    <Compile Include="DomainServices\Events\Inventory\Enums\WorkflowStageEnum.cs" />
+    <Compile Include="DomainServices\InventoryManagementDomainService.cs" />
+    <Compile Include="DomainServices\OffhireManagementSystemDomainService.cs" />
+    <Compile Include="DomainServices\EffectiveFactorDomainService.cs" />
+    <Compile Include="DomainServices\CurrencyDomainService.cs" />
+    <Compile Include="DomainServices\CompanyDomainService.cs" />
+    <Compile Include="DomainServices\GoodUnitDomainService.cs" />
+    <Compile Include="DomainServices\GoodDomainService.cs" />
+    <Compile Include="DomainServices\TankDomainService.cs" />
+    <Compile Include="DomainServices\VesselDomainService.cs" />
+    <Compile Include="DomainServices\VoyageDomainService.cs" />
+    <Compile Include="Mappers\EnterprisePartyAntiCorruptionMapper.cs" />
+    <Compile Include="Mappers\GoodAntiCorruptionMapper.cs" />
+    <Compile Include="Mappers\Inventory\CharterInToDtoMapper.cs" />
+    <Compile Include="Mappers\Inventory\CharterItemToDtoMapper.cs" />
+    <Compile Include="Mappers\Inventory\CharterOutToDtoMapper.cs" />
+    <Compile Include="Mappers\Inventory\CompanyGoodUnitToGoodUnitDtoMapper.cs" />
+    <Compile Include="Mappers\Inventory\Contracts\ICharterInToDtoMapper.cs" />
+    <Compile Include="Mappers\Inventory\Contracts\ICharterItemToDtoMapper.cs" />
+    <Compile Include="Mappers\Inventory\Contracts\ICharterOutToDtoMapper.cs" />
+    <Compile Include="Mappers\Inventory\Contracts\ICompanyGoodUnitToGoodUnitDtoMapper.cs" />
+    <Compile Include="Mappers\Inventory\Contracts\ICurrencyToCurrencyDtoMapper.cs" />
+    <Compile Include="Mappers\Inventory\Contracts\IFuelReportDetailToFuelReportDetailDtoMapper.cs" />
+    <Compile Include="Mappers\Inventory\Contracts\IFuelReportFuelReportDtoMapper.cs" />
+    <Compile Include="Mappers\Inventory\Contracts\IGoodToGoodDtoMapper.cs" />
+    <Compile Include="Mappers\Inventory\Contracts\IInvoiceItemToDtoMapper.cs" />
+    <Compile Include="Mappers\Inventory\Contracts\IInvoiceToDtoMapper.cs" />
+    <Compile Include="Mappers\Inventory\Contracts\IOrderItemToDtoMapper - Copy 1.cs" />
+    <Compile Include="Mappers\Inventory\Contracts\IOrderItemToDtoMapper.cs" />
+    <Compile Include="Mappers\Inventory\Contracts\IOrderToDtoMapper.cs" />
+    <Compile Include="Mappers\Inventory\Contracts\IScrapDetailToScrapDetailDtoMapper.cs" />
+    <Compile Include="Mappers\Inventory\Contracts\IScrapToScrapDtoMapper.cs" />
+    <Compile Include="Mappers\Inventory\Contracts\ITankToTankDtoMapper.cs" />
+    <Compile Include="Mappers\Inventory\Contracts\IVesselToVesselDtoMapper.cs" />
+    <Compile Include="Mappers\Inventory\Contracts\IVoyageToVoyageDtoMapper.cs" />
+    <Compile Include="Mappers\Inventory\CurrencyToCurrencyDtoMapper.cs" />
+    <Compile Include="DomainServices\Events\Inventory\DTOs\CharterDto.cs" />
+    <Compile Include="DomainServices\Events\Inventory\DTOs\CharterItemDto.cs" />
+    <Compile Include="DomainServices\Events\Inventory\DTOs\CompanyDto.cs" />
+    <Compile Include="DomainServices\Events\Inventory\DTOs\CurrencyDto.cs" />
+    <Compile Include="DomainServices\Events\Inventory\DTOs\FuelReportCorrectionReferenceNoDto.cs" />
+    <Compile Include="DomainServices\Events\Inventory\DTOs\FuelReportDetailDto.cs" />
+    <Compile Include="DomainServices\Events\Inventory\DTOs\FuelReportDto.cs" />
+    <Compile Include="DomainServices\Events\Inventory\DTOs\FuelReportInventoryOperationDto.cs" />
+    <Compile Include="DomainServices\Events\Inventory\DTOs\FuelReportReciveReferenceNoDto.cs" />
+    <Compile Include="DomainServices\Events\Inventory\DTOs\FuelReportTransferReferenceNoDto.cs" />
+    <Compile Include="DomainServices\Events\Inventory\DTOs\GoodDto.cs" />
+    <Compile Include="DomainServices\Events\Inventory\DTOs\GoodUnitDto.cs" />
+    <Compile Include="DomainServices\Events\Inventory\DTOs\InvoiceAdditionalPriceDto.cs" />
+    <Compile Include="DomainServices\Events\Inventory\DTOs\InvoiceDto.cs" />
+    <Compile Include="DomainServices\Events\Inventory\DTOs\InvoiceItemDto.cs" />
+    <Compile Include="DomainServices\Events\Inventory\DTOs\OrderDto.cs" />
+    <Compile Include="DomainServices\Events\Inventory\DTOs\OrderItemDto.cs" />
+    <Compile Include="DomainServices\Events\Inventory\DTOs\ScrapDetailDto.cs" />
+    <Compile Include="DomainServices\Events\Inventory\DTOs\ScrapDto.cs" />
+    <Compile Include="DomainServices\Events\Inventory\DTOs\TankDto.cs" />
+    <Compile Include="DomainServices\Events\Inventory\DTOs\UserDto.cs" />
+    <Compile Include="DomainServices\Events\Inventory\DTOs\VesselDto.cs" />
+    <Compile Include="DomainServices\Events\Inventory\DTOs\VoyageDto.cs" />
+    <Compile Include="Mappers\Inventory\FuelReportDetailToFuelReportDetailDtoMapper.cs" />
+    <Compile Include="Mappers\Inventory\FuelReportToFuelReportDtoMapper.cs" />
+    <Compile Include="Mappers\Inventory\GoodToGoodDtoMapper.cs" />
+    <Compile Include="Mappers\Inventory\InvoiceItemToDtoMapper.cs" />
+    <Compile Include="Mappers\Inventory\InvoiceToDtoMapper.cs" />
+    <Compile Include="Mappers\Inventory\OrderItemToDtoMapper - Copy 1.cs" />
+    <Compile Include="Mappers\Inventory\OrderItemToDtoMapper.cs" />
+    <Compile Include="Mappers\Inventory\OrderToDtoMapper.cs" />
+    <Compile Include="Mappers\Inventory\ScrapDetailToScrapDetailDtoMapper.cs" />
+    <Compile Include="Mappers\Inventory\ScrapToScrapDtoMapper.cs" />
+    <Compile Include="Mappers\Inventory\TankToTankDtoMapper.cs" />
+    <Compile Include="Mappers\Inventory\VesselToVesselDtoMapper.cs" />
+    <Compile Include="Mappers\Inventory\VoyageToVoyageDtoMapper.cs" />
+    <Compile Include="Mappers\VesselAntiCorruptionMapper.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service References\OffhireService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="ServiceWrappers\EnterprisePartyAntiCorruptionServiceWrapper.cs" />
+    <Compile Include="ServiceWrappers\GoodAntiCorruptionServiceWrapper.cs" />
+    <Compile Include="ServiceWrappers\GoodAssignmentAntiCorruptionServiceWrapper.cs" />
+    <Compile Include="ServiceWrappers\VesselAntiCorruptionServiceWrapper.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MITD.Fuel.ACL.Contracts\MITD.Fuel.ACL.Contracts.csproj">
+      <Project>{AB12495A-9A99-4F33-A9FA-507746BBA754}</Project>
+      <Name>MITD.Fuel.ACL.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MITD.Fuel.Domain.Model\MITD.Fuel.Domain.Model.csproj">
+      <Project>{F75008B5-5BFE-4570-B583-9C3E0468ED68}</Project>
+      <Name>MITD.Fuel.Domain.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MITD.Fuel.Infrastructure.Service\MITD.Fuel.Infrastructure.Service.csproj">
+      <Project>{8f8f2f51-de0d-4085-a3eb-6d18d7e29f3b}</Project>
+      <Name>MITD.Fuel.Infrastructure.Service</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MITD.Fuel.Integration.Offhire\MITD.Fuel.Integration.Offhire\MITD.Fuel.Integration.Offhire.csproj">
+      <Project>{e7a7fc73-063c-4888-9a6d-158b50be968a}</Project>
+      <Name>MITD.Fuel.Integration.Offhire</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MITD.Fuel.Presentation.Contracts\MITD.Fuel.Presentation.Contracts.csproj">
+      <Project>{087D039B-81F3-4F11-BB55-647F0F4BD06D}</Project>
+      <Name>MITD.Fuel.Presentation.Contracts</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+    <None Include="Service References\OffhireService\MITD.Fuel.ACL.StorageSpace.OffhireService.OffhireData.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\OffhireService\MITD.Fuel.ACL.StorageSpace.OffhireService.UpdateResult.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\OffhireService\OffhireManagementService.wsdl" />
+    <None Include="Service References\OffhireService\OffhireManagementService.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\OffhireService\OffhireManagementService1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\OffhireService\OffhireManagementService2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Service References\OffhireService\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\OffhireService\OffhireManagementService.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\OffhireService\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\OffhireService\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\OffhireService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

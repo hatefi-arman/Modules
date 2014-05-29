@@ -1,0 +1,122 @@
+﻿<UserControl:ViewBase
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+    xmlns:viewModels="clr-namespace:MITD.Fuel.Presentation.Logic.SL.ViewModels;assembly=MITD.Fuel.Presentation.Logic.SL"
+    xmlns:UserControl="clr-namespace:MITD.Presentation.UI;assembly=MITD.Presentation.UI.SL"
+    xmlns:converters="clr-namespace:MITD.Fuel.Presentation.UI.SL.Converters"
+    x:Class="MITD.Fuel.Presentation.UI.SL.Views.FuelReportDetailView"
+    mc:Ignorable="d" d:DataContext="{d:DesignInstance d:Type=viewModels:FuelReportDetailVM}">
+    <UserControl.Resources>
+        <converters:EmptyValueConverter x:Key="EmptyValueConverter" />
+    </UserControl.Resources>
+    <Grid x:Name="LayoutRoot" Background="White" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" Width="900"  Margin="0,0,0,0">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="100"/>
+            <ColumnDefinition Width="100"/>
+            <ColumnDefinition Width="100"/>
+            <ColumnDefinition Width="100"/>
+            <ColumnDefinition Width="100"/>
+            <ColumnDefinition Width="100"/>
+            <ColumnDefinition Width="100"/>
+            <ColumnDefinition Width="100"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="40"/>
+        </Grid.RowDefinitions>
+
+        <!--Label-->
+        <sdk:Label  Grid.Column="0" Grid.Row="0" Content="کالا : "  />
+        <sdk:Label Grid.Column="3" Grid.Row="0" Content="واحد کالا :"  />
+        <sdk:Label Grid.Column="6" Grid.Row="0" Content="تانک : " />
+        <sdk:Label  Grid.Row="1" Content="میزان مصرف : " />
+        <sdk:Label  Grid.Row="2" Content="میزان دریافت : " />
+        <sdk:Label  Grid.Row="4"  Content="مقدار اصلاحی : " />
+        <sdk:Label  Grid.Row="5" Content="تصحیح قیمت : " />
+        <sdk:Label Grid.Column="3"  Grid.Row="1" Content="میزان موجودی : " />
+        <sdk:Label Grid.Column="3"  Grid.Row="2" Content="نوع دریافت :" />
+        <sdk:Label Grid.Column="3" Grid.Row="3" Content="نوع انتقال :"  />
+        <sdk:Label Grid.Column="3" Grid.Row="4" Content="نوع تصحیح :" />
+        <sdk:Label  Grid.Row="3" Content="میزان انتقال : " />
+        <sdk:Label Grid.Column="3"  Grid.Row="5" Content="نوع ارز :"  />
+        <sdk:Label Grid.Column="6"  Grid.Row="2" Content="شماره مرجع دریافت : "  />
+        <sdk:Label Grid.Column="6"  Grid.Row="3" Content="شماره مرجع انتقال : "  />
+        <sdk:Label Grid.Column="6"  Grid.Row="4" Content="شماره مرجع تصحیح : "  />
+        <!--TextBox-->
+        <TextBox Width="180" Height="31" Text="{Binding Entity.Consumption, Mode=TwoWay}" Grid.Column="1"  Grid.Row="1" TextWrapping="Wrap" Grid.ColumnSpan="2"  />
+        <TextBox Width="180" Height="31"
+                Text="{Binding Entity.Recieve, Mode=TwoWay,NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource EmptyValueConverter}}" Grid.Column="1"  Grid.Row="2" TextWrapping="Wrap" Grid.ColumnSpan="2" />
+        <TextBox Width="180" Height="31"
+                Text="{Binding Entity.Correction, Mode=TwoWay,NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource EmptyValueConverter}}" Grid.Column="1"  Grid.Row="4" TextWrapping="Wrap" Grid.ColumnSpan="2" />
+        <TextBox Width="180" Height="31"
+                Text="{Binding Entity.CorrectionPrice, Mode=TwoWay,NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource EmptyValueConverter}}" IsEnabled="{Binding IsCorrectionTypeActive}" Grid.Column="1"  Grid.Row="5" TextWrapping="Wrap" Grid.ColumnSpan="2" />
+        <TextBox Width="180" Height="31"
+                Text="{Binding Entity.ROB, Mode=TwoWay,NotifyOnValidationError=True,ValidatesOnDataErrors=True, Converter={StaticResource EmptyValueConverter}}" Grid.Column="4"  Grid.Row="1" TextWrapping="Wrap"  Grid.ColumnSpan="2"/>
+        <TextBox Width="180" Height="31"
+                Text="{Binding Entity.Transfer, Mode=TwoWay,NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource EmptyValueConverter}}"  Grid.Column="1"  Grid.Row="3" TextWrapping="Wrap" Grid.ColumnSpan="2" />
+        
+        <TextBox Width="180" Height="31" Text="{Binding Path=Entity.Good.Name}" Grid.Column="1"  Grid.Row="0" Grid.ColumnSpan="2" IsReadOnly="True"/>
+        <TextBox Width="180" Height="31" Text="{Binding Path=Entity.Good.Unit.Name}" Grid.Column="4" Grid.Row="0" Grid.ColumnSpan="2" IsReadOnly="True"/>
+        <TextBox Width="180" Height="31" Text="{Binding Path=Entity.TankId}" Grid.Column="7" Grid.Row="0" Grid.ColumnSpan="2" IsReadOnly="True"/>
+        <!--ComboBoxEx-->
+
+        <UserControl:ComboBoxEx Grid.Column="4"   Grid.Row="2" Width="180" Height="31" IsEnabled="{Binding IsReceiveTypeActive, Mode=TwoWay}"
+                                SelectedValueProper="{Binding ReceiveId,Mode=TwoWay}" ItemsSource="{Binding ReceiveTypes}"  
+                                DisplayMemberPath="Name" SelectedValuePath="Id" Grid.ColumnSpan="2"/>
+
+
+        <UserControl:ComboBoxEx Grid.Column="4"  Grid.Row="3" Width="180" Height="31" IsEnabled="{Binding IsTransferTypeActive, Mode=TwoWay}"
+                                SelectedValueProper="{Binding TransferId,Mode=TwoWay}" 
+                                ItemsSource="{Binding TransferTypes}"  
+                                DisplayMemberPath="Name" SelectedValuePath="Id" Grid.ColumnSpan="2"/>
+
+
+        <UserControl:ComboBoxEx Grid.Column="4"  Grid.Row="4" Width="180" Height="31" Grid.ColumnSpan="2" 
+                                IsEnabled="{Binding IsCorrectionTypeActive, Mode=TwoWay}"
+                                SelectedValueProper="{Binding CorrectionId, Mode=TwoWay}" 
+                                ItemsSource="{Binding CorrectionTypes}" 
+                                   DisplayMemberPath="Name" SelectedValuePath="Id"/>
+
+        <UserControl:ComboBoxEx Grid.Column="4"  Grid.Row="5" Width="180" Height="31" IsEnabled="{Binding IsCorrectionTypeActive, Mode=TwoWay}"
+                                ItemsSource="{Binding CurrencyDtos}"
+                                SelectedItem="{Binding Entity.CurrencyDto,Mode=TwoWay}"
+                                SelectedValueProper="{Binding Entity.CurrencyDto.Id,Mode=TwoWay}" 
+                                SelectedValuePath="Id" DisplayMemberPath="Name"  Grid.ColumnSpan="2" />
+        
+        <UserControl:ComboBoxEx Grid.Column="7"  Grid.Row="2" Width="180" Height="31" 
+                ItemsSource="{Binding Entity.FuelReportReciveReferenceNoDtos}"
+                SelectedItem="{Binding Entity.FuelReportReciveReferenceNoDto,Mode=TwoWay}"
+                SelectedValueProper="{Binding Entity.FuelReportReciveReferenceNoDto.Id,Mode=TwoWay}"
+                SelectedValuePath="Id" DisplayMemberPath="Code" IsEnabled="{Binding IsReceiveReferenceActive}"
+                Grid.ColumnSpan="2" />
+
+        
+        <UserControl:ComboBoxEx Grid.Column="7"  Grid.Row="3" Width="180" Height="31" 
+                ItemsSource="{Binding FuelReportTransferReferenceNoDtos}"
+                SelectedItem="{Binding Entity.FuelReportTransferReferenceNoDto,Mode=TwoWay}"
+                SelectedValueProper="{Binding Entity.FuelReportTransferReferenceNoDto.Id,Mode=TwoWay}" 
+                SelectedValuePath="Id" DisplayMemberPath="Code" IsEnabled="{Binding IsTransferReferenceActive}"
+                Grid.ColumnSpan="2" />
+        
+        <UserControl:ComboBoxEx Grid.Column="7"  Grid.Row="4" Width="180" Height="31" 
+                ItemsSource="{Binding Entity.FuelReportCorrectionReferenceNoDtos}"
+                SelectedItem="{Binding Entity.FuelReportCorrectionReferenceNoDto,Mode=TwoWay}"
+                SelectedValueProper="{Binding Entity.FuelReportCorrectionReferenceNoDto.Id,Mode=TwoWay}" 
+                SelectedValuePath="Id" DisplayMemberPath="Code" IsEnabled="{Binding IsCorrectionReferenceActive}"
+                Grid.ColumnSpan="2" />
+
+        <!--Button-->
+        <Button  Content="{Binding SubmitCommand.DisplayName}" Command="{Binding SubmitCommand.Command}"   Grid.Column="3"   Grid.Row="6" Width="75" Height="25" />
+        <Button Content="{Binding CancelCommand.DisplayName}" Command="{Binding CancelCommand.Command}"  Grid.Column="5"   Grid.Row="6" Width="75" Height="25" />
+
+    </Grid>
+</UserControl:ViewBase>

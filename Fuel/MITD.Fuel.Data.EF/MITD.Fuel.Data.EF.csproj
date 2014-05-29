@@ -1,0 +1,209 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{22FFBC88-AF0B-47B5-B013-07CC02078BF0}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MITD.Fuel.Data.EF</RootNamespace>
+    <AssemblyName>MITD.Fuel.Data.EF</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Without Test|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Without Test\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Castle.Core, Version=3.3.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Castle.Core.3.3.0\lib\net45\Castle.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.Windsor, Version=3.3.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Castle.Windsor.3.3.0\lib\net45\Castle.Windsor.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\EntityFramework.6.1.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\EntityFramework.6.1.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="FluentMigrator">
+      <HintPath>..\..\packages\FluentMigrator.1.1.2.1\lib\40\FluentMigrator.dll</HintPath>
+    </Reference>
+    <Reference Include="MITD.Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\Dependencies\MITD.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="MITD.Core.Config.Castle">
+      <HintPath>..\..\Dependencies\MITD.Core.Config.Castle.dll</HintPath>
+    </Reference>
+    <Reference Include="MITD.CurrencyAndMeasurement.Domain.Contracts, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Dependencies\MITD.CurrencyAndMeasurement.Domain.Contracts.dll</HintPath>
+    </Reference>
+    <Reference Include="MITD.DataAccess.EF">
+      <HintPath>..\..\Dependencies\MITD.DataAccess.EF.dll</HintPath>
+    </Reference>
+    <Reference Include="MITD.DataAccess.EF.Config.Castle">
+      <HintPath>..\..\Dependencies\MITD.DataAccess.EF.Config.Castle.dll</HintPath>
+    </Reference>
+    <Reference Include="MITD.Domain.Model, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\Dependencies\MITD.Domain.Model.dll</HintPath>
+    </Reference>
+    <Reference Include="MITD.Domain.Repository, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\Dependencies\MITD.Domain.Repository.dll</HintPath>
+    </Reference>
+    <Reference Include="MITD.Presentation">
+      <HintPath>..\..\Dependencies\MITD.Presentation.dll</HintPath>
+    </Reference>
+    <Reference Include="MITD.Services">
+      <HintPath>..\..\Dependencies\MITD.Services.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Configurations\BaseInfo\ActivityLocationConfiguration.cs" />
+    <Compile Include="Configurations\BaseInfo\SharedGoodConfiguration.cs" />
+    <Compile Include="Configurations\BaseInfo\VesselConfiguration.cs" />
+    <Compile Include="Configurations\BaseInfo\VesselInInventoryConfiguration.cs" />
+    <Compile Include="Configurations\CharterApproveWorkFlowConfiguration.cs" />
+    <Compile Include="Configurations\CharterConfiguration.cs" />
+    <Compile Include="Configurations\CharterInConfiguration.cs" />
+    <Compile Include="Configurations\CharterItemConfiguration.cs" />
+    <Compile Include="Configurations\CharterOutConfiguration.cs" />
+    <Compile Include="Configurations\EffectiveFactorConfiguration.cs" />
+    <Compile Include="Configurations\FuelReportWorkflowLogConfiguration.cs" />
+    <Compile Include="Configurations\OffhireWorkflowLogConfiguration.cs" />
+    <Compile Include="Configurations\OffhireConfiguration.cs" />
+    <Compile Include="Configurations\OffhireDetailConfiguration.cs" />
+    <Compile Include="Configurations\OrderItemBalanceConfiguration.cs" />
+    <Compile Include="Configurations\InvoiceAdditionalPricesConfiguration.cs" />
+    <Compile Include="Configurations\InvoiceItemConfiguration.cs" />
+    <Compile Include="Configurations\ScrapConfiguration.cs" />
+    <Compile Include="Configurations\ScrapDetailConfiguration.cs" />
+    <Compile Include="Configurations\ScrapWorkflowLogConfiguration.cs" />
+    <Compile Include="Configurations\VoyageLogConfiguration.cs" />
+    <Compile Include="Configurations\InvoiceApproveWorkFlowConfiguration.cs" />
+    <Compile Include="Configurations\InvoiceConfiguration.cs" />
+    <Compile Include="Configurations\WorkflowLogConfiguration.cs" />
+    <Compile Include="Configurations\OrderApproveWorkFlowConfiguration.cs" />
+    <Compile Include="Configurations\ApproveWorkFlowConfigConfiguration.cs" />
+    <Compile Include="Configurations\BaseInfo\UnitConfiguration.cs" />
+    <Compile Include="Configurations\BaseInfo\CurrencyConfiguration.cs" />
+    <Compile Include="Configurations\BaseInfo\GoodConfiguration.cs" />
+    <Compile Include="Configurations\BaseInfo\CompanyGoodUnitConfiguration.cs" />
+    <Compile Include="Configurations\BaseInfo\CompanyConfiguration.cs" />
+    <Compile Include="Configurations\BaseInfo\TankConfiguration.cs" />
+    <Compile Include="Configurations\InventoryOperationConfiguration.cs" />
+    <Compile Include="Configurations\FuelReportConfiguration.cs" />
+    <Compile Include="Configurations\FuelReportDetailConfiguration.cs" />
+    <Compile Include="Configurations\OrderConfiguration.cs" />
+    <Compile Include="Configurations\OrderItemConfiguration.cs" />
+    <Compile Include="Configurations\BaseInfo\UserConfiguration.cs" />
+    <Compile Include="Configurations\BaseInfo\VesselInCompanyConfiguration.cs" />
+    <Compile Include="Configurations\VoyageConfiguration.cs" />
+    <Compile Include="Contexts\DataContainer.cs" />
+    <Compile Include="Extensions\TExtensions.cs" />
+    <Compile Include="Infrastructure\DataBootstrapper.cs" />
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Migrations\Migration_Seed.cs" />
+    <Compile Include="Migrations\Migration_Initial.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\GoodRepository.cs" />
+    <Compile Include="Repositories\CharterInRepository.cs" />
+    <Compile Include="Repositories\CharterOutRepository.cs" />
+    <Compile Include="Repositories\CharterRepository.cs" />
+    <Compile Include="Repositories\OffhireRepository.cs" />
+    <Compile Include="Repositories\ScrapRepository.cs" />
+    <Compile Include="Repositories\VesselInInventoryRepository.cs" />
+    <Compile Include="Repositories\VesselInCompanyRepository.cs" />
+    <Compile Include="Repositories\VoyageLogRepository.cs" />
+    <Compile Include="Repositories\InvoiceRepository.cs" />
+    <Compile Include="Repositories\WorkflowLogRepository.cs" />
+    <Compile Include="Repositories\WorkflowRepository.cs" />
+    <Compile Include="Repositories\CompanyRepository.cs" />
+    <Compile Include="Repositories\InventoryOperationRepository.cs" />
+    <Compile Include="Repositories\VesselRepository.cs" />
+    <Compile Include="Repositories\FuelReportRepository.cs" />
+    <Compile Include="Repositories\OrderRepository.cs" />
+    <Compile Include="Repositories\UserRepository.cs" />
+    <Compile Include="Repositories\VoyageRepository.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="DBQueries\InventoryDBTest93-01-31.bak" />
+    <None Include="DBQueries\StorageSpace93-02-03.bak" />
+    <None Include="DBQueries\StorageSpace93-02-07.bak" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MITD.Fuel.Domain.Model\MITD.Fuel.Domain.Model.csproj">
+      <Project>{f75008b5-5bfe-4570-b583-9c3e0468ed68}</Project>
+      <Name>MITD.Fuel.Domain.Model</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="DBQueries\BasicInfoTables_Data.sql" />
+    <Content Include="DBQueries\BasicInfoTables_Data_Views.sql" />
+    <Content Include="DBQueries\BasicInfoViews_Create.sql" />
+    <Content Include="DBQueries\BasicInfoData.sql" />
+    <Content Include="DBQueries\BasicInfoViews_Drop.sql" />
+    <Content Include="DBQueries\BasicInfoViews_Create2.sql" />
+    <Content Include="DBQueries\DropVoyagesView.sql" />
+    <Content Include="DBQueries\CreateVoyagesView.sql" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

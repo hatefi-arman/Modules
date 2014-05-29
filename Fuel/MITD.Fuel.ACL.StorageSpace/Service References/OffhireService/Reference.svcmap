@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="da23fb81-edc7-4d1e-82ab-7b4807d940d0" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://10.6.12.25:8511/OffhireManagementService.svc" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="OffhireManagementService.xsd" MetadataType="Schema" ID="bdb588af-4c43-42d4-ac05-91cccf33eadb" SourceId="1" SourceUrl="http://10.6.12.25:8511/OffhireManagementService.svc?xsd=xsd2" />
+    <MetadataFile FileName="OffhireManagementService.disco" MetadataType="Disco" ID="090d2daf-75cc-4c62-918a-d5c646933304" SourceId="1" SourceUrl="http://10.6.12.25:8511/OffhireManagementService.svc?disco" />
+    <MetadataFile FileName="OffhireManagementService1.xsd" MetadataType="Schema" ID="ffaa2615-5221-4aba-b816-8903d7f4fb85" SourceId="1" SourceUrl="http://10.6.12.25:8511/OffhireManagementService.svc?xsd=xsd1" />
+    <MetadataFile FileName="OffhireManagementService2.xsd" MetadataType="Schema" ID="acccccec-0f69-4883-9534-a716a36b64fd" SourceId="1" SourceUrl="http://10.6.12.25:8511/OffhireManagementService.svc?xsd=xsd0" />
+    <MetadataFile FileName="OffhireManagementService.wsdl" MetadataType="Wsdl" ID="c407c905-a9de-4e16-8386-d5c5b88dc510" SourceId="1" SourceUrl="http://10.6.12.25:8511/OffhireManagementService.svc?wsdl" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

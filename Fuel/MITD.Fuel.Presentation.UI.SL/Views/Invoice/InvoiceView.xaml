@@ -1,0 +1,206 @@
+﻿<UserControl:ViewBase
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                      xmlns:UserControl="clr-namespace:MITD.Presentation.UI;assembly=MITD.Presentation.UI.SL"
+                      xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+    xmlns:P="clr-namespace:MITD.Presentation.UI.DateTimePicker.Views;assembly=MITD.Presentation.UI.SL"
+    x:Class="MITD.Fuel.Presentation.UI.SL.Views.Invoice.InvoiceView" 
+         mc:Ignorable="d"
+      d:DesignHeight="600" d:DesignWidth="700"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+    
+    
+    xmlns:local="clr-namespace:MITD.Fuel.Presentation.Logic.SL.ViewModels;assembly=MITD.Fuel.Presentation.Logic.SL"
+    xmlns:Views="clr-namespace:MITD.Fuel.Presentation.UI.SL.Views"
+    xmlns:InvoiceItem="clr-namespace:MITD.Fuel.Presentation.Contracts.DTOs;assembly=MITD.Fuel.Presentation.Contracts.SL"
+    d:DataContext="{d:DesignInstance Type=local:InvoiceVM}">
+
+    <UserControl.Resources>
+
+        <UserControl:BoolToVisibilityConverter x:Key="VisibilityConverter" />
+        <Style x:Name="uxMainFilterControlStyle" TargetType="FrameworkElement">
+            <Setter Property="Width" Value="100"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Height" Value="25"/>
+            <Setter Property="Margin" Value="0,0,5,5"/>
+        </Style>
+        <!--<DataTemplate x:Key="uxComboTemplate">
+            <Grid>
+              <Grid.Children>
+                    <TextBlock Grid.Column="0" Grid.Row="0" Text="{Binding Path=Name, Mode=OneWay}"/>
+                </Grid.Children>
+            </Grid>
+        </DataTemplate>-->
+    </UserControl.Resources>
+
+    <Grid Margin="10,10,10,10" Background="white" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" Name="uxInvoiceDataGrid"  >
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="100"/>
+            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="120"/>
+            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="40" />
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="40"/>
+
+            <RowDefinition Height="2*"/>
+
+            <RowDefinition Height="10"/>
+            <RowDefinition Height="10"/>
+        </Grid.RowDefinitions>
+
+
+        <!--labels-->
+        <sdk:Label Grid.Column="0" Grid.Row="0" Content="شرکت :" HorizontalAlignment="Right"/>
+        <sdk:Label Grid.Column="0"  Grid.Row="1" Content="تاریخ صورت حساب  : " HorizontalAlignment="Right"/>
+        <sdk:Label Grid.Column="0" Grid.Row="2"  Height="auto"   Content="شماره صورت حساب : "   HorizontalAlignment="Right"/>
+        <sdk:Label Grid.Column="0" Grid.Row="3"   Height="auto"   Content="نوع صورت حساب : " HorizontalAlignment="Right"/>
+        <sdk:Label Grid.Column="0" Grid.Row="4"   Content="شرکت تامین کننده : "    HorizontalAlignment="Right"/>
+        <sdk:Label Grid.Column="0" Grid.Row="5"  Content="شرکت انتقال دهنده : "   HorizontalAlignment="Right"/>
+        <TextBlock  Grid.Column="0" Grid.Row="6" Text="مبلغ کل عوامل تاثیر گذار :" HorizontalAlignment="Right" Margin="2" TextWrapping="Wrap" />
+        <sdk:Label Grid.Column="0" Grid.Row="7" Content="ماهیت بستانکار:" HorizontalAlignment="Right"/>
+
+        <sdk:Label Grid.Column="3"  Grid.Row="2" Content="شرح :" HorizontalAlignment="Right"/>
+        <sdk:Label Grid.Column="3" Grid.Row="0"   Content="مرجع : "  HorizontalAlignment="Right"/>
+        <sdk:Label Grid.Column="3"  Grid.Row="4" Content="روش تسهیم :" HorizontalAlignment="Right"/>
+        <sdk:Label Grid.Column="3"  Grid.Row="5" Content="واحد ارزی : " HorizontalAlignment="Right"/>
+        <sdk:Label Grid.Column="3" Grid.Row="6" Content="وضعیت : "  HorizontalAlignment="Right"/>
+
+
+        <ListBox  Grid.Row="0"  Grid.Column="4" HorizontalAlignment="Left" Height="105" Margin="10,5,0,0" 
+                 Grid.RowSpan="2" VerticalAlignment="Top" 
+                 ItemsSource="{Binding  Path=Entity.InvoiceRefrence}"  Visibility="{Binding Path=InvoiceReferenceVisible}"
+                 SelectedValuePath="Id" DisplayMemberPath="InvoiceNumber" 
+                 Width="180" />
+
+
+        <ListBox  Grid.Row="0"  Grid.Column="4" HorizontalAlignment="Left" Height="70" Margin="10,5,0,0" 
+                 Grid.RowSpan="2" VerticalAlignment="Top" 
+                 ItemsSource="{Binding  Path=Entity.OrderRefrences}"  Visibility="{Binding Path=OrderReferenceVisible}"
+                 SelectedValuePath="Id" DisplayMemberPath="Code" 
+                 Width="180" />
+
+
+
+        <!--textboxes-->
+
+        <TextBox Grid.Row="2" Grid.Column="4" Grid.RowSpan="2"  Text="{Binding Path=Entity.Description, Mode=TwoWay,NotifyOnValidationError=True}"   TextWrapping="Wrap"  Margin="10,5,10,4"/>
+
+
+        <TextBox  Grid.Column="1" Grid.Row="2" Text="{Binding Entity.InvoiceNumber, Mode=TwoWay}"    Height="31"  Margin="10,0"/>
+        <TextBox IsEnabled="False" Grid.Column="4" Grid.Row="6" Text="{Binding Path=Entity.ApproveStatusString}"   Height="31"  Margin="10,0" />
+
+        <P:PDatePicker  SelectedDate="{Binding Path=Entity.InvoiceDate, Mode=TwoWay}"   Grid.Row="1" Grid.Column="1"   Style="{StaticResource ResourceKey=uxMainFilterControlStyle}" Margin="10,0" Width="146" />
+        <!--button-->
+        <Button Content="{Binding ReferenceCommand.DisplayName}" Command="{Binding ReferenceCommand.Command}" Grid.Column="5"  Grid.Row="1"   Height="25" Width="75" />
+
+
+        <UserControl:ComboBoxEx ItemsSource="{Binding Path=InvoiceTypes}" IsEnabled="{Binding Path=InvoiceTypeIsEditable}" 
+                                SelectedValueProper="{Binding Path=InvoiceTypeId, Mode=TwoWay}"
+                                DisplayMemberPath="Name"  
+                                SelectedValuePath="Id"  
+                                Grid.Column="1"  Grid.Row="3"  Margin="10,5,10,4"  />
+
+        <UserControl:ComboBoxEx ItemsSource="{Binding Companies}" IsEnabled="{Binding Path=CompanyIsEditable}" 
+                                SelectedValueProper="{Binding Entity.OwnerId, Mode=TwoWay}"
+                                SelectedValuePath="Id"  
+                                DisplayMemberPath="Name"
+                                Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2"   Width="180" Height="31"  />
+
+
+        <UserControl:ComboBoxEx 
+                                ItemsSource="{Binding Path=Currencies}"  
+                                SelectedValueProper="{Binding Path=SelectedCurrencyId, Mode=TwoWay}"
+                                SelectedValuePath="Id"  
+                                 DisplayMemberPath="Name"
+                                
+                                Grid.Column="4"  Grid.Row="5" Margin="10,5,10,4"  />
+
+        <UserControl:ComboBoxEx  
+                                ItemsSource="{Binding Path=DivisionMethods}" IsEnabled="{Binding Path=DivisionMethodIsEnable}" 
+                                SelectedValueProper="{Binding Path=DivisionMethodId, Mode=TwoWay}"
+                                SelectedValuePath="Id"  
+                                 DisplayMemberPath="Name"
+                                Grid.Column="4"  Grid.Row="4" Margin="10,5,10,4"  />
+
+        <TextBox IsEnabled="False" Text="{Binding Entity.SupplierName,Mode=TwoWay}" Grid.Row="4" Grid.Column="1"   TextWrapping="Wrap"  VerticalAlignment="Top" Height="31"  Margin="10,0"/>
+        <TextBox IsEnabled="False" Text="{Binding Entity.TransporterName,Mode=TwoWay}" Grid.Row="5" Grid.Column="1"   TextWrapping="Wrap"  VerticalAlignment="Top" Height="31"  Margin="10,0"/>
+        <TextBox IsEnabled="False" Text="{Binding Entity.TotalOfDivisionPrice,Mode=TwoWay}" Grid.Row="6" Grid.Column="1"   TextWrapping="Wrap"  VerticalAlignment="Top" Height="31"  Margin="10,0" />
+        <CheckBox Grid.Row="7" Grid.Column="1" Margin="10" IsChecked="{Binding Path=Entity.IsCreditor,Mode=TwoWay}" IsEnabled="{Binding Path= IsCriditeEnable,Mode=TwoWay}"></CheckBox>
+
+        <StackPanel Grid.Row="8" HorizontalAlignment="Center" Orientation="Horizontal" Grid.ColumnSpan="7">
+            <Button Content="{Binding ManageFactors.DisplayName}" Command="{Binding ManageFactors.Command}"  Grid.Row="8" Grid.Column="4"  Height="25" Width="75" />
+            <Button Content="{Binding ExecDivision.DisplayName}" Command="{Binding  ExecDivision.Command}"  Grid.Row="8" Grid.Column="4"  Height="25" Width="75" />
+        </StackPanel>
+        <!--        <Views:InvoiceItemListView x:Name="uxInvoiceItemList"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  Grid.Row="8"  Grid.ColumnSpan="7" Grid.Column="0"  />-->
+        <Grid x:Name="uxGrid" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  Grid.Row="9" Grid.ColumnSpan="7">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+
+            <sdk:DataGrid  AutoGenerateColumns="False"  Name="uxDataGrid"  VerticalAlignment="Stretch" SelectionMode="Single"
+                      ItemsSource="{Binding Path=Entity.InvoiceItems}" 
+                      SelectedItem="{Binding Path=SelectedInvoiceItem, Mode=TwoWay}"
+                         d:DataContext="{d:DesignInstance Type=InvoiceItem:InvoiceItemDto}"
+                          >
+                <sdk:DataGrid.Columns>
+
+                    <sdk:DataGridTextColumn Binding="{Binding Path=GoodName}"  CanUserResize="True" CanUserSort="True" Width="Auto" Header="نام کالا" Foreground="#FF0A0A0A"/>
+                    <sdk:DataGridTextColumn Binding="{Binding Path=GoodCode}"  CanUserResize="True" CanUserSort="True" Width="Auto" Header="کد کالا" Foreground="#FF0A0A0A"/>
+
+                    <sdk:DataGridTemplateColumn Header="واحد ">
+                        <sdk:DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Border HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                    <TextBlock Text="{Binding Path=MeasuringUnitName}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                            </DataTemplate>
+                        </sdk:DataGridTemplateColumn.CellTemplate>
+
+                    </sdk:DataGridTemplateColumn>
+
+                    <sdk:DataGridTextColumn Binding="{Binding Path=Quantity}"  CanUserResize="True" CanUserSort="True" Width="Auto" Header="تعداد " Foreground="#FF0A0A0A"/>
+                    <sdk:DataGridTextColumn Binding="{Binding Path=Fee}"  CanUserResize="True" CanUserSort="True" Width="Auto" Header="فی " Foreground="#FF0A0A0A"/>
+                    <sdk:DataGridTextColumn Binding="{Binding Path=Price,Mode=TwoWay}"  CanUserResize="True" CanUserSort="True" Width="Auto" Header="مبلغ " Foreground="#FF0A0A0A"/>
+                    <sdk:DataGridTextColumn Binding="{Binding Path=DivisionPrice}"  CanUserResize="True" CanUserSort="True" Width="Auto" Header="مبلغ تسهیم " Foreground="#FF0A0A0A"/>
+                    <sdk:DataGridTextColumn Binding="{Binding Path=TotalPrice}"  CanUserResize="True" CanUserSort="True" Width="Auto" Header="مبلغ " Foreground="#FF0A0A0A"/>
+
+
+                    <sdk:DataGridTextColumn Binding="{Binding Path=Description}"  CanUserResize="True" CanUserSort="True" Width="Auto" Header="توضیحات " Foreground="#FF0A0A0A"/>
+                </sdk:DataGrid.Columns>
+            </sdk:DataGrid>
+            <StackPanel Grid.Row="1" HorizontalAlignment="Center" Orientation="Horizontal">
+                <!--<UserControl:CustomDataPager Name="uxPager" Height="26" FontFamily="Tahoma" FontSize="11" PageSize="10" Width="200" Source="{Binding Path=InvoiceItemVms, Mode=TwoWay}"  />-->
+                <!--<Button Content="{Binding NextPageCommand.DisplayName}" Command="{Binding NextPageCommand.Command}" Width="75" Height="25"/>-->
+                <Button Content="{Binding EditItemCommand.DisplayName}" Command="{Binding EditItemCommand.Command}" Width="75" Height="25"/>
+                <Button Content="{Binding DeleteItemCommand.DisplayName}" Command="{Binding DeleteItemCommand.Command}" Width="75" Height="25"/>
+
+
+            </StackPanel>
+            <StackPanel Grid.Row="2" HorizontalAlignment="Center" Orientation="Horizontal">
+                <Button   Content="{Binding SubmitCommand.DisplayName}" Command="{Binding SubmitCommand.Command}" Grid.Row="8" Grid.Column="1"  Height="25" Width="75"/>
+                <Button Content="{Binding CancelCommand.DisplayName}" Command="{Binding CancelCommand.Command}"  Grid.Row="8" Grid.Column="4"  Height="25" Width="75" />
+            </StackPanel>
+
+
+
+        </Grid>
+    </Grid>
+
+</UserControl:ViewBase>

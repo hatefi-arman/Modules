@@ -1,0 +1,14 @@
+﻿<Application xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:ViewModels="clr-namespace:MITD.Fuel.Presentation.FuelApp.Logic.SL.ViewModels;assembly=MITD.Fuel.Presentation.Logic.SL"
+             xmlns:SL="clr-namespace:MITD.Presentation.UI;assembly=MITD.Presentation.UI.SL"
+             x:Class="MITD.Fuel.Presentation.UI.SL.App"
+             >
+    <Application.Resources>
+        <SL:BoolToVisibilityConverter x:Key="VisibilityConverter" />
+        
+        <!--view Models-->
+        <ViewModels:FuelReportListVM x:Key="FuelReportListVMResource" />
+        
+    </Application.Resources>
+</Application>
