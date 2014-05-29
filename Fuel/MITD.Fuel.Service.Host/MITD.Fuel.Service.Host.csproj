@@ -8,7 +8,7 @@
     </ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{6BF00468-16B6-4AF9-9E95-5CB8AC2511E1}</ProjectGuid>
-    <ProjectTypeGuids>{E3E379DF-F4C6-4180-9B81-6769533ABE47};{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>MITD.Fuel.Service.Host</RootNamespace>
@@ -381,7 +381,11 @@
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
+      <Content Include="Web.base.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
     <Content Include="Content\Site.css" />
+  
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\PublishProfiles\MITD.Fuel.pubxml" />
@@ -474,4 +478,10 @@
   </Target>
   <Target Name="AfterBuild">
   </Target> -->
+
+
+  <Target Name="BeforeBuild">
+    <TransformXml Source="Web.Base.config" Transform="Web.$(Configuration).config" Destination="Web.config" />
+  </Target>
+
 </Project>
