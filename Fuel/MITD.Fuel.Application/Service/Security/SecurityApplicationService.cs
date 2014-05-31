@@ -21,7 +21,7 @@ namespace MITD.Fuel.Application.Service.Security
 
         #region
 
-        public SecurityApplicationService(IUserRepository userRepository,ISecurityServiceChecker securityServiceChecker)
+        public SecurityApplicationService(IUserRepository userRepository, ISecurityServiceChecker securityServiceChecker)
         {
             this._userRepository = userRepository;
             this._securityServiceChecker = securityServiceChecker;
@@ -55,31 +55,31 @@ namespace MITD.Fuel.Application.Service.Security
         {
             try
             {
-                using (var scope=new TransactionScope())
+                using (var scope = new TransactionScope())
                 {
-                    var u = new User(0, firstName, lastName, email, isActive);
-                    assignCustomActionsToParty(u,customActions);
-                    assignUserGroupsToUser(u,groups);
-                    _userRepository.Add(u);
-                    scope.Complete();
+                    var u = new User(0, firstName, lastName, email, "");
+                    //assignCustomActionsToParty(u,customActions);
+                    //assignUserGroupsToUser(u,groups);
+                    //_userRepository.Add(u);
+                    //scope.Complete();
                     return u;
 
                 }
             }
             catch (Exception exp)
             {
-                
+
                 throw;
             }
         }
 
         public User UpdateUser(long id, string firstName, string lastName, bool isActive, string email, Dictionary<int, bool> customActions, List<long> groups)
         {
-            using (var scope=new TransactionScope())
+            using (var scope = new TransactionScope())
             {
                 var u = _userRepository.GetUserById(id);
-                u.Update(firstName,lastName,email,isActive,customActions,groups);
-                scope.Complete();
+                //u.Update(firstName,lastName,email,isActive,customActions,groups);
+                //scope.Complete();
                 return u;
             }
         }
@@ -88,15 +88,15 @@ namespace MITD.Fuel.Application.Service.Security
         {
             try
             {
-                using (var scope=new TransactionScope())
+                using (var scope = new TransactionScope())
                 {
-                  //  var u=
+                    //  var u=
                     return new Group();
                 }
             }
             catch (Exception)
             {
-                
+
                 throw;
             }
         }
@@ -105,12 +105,12 @@ namespace MITD.Fuel.Application.Service.Security
         {
             try
             {
-                using (var scope=new TransactionScope())
+                using (var scope = new TransactionScope())
                 {
-                    var g = new Group(id, description);
-                    assignCustomActionsToParty(g,customActions);
-                    _userRepository.Add(g);
-                    scope.Complete();
+                    var g = new Group(id, description, "");
+                    //assignCustomActionsToParty(g,customActions);
+                    //_userRepository.Add(g);
+                    //scope.Complete();
                     return g;
                 }
             }
@@ -121,13 +121,13 @@ namespace MITD.Fuel.Application.Service.Security
             }
         }
 
-        private void assignCustomActionsToParty(Party party,Dictionary<int,bool> customActions)
+        private void assignCustomActionsToParty(Party party, Dictionary<int, bool> customActions)
         {
             foreach (var actid in customActions)
             {
-                ActionType act = ActionType.FromValue(actid.Key.ToString());
+                //ActionType act = ActionType.FromValue(actid.Key.ToString());
 
-                party.AssignCustomActions(act,actid.Value);
+                //party.AssignCustomActions(act,actid.Value);
             }
         }
 

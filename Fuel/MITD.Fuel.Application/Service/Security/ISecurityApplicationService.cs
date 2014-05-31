@@ -9,7 +9,7 @@ namespace MITD.Fuel.Application.Service.Security
 {
     public interface ISecurityApplicationService
     {
-        bool IsAuthorize(List<ActionType> userActionTypes,List<ActionType> methodRequiredActionTypes );
+        bool IsAuthorize(List<ActionType> userActionTypes, List<ActionType> methodRequiredActionTypes);
         List<ActionType> GetAllAuthorizedActions(List<User> users);
 
         User GetUser(long id);
@@ -18,10 +18,10 @@ namespace MITD.Fuel.Application.Service.Security
         User AddUser(string firstName, string lastName, bool isActive, string email,
             Dictionary<int, bool> customActions, List<long> groups);
 
-        User UpdateUser(long id,string firstName, string lastName, bool isActive, string email,
+        User UpdateUser(long id, string firstName, string lastName, bool isActive, string email,
            Dictionary<int, bool> customActions, List<long> groups);
 
-        Group UpdateGroup(long id, string description,Dictionary<int,bool> customActions);
+        Group UpdateGroup(long id, string description, Dictionary<int, bool> customActions);
         Group AddGroup(long id, string description, Dictionary<int, bool> customActions);
 
     }
