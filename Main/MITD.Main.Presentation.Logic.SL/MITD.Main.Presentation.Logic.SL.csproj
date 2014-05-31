@@ -110,6 +110,7 @@
     <Compile Include="Infrastructure\StorageSpaceController.cs" />
     <Compile Include="MainWindowVM.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="QueryConditionHelper.cs" />
     <Compile Include="ServiceWrapper\IUserServiceWrapper.cs" />
     <Compile Include="ServiceWrapper\UserServiceWrapper.cs" />
   </ItemGroup>
