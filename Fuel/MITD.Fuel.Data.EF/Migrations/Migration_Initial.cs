@@ -11,6 +11,9 @@ namespace MITD.Fuel.Data.EF.Migrations
         {
             Execute.Script(@"Fuel\MITD.Fuel.Data.EF\DBQueries\BasicInfoViews_Create.sql");
 
+            createActionsTable();
+            createUsersTable();
+
             //Execute.Script(@"Fuel\MITD.Fuel.Data.EF\DBQueries\Create SAPID-HAFIZ Rotation Linked Servers.sql");
             Execute.Script(@"Fuel\MITD.Fuel.Data.EF\DBQueries\Create SAPID-HAFIZ Voyages Views.sql");
 
@@ -404,12 +407,68 @@ namespace MITD.Fuel.Data.EF.Migrations
 
             Delete.Schema("Fuel");
 
+            Delete.Table("Users_Groups");
+            Delete.Table("Parties_CustomActions");
+            Delete.Table("Users");
+            Delete.Table("Groups");
+            Delete.Table("Parties");
+            Delete.Table("ActionTypes");
+
             Execute.Script(@"Fuel\MITD.Fuel.Data.EF\DBQueries\Drop Inventory BasicInfo Views.sql");
 
             Execute.Script(@"Fuel\MITD.Fuel.Data.EF\DBQueries\Drop SAPID-HAFIZ Voyages Views.sql");
             //Execute.Script(@"Fuel\MITD.Fuel.Data.EF\DBQueries\Drop SAPID-HAFIZ Rotation Linked Servers.sql");
 
             Execute.Script(@"Fuel\MITD.Fuel.Data.EF\DBQueries\BasicInfoViews_Drop.sql");
+        }
+
+        private void createUsersTable()
+        {
+            Create.Table("Parties")
+                .WithColumn("Id").AsInt64().PrimaryKey()
+                .WithColumn("PartyName").AsString(100).NotNullable().Unique()
+                .WithColumn("RowVersion").AsCustom("RowVersion");
+
+            Create.Table("Users")
+                .WithColumn("Id").AsInt64().PrimaryKey()
+                    .ForeignKey("Parties", "Id")
+                .WithColumn("FirstName").AsString(100).Nullable()
+                .WithColumn("LastName").AsString(100).Nullable()
+                .WithColumn("Email").AsString(100).Nullable()
+                .WithColumn("Active").AsBoolean().NotNullable();
+
+            Create.Table("Groups")
+                .WithColumn("Id").AsInt64().PrimaryKey()
+                    .ForeignKey("Parties", "Id")
+                .WithColumn("Description").AsString(256).Nullable();
+
+            Create.Table("Users_Groups")
+                .WithColumn("Id").AsInt64().Identity().PrimaryKey()
+                .WithColumn("UserId").AsInt64().NotNullable()
+                    .ForeignKey("Users", "Id")
+                .WithColumn("GroupId").AsInt64().NotNullable()
+                    .ForeignKey("Groups", "Id");
+
+            //Create.Table("Users_WorkListUsers")
+            //    .WithColumn("Id").AsInt64().Identity().PrimaryKey()
+            //    .WithColumn("UserId").AsInt64().NotNullable().ForeignKey("Users", "Id")
+            //    .WithColumn("WorkListUserId").AsInt64().NotNullable().ForeignKey("Users", "Id");
+
+            Create.Table("Parties_CustomActions")
+                .WithColumn("Id").AsInt64().Identity().PrimaryKey()
+                .WithColumn("PartyId").AsInt64().NotNullable()
+                    .ForeignKey("Parties", "Id")
+                .WithColumn("ActionTypeId").AsInt32().NotNullable()
+                    .ForeignKey("ActionTypes", "Id")
+                .WithColumn("IsGranted").AsBoolean().NotNullable();
+        }
+
+        private void createActionsTable()
+        {
+            Create.Table("ActionTypes")
+                .WithColumn("Id").AsInt32().NotNullable().PrimaryKey()
+                .WithColumn("Name").AsString(512).Unique().NotNullable()
+                .WithColumn("Description").AsString(2000).Unique().NotNullable();
         }
     }
 

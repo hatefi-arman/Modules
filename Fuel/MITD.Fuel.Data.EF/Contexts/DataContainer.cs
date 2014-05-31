@@ -1,10 +1,15 @@
 using System.Data.Entity;
 using MITD.Fuel.Data.EF.Configurations;
 using MITD.Fuel.Data.EF.Configurations.BaseInfo;
+using MITD.Fuel.Data.EF.Configurations.Security;
 using MITD.Fuel.Domain.Model.DomainObjects;
 using MITD.Fuel.Domain.Model.DomainObjects.CharterAggregate;
 using MITD.Fuel.Domain.Model.DomainObjects.InvoiceAggreate;
 using MITD.Fuel.Domain.Model.DomainObjects.OrderAggreate;
+using MITD.FuelSecurity.Domain.Model;
+using User = MITD.FuelSecurity.Domain.Model.User;
+using UserConfiguration = MITD.Fuel.Data.EF.Configurations.Security.UserConfiguration;
+
 
 namespace MITD.Fuel.Data.EF.Context
 {
@@ -96,6 +101,16 @@ namespace MITD.Fuel.Data.EF.Context
 
         public DbSet<ActivityLocation> ActivityLocations { get; set; }
 
+        #region Security
+
+        public DbSet<Party> Parties { get; set; }
+
+        public DbSet<ActionType> ActionTypes { get; set; }
+
+        public DbSet<PartyCustomAction> PartyCustomActions { get; set; }
+
+        #endregion
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.ComplexType<OffhirePricingReference>();
@@ -105,9 +120,9 @@ namespace MITD.Fuel.Data.EF.Context
             #region Basic Info
 
             modelBuilder.Configurations.Add(new CompanyConfiguration());
-            
+
             //modelBuilder.Configurations.Add(new GoodPartyAssignmentConfiguration());
-            modelBuilder.Configurations.Add(new UserConfiguration());
+
             modelBuilder.Configurations.Add(new GoodConfiguration());
             modelBuilder.Configurations.Add(new SharedGoodConfiguration());
             modelBuilder.Configurations.Add(new CompanyGoodUnitConfiguration());
@@ -117,6 +132,22 @@ namespace MITD.Fuel.Data.EF.Context
             modelBuilder.Configurations.Add(new ActivityLocationConfiguration());
 
             #endregion
+
+            #region Security - Identity
+
+            modelBuilder.Configurations.Add(new PartyConfiguration());
+            modelBuilder.Configurations.Add(new UserConfiguration());
+            modelBuilder.Configurations.Add(new GroupConfiguration());
+            modelBuilder.Ignore<AdminUser>();
+            modelBuilder.Ignore<CommercialUser>();
+            modelBuilder.Ignore<FinancialUser>();
+
+            modelBuilder.Configurations.Add(new ActionTypeConfiguration());
+
+            modelBuilder.Configurations.Add(new PartyCustomActionConfiguration());
+
+            #endregion
+
 
             modelBuilder.Configurations.Add(new VesselConfiguration());
             modelBuilder.Configurations.Add(new VesselInCompanyConfiguration());

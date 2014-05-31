@@ -125,6 +125,11 @@
     <Compile Include="Configurations\ScrapConfiguration.cs" />
     <Compile Include="Configurations\ScrapDetailConfiguration.cs" />
     <Compile Include="Configurations\ScrapWorkflowLogConfiguration.cs" />
+    <Compile Include="Configurations\Security\ActionTypeConfiguration.cs" />
+    <Compile Include="Configurations\Security\GroupConfiguration.cs" />
+    <Compile Include="Configurations\Security\PartyConfiguration.cs" />
+    <Compile Include="Configurations\Security\PartyCustomActionConfiguration.cs" />
+    <Compile Include="Configurations\Security\UserConfiguration.cs" />
     <Compile Include="Configurations\VoyageLogConfiguration.cs" />
     <Compile Include="Configurations\InvoiceApproveWorkFlowConfiguration.cs" />
     <Compile Include="Configurations\InvoiceConfiguration.cs" />
@@ -184,6 +189,10 @@
       <Project>{f75008b5-5bfe-4570-b583-9c3e0468ed68}</Project>
       <Name>MITD.Fuel.Domain.Model</Name>
     </ProjectReference>
+    <ProjectReference Include="..\MITD.FuelSecurity.Domain.Model\MITD.FuelSecurity.Domain.Model.csproj">
+      <Project>{081bb795-014b-43aa-bf32-ab4d8d9f0d0c}</Project>
+      <Name>MITD.FuelSecurity.Domain.Model</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
@@ -198,6 +207,7 @@
     <Content Include="DBQueries\DropVoyagesView.sql" />
     <Content Include="DBQueries\CreateVoyagesView.sql" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
