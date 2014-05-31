@@ -1,6 +1,12 @@
-﻿using System.Web.Http;
+﻿using System;
+using System.IdentityModel.Selectors;
+using System.IdentityModel.Tokens;
+using System.Security.Claims;
+using System.Security.Cryptography.X509Certificates;
+using System.Web.Http;
 using System.Web.Mvc;
 using MITD.Fuel.Service.Host.Infrastructure;
+using Thinktecture.IdentityModel.Tokens.Http;
 
 namespace MITD.Fuel.Service.Host.App_Start
 {
@@ -8,6 +14,38 @@ namespace MITD.Fuel.Service.Host.App_Start
     {
         public static void Register(HttpConfiguration config)
         {
+
+            var authConfig = new AuthenticationConfiguration
+            {
+                RequireSsl = false,
+                ClaimsAuthenticationManager = new ClaimsAuthenticationManager(),
+                EnableSessionToken = true,
+                //SessionToken = new SessionTokenConfiguration()
+                //               {
+                //                   EndpointAddress = "apiArea/fuel/token"
+                //               }
+            };
+            var registry = new ConfigurationBasedIssuerNameRegistry();
+            registry.AddTrustedIssuer(System.Configuration.ConfigurationManager.AppSettings["SigningThumbPrint"], System.Configuration.ConfigurationManager.AppSettings["IssuerURI"]);
+            var handlerConfig = new SecurityTokenHandlerConfiguration();
+            handlerConfig.AudienceRestriction.AllowedAudienceUris.Add(new Uri(System.Configuration.ConfigurationManager.AppSettings["AudianceUri"]));
+            handlerConfig.IssuerNameRegistry = registry;
+            handlerConfig.CertificateValidator = X509CertificateValidator.None;
+            handlerConfig.ServiceTokenResolver = new X509CertificateStoreTokenResolver(StoreName.My, StoreLocation.LocalMachine);
+            authConfig.AddSaml2(handlerConfig, AuthenticationOptions.ForAuthorizationHeader("SAML"), AuthenticationScheme.SchemeOnly("SAML"));
+
+            config.MessageHandlers.Add(new AuthenticationHandler(authConfig));
+
+
+            config.Routes.MapHttpRoute(
+               name: "DefaultApi",
+               routeTemplate: "api/{controller}/{id}",
+               defaults: new
+               {
+                   id = RouteParameter.Optional
+               }
+           );
+
             config.Routes.MapHttpRoute(
                 name: "OffhirePricingValueRoute",
                 routeTemplate: "apiArea/{area}/OffhirePricingValue/",
@@ -180,18 +218,18 @@ namespace MITD.Fuel.Service.Host.App_Start
                 name: "MainUnitValue",
                 routeTemplate: "apiArea/{area}/MainUnit/{goodId}/{goodUnitId}/{value}",
                 defaults: new
-                                              {
-                                                  controller = "OrderItem",
-                                              });
+                {
+                    controller = "OrderItem",
+                });
 
             config.Routes.MapHttpRoute(
                 name: "CharterItemRoute",
                 routeTemplate: "apiArea/{area}/Charter/{id}/CharterItem/{charterItemId}",
                 defaults: new
-                              {
-                                  controller = "CharterItem",
-                                  charterItemId = RouteParameter.Optional
-                              }
+                {
+                    controller = "CharterItem",
+                    charterItemId = RouteParameter.Optional
+                }
                 );
 
 

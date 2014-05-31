@@ -1,94 +1,179 @@
 ﻿using System;
 using System.IO;
+using System.Security.Cryptography.X509Certificates;
 using System.Windows;
 using MITD.Core;
 using MITD.Fuel.Presentation.Contracts.DTOs;
+using MITD.Fuel.Presentation.Contracts.SL.Infrastructure;
+using MITD.Main.Presentation.Logic.SL.ServiceWrapper;
 using MITD.Presentation;
 using MITD.Fuel.Presentation.Contracts.SL.Controllers;
-using MITD.StorageSpace.Presentation.Contracts.SL.Controllers;
+using Newtonsoft.Json.Linq;
+
 namespace MITD.Main.Presentation.Logic.SL.Infrastructure
 {
-    public partial class StorageSpaceController : ApplicationController, IStorageSpaceController, IApplicationController
-    {
-        #region ctor
-
-        public UserDto CurrentUser { get; set; }
-
-        public StorageSpaceController(IViewManager viewManager, IEventPublisher eventPublisher,
-                                   IDeploymentManagement deploymentManagement)
-            : base(viewManager, eventPublisher, deploymentManagement)
-        {
+    //public partial class StorageSpaceController : ApplicationController, IFuelController, IApplicationController
+    //{
+    //    #region ctor
 
 
-            CurrentUser = new UserDto();
-            CurrentUser.Id = 1;
-            // CurrentUser.Name = "Ali";
-            CurrentUser.Code = "X100";
-            CurrentUser.CompanyDto = new CompanyDto { Id = 1 };  //SAPID = 1, HAFIZ = 2, IMSENGCO = 3, IRISL = 4 
-            //viewManager
-            if (viewManager == null)
-                throw new Exception("ViewManager can not be null");
-
-            this.ViewManager = viewManager;
-            //eventPublisher
-            if (eventPublisher == null)
-                throw new Exception("eventPublisher can not be null");
-
-            this.EventPublisher = eventPublisher;
-
-            //deploymentManagement
-            if (deploymentManagement == null)
-                throw new Exception("deploymentManagement can not be null");
-
-            this.DeploymentManagement = deploymentManagement;
+    //    public StorageSpaceController(
+    //        IViewManager viewManager,
+    //        IEventPublisher eventPublisher,
+    //        IDeploymentManagement deploymentManagement, IUserServiceWrapper userService, IUserProvider userProvider)
+    //        : base(viewManager, eventPublisher, deploymentManagement)
+    //    {
 
 
+    //        CurrentUser = new UserDto();
 
-        }
-
-        #endregion
-
-        #region props
-
-        public IViewManager ViewManager { get; set; }
-
-        public IEventPublisher EventPublisher { get; set; }
-
-        public IDeploymentManagement DeploymentManagement { get; set; }
-
-        #endregion
-
-        public void HandleException(Exception exp)
-        {
-            var exceptionMessageDto =
-                Newtonsoft.Json.JsonConvert.DeserializeObject<ExceptionMessageDto>(exp.Data["error"].ToString());
-            viewManager.ShowMessage(exceptionMessageDto.Message, this);
-        }
+    //        this.userService = userService;
+    //        this.userProvider = userProvider;
 
 
-        public void GetRemoteInstance<T>(Action<T, Exception> action) where T : class
-        {
-            deploymentManagement.AddModule(typeof(T),
-                res => action(ServiceLocator.Current.GetInstance(typeof(T)) as T, null),
-                exp => action(null, exp));
-        }
-    }
+    //        //viewManager
+    //        if (viewManager == null)
+    //            throw new Exception("ViewManager can not be null");
+
+    //        this.ViewManager = viewManager;
+    //        //eventPublisher
+    //        if (eventPublisher == null)
+    //            throw new Exception("eventPublisher can not be null");
+
+    //        this.EventPublisher = eventPublisher;
+
+    //        //deploymentManagement
+    //        if (deploymentManagement == null)
+    //            throw new Exception("deploymentManagement can not be null");
+
+    //        this.DeploymentManagement = deploymentManagement;
+
+
+
+    //    }
+
+    //    #endregion
+
+    //    #region props
+    //    public UserDto CurrentUser { get; set; }
+
+    //    private IUserServiceWrapper userService;
+
+    //    private IUserProvider userProvider;
+    //    public IViewManager ViewManager { get; set; }
+
+    //    public IEventPublisher EventPublisher { get; set; }
+
+    //    public IDeploymentManagement DeploymentManagement { get; set; }
+
+    //    public UserStateDTO LoggedInUserState { get; set; }
+
+    //    public UserStateDTO CurrentUserState { get; set; }
+
+    //    #endregion
+
+    //    public void HandleException(Exception exp)
+    //    {
+    //        var exceptionMessageDto =
+    //            Newtonsoft.Json.JsonConvert.DeserializeObject<ExceptionMessageDto>(exp.Data["error"].ToString());
+    //        viewManager.ShowMessage(exceptionMessageDto.Message, this);
+    //    }
+
+
+    //    public void GetRemoteInstance<T>(Action<T, Exception> action) where T : class
+    //    {
+    //        deploymentManagement.AddModule(typeof(T),
+    //            res => action(ServiceLocator.Current.GetInstance(typeof(T)) as T, null),
+    //            exp => action(null, exp));
+    //    }
+
+
+    //    public void Login(Action action)
+    //    {
+    //        ShowBusyIndicator("در حال ورود به سامانه...");
+    //        this.userService.GetToken((res, exp) => BeginInvokeOnDispatcher(() =>
+    //        {
+    //            if (exp == null)
+    //            {
+    //                userProvider.SamlToken = res;
+    //                getSessionToken(res, action);
+    //            }
+    //            else
+    //            {
+    //                HandleException(exp);
+    //            }
+    //        }));
+    //    }
+
+    //    private void getSessionToken(string token, Action action, string newCurrentWorkListUser = "")
+    //    {
+    //        userService.GetSessionToken((res, exp) => BeginInvokeOnDispatcher(() =>
+    //        {
+    //            if (exp == null)
+    //            {
+    //                var json = JObject.Parse(res);
+    //                var sessionToken = json["access_token"].ToString();
+    //                var expiresIn = int.Parse(json["expires_in"].ToString());
+    //                var expiration = DateTime.UtcNow.AddSeconds(expiresIn);
+    //                userProvider.Token = sessionToken;
+    //                getLogonUser();
+    //                action();
+    //            }
+    //            else
+    //            {
+    //                HideBusyIndicator();
+    //                HandleException(exp);
+    //            }
+    //        }), token, newCurrentWorkListUser);
+    //    }
+
+
+    //    private void getLogonUser()
+    //    {
+    //        userService.GetLogonUser((res, exp) =>
+    //        {
+    //            if (exp == null)
+    //            {
+    //                BeginInvokeOnDispatcher(() =>
+    //                {
+    //                    CurrentUserState = res;
+    //                    LoggedInUserState = res;
+    //                    Publish(new MainWindowUpdateArgs());
+
+    //                });
+    //                //createCustomFieldEntityList();
+    //            }
+    //            else
+    //            {
+    //                HideBusyIndicator();
+    //                HandleException(exp);
+    //            }
+    //        });
+    //    }
+
+
+
+    //    public UserDto GetCurrentUser()
+    //    {
+    //        throw new NotImplementedException();
+    //    }
+    //}
     public partial class FuelController : ApplicationController, IFuelController, IApplicationController
     {
         #region ctor
 
-        public FuelController(IViewManager viewManager, IEventPublisher eventPublisher,
-                                   IDeploymentManagement deploymentManagement)
+
+        public FuelController(
+            IViewManager viewManager,
+            IEventPublisher eventPublisher,
+            IDeploymentManagement deploymentManagement, IUserServiceWrapper userService, IUserProvider userProvider)
             : base(viewManager, eventPublisher, deploymentManagement)
         {
 
 
             CurrentUser = new UserDto();
-            CurrentUser.Id = 1;
-            //CurrentUser.Name = "Ali";
-            CurrentUser.Code = "X100";
-            CurrentUser.CompanyDto = new CompanyDto { Id = 11, Name = "SAPID" };
-            //CurrentUser.CompanyDto = new CompanyDto { Id = 10, Name = "IRISL" };
+            this.userService = userService;
+            this.userProvider = userProvider;
 
             //viewManager
             if (viewManager == null)
@@ -108,6 +193,7 @@ namespace MITD.Main.Presentation.Logic.SL.Infrastructure
             this.DeploymentManagement = deploymentManagement;
 
 
+
         }
 
         #endregion
@@ -116,6 +202,12 @@ namespace MITD.Main.Presentation.Logic.SL.Infrastructure
 
         public UserDto CurrentUser { get; set; }
 
+        private IUserServiceWrapper userService;
+
+        private IUserProvider userProvider;
+        public UserStateDTO LoggedInUserState { get; set; }
+
+        public UserStateDTO CurrentUserState { get; set; }
         public IViewManager ViewManager { get; set; }
 
         public IEventPublisher EventPublisher { get; set; }
@@ -149,6 +241,70 @@ namespace MITD.Main.Presentation.Logic.SL.Infrastructure
                     action(ServiceLocator.Current.GetInstance(typeof(T)) as T, null);
                 },
                 exp => { action(null, exp); });
+        }
+
+        public void Login(Action action)
+        {
+            ShowBusyIndicator("در حال ورود به سامانه...");
+            this.userService.GetToken((res, exp) => BeginInvokeOnDispatcher(() =>
+            {
+                if (exp == null)
+                {
+                    userProvider.SamlToken = res;
+                    getSessionToken(res, action);
+                }
+                else
+                {
+                    HandleException(exp);
+                }
+            }));
+        }
+
+        private void getSessionToken(string token, Action action, string newCurrentWorkListUser = "")
+        {
+            userService.GetSessionToken((res, exp) => BeginInvokeOnDispatcher(() =>
+            {
+                if (exp == null)
+                {
+                    var json = JObject.Parse(res);
+                    var sessionToken = json["access_token"].ToString();
+                    var expiresIn = int.Parse(json["expires_in"].ToString());
+                    var expiration = DateTime.UtcNow.AddSeconds(expiresIn);
+                    userProvider.Token = sessionToken;
+                    ApiConfig.Headers = ApiConfig.CreateHeaderDic(userProvider.Token);
+                    getLogonUser();
+                    action();
+                }
+                else
+                {
+                    HideBusyIndicator();
+                    HandleException(exp);
+                }
+            }), token, newCurrentWorkListUser);
+        }
+
+
+        private void getLogonUser()
+        {
+            userService.GetLogonUser((res, exp) =>
+            {
+                if (exp == null)
+                {
+                    BeginInvokeOnDispatcher(() =>
+                    {
+                        CurrentUserState = res;
+                        LoggedInUserState = res;
+                        Publish(new MainWindowUpdateArgs());
+
+                    });
+                    //createCustomFieldEntityList();
+                }
+                else
+                {
+                    HideBusyIndicator();
+                    HandleException(exp);
+                }
+            });
         }
     }
 }

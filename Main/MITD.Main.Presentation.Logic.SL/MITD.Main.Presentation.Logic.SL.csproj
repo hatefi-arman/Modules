@@ -104,11 +104,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Infrastructure\LogicBootstrapper.cs" />
+    <Compile Include="Infrastructure\MainWindowUpdateArgs.cs" />
     <Compile Include="Infrastructure\MenuBuilder.cs" />
     <Compile Include="Infrastructure\MenuItem.cs" />
     <Compile Include="Infrastructure\StorageSpaceController.cs" />
     <Compile Include="MainWindowVM.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ServiceWrapper\IUserServiceWrapper.cs" />
+    <Compile Include="ServiceWrapper\UserServiceWrapper.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Fuel\MITD.Fuel.Presentation.Contracts.SL\MITD.Fuel.Presentation.Contracts.SL.csproj">

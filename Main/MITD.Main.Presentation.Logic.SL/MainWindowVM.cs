@@ -1,21 +1,9 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Net;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Documents;
-using System.Windows.Ink;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Animation;
-using System.Windows.Shapes;
+using MITD.Fuel.Presentation.Contracts.DTOs;
 using MITD.Presentation;
-using MITD.Fuel.Presentation.Contracts.SL;
 using MITD.Fuel.Presentation.Contracts.SL.Controllers;
 using MITD.Main.Presentation.Logic.SL.Infrastructure;
-using MITD.StorageSpace.Presentation.Contracts.SL.Controllers;
 
 namespace MITD.Main.Presentation.Logic.SL
 {
@@ -23,8 +11,11 @@ namespace MITD.Main.Presentation.Logic.SL
     {
         #region Fields
         ReadOnlyObservableCollection<CommandViewModel> commands;
-        IStorageSpaceController controller;
-        //  private IProductServiceWrapper service;
+        IFuelController controller;
+        public UserStateDTO UserState { get; set; }
+
+
+
         #endregion // Fields
 
         #region Constructor
@@ -32,13 +23,15 @@ namespace MITD.Main.Presentation.Logic.SL
         public MainWindowVM()
         {
             DisplayName = "سامانه";
+
         }
 
 
-        public MainWindowVM(IStorageSpaceController controller)//, IProductServiceWrapper service)
+        public MainWindowVM(IFuelController controller)//, IProductServiceWrapper service)
         {
             DisplayName = "سامانه";
             this.controller = controller;
+            UserState = controller.CurrentUserState;
             //this.service = service;
         }
         #endregion
