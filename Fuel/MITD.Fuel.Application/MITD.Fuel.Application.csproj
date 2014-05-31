@@ -199,10 +199,6 @@
       <Project>{087D039B-81F3-4F11-BB55-647F0F4BD06D}</Project>
       <Name>MITD.Fuel.Presentation.Contracts</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MITD.FuelSecurity.Domain.Model\MITD.FuelSecurity.Domain.Model.csproj">
-      <Project>{081bb795-014b-43aa-bf32-ab4d8d9f0d0c}</Project>
-      <Name>MITD.FuelSecurity.Domain.Model</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

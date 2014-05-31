@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MITD.Presentation;
 
 namespace MITD.Fuel.Presentation.Contracts.DTOs
 {
-    public partial class PartyDTOWithActions : PartyDto
+    public partial class UserDescriptionDTO : DTOBase
     {
-        public List<int> ActionCodes { get; set; }
-
     }
 }

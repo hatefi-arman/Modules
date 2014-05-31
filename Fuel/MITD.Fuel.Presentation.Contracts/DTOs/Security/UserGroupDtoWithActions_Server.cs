@@ -5,10 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using MITD.Presentation;
 
-namespace MITD.Fuel.Presentation.Contracts.DTOs
+namespace MITD.Fuel.Presentation.Contracts.DTOs.Security
 {
-    public partial class UserGroupDescriptionDto : DTOBase
+   public partial class UserGroupDtoWithActions:DTOBase
     {
-
     }
 }

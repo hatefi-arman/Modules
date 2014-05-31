@@ -164,9 +164,6 @@
     <Compile Include="..\MITD.Fuel.Presentation.Contracts\DTOs\OrderItemDto.cs">
       <Link>DTOs\OrderItemDto.cs</Link>
     </Compile>
-    <Compile Include="..\MITD.Fuel.Presentation.Contracts\DTOs\PartyDto.cs">
-      <Link>DTOs\PartyDto.cs</Link>
-    </Compile>
     <Compile Include="..\MITD.Fuel.Presentation.Contracts\DTOs\PricingValueDto.cs">
       <Link>DTOs\PricingValueDto.cs</Link>
     </Compile>
@@ -180,16 +177,34 @@
       <Link>DTOs\ScrapDto.cs</Link>
     </Compile>
     <Compile Include="..\MITD.Fuel.Presentation.Contracts\DTOs\Security\ActionTypeDto.cs">
-      <Link>DTOs\ActionTypeDto.cs</Link>
+      <Link>DTOs\Security\ActionTypeDto.cs</Link>
+    </Compile>
+    <Compile Include="..\MITD.Fuel.Presentation.Contracts\DTOs\Security\PartyDto.cs">
+      <Link>DTOs\Security\PartyDto.cs</Link>
+    </Compile>
+    <Compile Include="..\MITD.Fuel.Presentation.Contracts\DTOs\Security\PartyDTOwithActions.cs">
+      <Link>DTOs\Security\PartyDTOwithActions.cs</Link>
+    </Compile>
+    <Compile Include="..\MITD.Fuel.Presentation.Contracts\DTOs\Security\UserDescriptionDTO.cs">
+      <Link>DTOs\Security\UserDescriptionDTO.cs</Link>
     </Compile>
     <Compile Include="..\MITD.Fuel.Presentation.Contracts\DTOs\Security\UserDto.cs">
-      <Link>DTOs\UserDto.cs</Link>
+      <Link>DTOs\Security\UserDto.cs</Link>
+    </Compile>
+    <Compile Include="..\MITD.Fuel.Presentation.Contracts\DTOs\Security\UserDTOWithActions.cs">
+      <Link>DTOs\Security\UserDTOWithActions.cs</Link>
     </Compile>
     <Compile Include="..\MITD.Fuel.Presentation.Contracts\DTOs\Security\UserGroupDescriptionDto.cs">
-      <Link>DTOs\UserGroupDescriptionDto.cs</Link>
+      <Link>DTOs\Security\UserGroupDescriptionDto.cs</Link>
     </Compile>
     <Compile Include="..\MITD.Fuel.Presentation.Contracts\DTOs\Security\UserGroupDto.cs">
-      <Link>DTOs\UserGroupDto.cs</Link>
+      <Link>DTOs\Security\UserGroupDto.cs</Link>
+    </Compile>
+    <Compile Include="..\MITD.Fuel.Presentation.Contracts\DTOs\Security\UserGroupDTOWithActions.cs">
+      <Link>DTOs\Security\UserGroupDTOWithActions.cs</Link>
+    </Compile>
+    <Compile Include="..\MITD.Fuel.Presentation.Contracts\DTOs\Security\UserState.cs">
+      <Link>DTOs\Security\UserState.cs</Link>
     </Compile>
     <Compile Include="..\MITD.Fuel.Presentation.Contracts\DTOs\TankDto.cs">
       <Link>DTOs\TankDto.cs</Link>
@@ -283,7 +298,6 @@
     <Compile Include="Controllers\IOrderController.cs" />
     <Compile Include="Controllers\IFuelController.cs" />
     <Compile Include="Controllers\IOrderItemController.cs" />
-    <Compile Include="DTOs\ActionTypeDto_Client.cs" />
     <Compile Include="DTOs\ActivityLocationDto_Client.cs" />
     <Compile Include="DTOs\ApprovmentDto_Client.cs" />
     <Compile Include="DTOs\CharterDto_Client.cs" />
@@ -293,12 +307,19 @@
     <Compile Include="DTOs\OffhireDetailDto_Client.cs" />
     <Compile Include="DTOs\OffhireDto_Client.cs" />
     <Compile Include="DTOs\OffhireManagementSystemDto_Client.cs" />
-    <Compile Include="DTOs\PartyDto_Client.cs" />
     <Compile Include="DTOs\PricingValueDto_Client.cs" />
+    <Compile Include="DTOs\Security\ActionTypeDto_Client.cs" />
+    <Compile Include="DTOs\Security\ActivityLocationDto_Client.cs" />
+    <Compile Include="DTOs\Security\PartyDto_Client.cs" />
+    <Compile Include="DTOs\Security\UserCriteria.cs" />
+    <Compile Include="DTOs\Security\UserDescriptionDTO_Client.cs" />
+    <Compile Include="DTOs\Security\UserDto_Client.cs" />
+    <Compile Include="DTOs\Security\UserGroupDescriptionDto_Client.cs" />
+    <Compile Include="DTOs\Security\UserGroupDtoWithActions_Client.cs" />
+    <Compile Include="DTOs\Security\UserState_Client.cs" />
     <Compile Include="DTOs\TankDto_Client.cs" />
     <Compile Include="DTOs\ScrapDetailDto_Client.cs" />
     <Compile Include="DTOs\ScrapDto_Client.cs" />
-    <Compile Include="DTOs\UserGroupDescriptionDto_Client.cs" />
     <Compile Include="DTOs\VoyageLogDto_Client.cs" />
     <Compile Include="DTOs\CurrencyDto_Client.cs" />
     <Compile Include="DTOs\ExceptionMessageDto_Client.cs" />
@@ -317,7 +338,6 @@
     <Compile Include="DTOs\CompanyDto_Client.cs" />
     <Compile Include="DTOs\OrderDto_Client.cs" />
     <Compile Include="DTOs\OrderItemDto_Client.cs" />
-    <Compile Include="DTOs\UserDto_Client.cs" />
     <Compile Include="DTOs\ReceiveTypeDto_Client.cs" />
     <Compile Include="DTOs\TransferTypeDto_Client.cs" />
     <Compile Include="DTOs\VesselDto_Client.cs" />

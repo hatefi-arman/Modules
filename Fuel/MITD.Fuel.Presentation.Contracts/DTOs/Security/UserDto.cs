@@ -7,7 +7,7 @@ using MITD.Presentation;
 namespace MITD.Fuel.Presentation.Contracts.DTOs
 {
 
-    public partial class UserDto :PartyDto
+    public partial class UserDto : PartyDto
     {
         long id;
         public long Id
@@ -16,7 +16,7 @@ namespace MITD.Fuel.Presentation.Contracts.DTOs
             set { this.SetField(p => p.Id, ref id, value); }
         }
 
-         string code;
+        string code;
         [Required(AllowEmptyStrings = false, ErrorMessage = "code can't be empty")]
         public string Code
         {
@@ -24,7 +24,7 @@ namespace MITD.Fuel.Presentation.Contracts.DTOs
             set { this.SetField(p => p.Code, ref code, value); }
         }
 
-         string firstName;
+        string firstName;
         //[Required(AllowEmptyStrings = false, ErrorMessage = "Name can't be empty")]
         public string FirstName
         {
@@ -34,7 +34,7 @@ namespace MITD.Fuel.Presentation.Contracts.DTOs
 
 
         string lastName;
-       // [Required(AllowEmptyStrings = false, ErrorMessage = "Name can't be empty")]
+        // [Required(AllowEmptyStrings = false, ErrorMessage = "Name can't be empty")]
         public string LastName
         {
             get { return lastName; }
@@ -48,18 +48,18 @@ namespace MITD.Fuel.Presentation.Contracts.DTOs
             set { this.SetField(p => p.IsActive, ref isActive, value); }
         }
 
-        private List<UserGroupDescriptionDto> _groupDescriptionDtos=new List<UserGroupDescriptionDto>();
+        private List<UserGroupDescriptionDto> _groupDescriptionDtos = new List<UserGroupDescriptionDto>();
         public List<UserGroupDescriptionDto> Groups
         {
             get { return _groupDescriptionDtos; }
             set { this.SetField(p => p.Groups, ref _groupDescriptionDtos, value); }
         }
-       
+
 
 
 
         private CompanyDto _companyDto;
-        public CompanyDto CompanyDto 
+        public CompanyDto CompanyDto
         {
             get { return _companyDto; }
             set { this.SetField(p => p.CompanyDto, ref _companyDto, value); }

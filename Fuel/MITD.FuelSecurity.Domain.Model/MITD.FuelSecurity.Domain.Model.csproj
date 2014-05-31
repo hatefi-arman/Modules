@@ -48,11 +48,12 @@
   <ItemGroup>
     <Compile Include="ActionType.cs" />
     <Compile Include="AdminUser.cs" />
-    <Compile Include="ComercialUser.cs" />
-    <Compile Include="ErorrException\FuelSecurityException.cs" />
+    <Compile Include="CommercialUser.cs" />
+    <Compile Include="ErrorException\FuelSecurityException.cs" />
     <Compile Include="FinancialUser.cs" />
     <Compile Include="Group.cs" />
     <Compile Include="Party.cs" />
+    <Compile Include="PartyCustomAction.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\IUserRepository.cs" />
     <Compile Include="Service\ISecurityServiceChecker.cs" />

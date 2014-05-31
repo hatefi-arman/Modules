@@ -7,7 +7,7 @@ using MITD.Presentation;
 
 namespace MITD.Fuel.Presentation.Contracts.DTOs
 {
-  public partial class UserGroupDto:PartyDto
+    public partial class UserGroupDto : PartyDto
     {
         string description;
 

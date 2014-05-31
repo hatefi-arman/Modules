@@ -6,16 +6,16 @@ using System.Threading.Tasks;
 
 namespace MITD.FuelSecurity.Domain.Model
 {
-    public class ComercialUser:User
+    public class CommercialUser:User
     {
         public override List<ActionType> Actions {
             get {return new List<ActionType>(); }
         }
 
-        public ComercialUser(long id, string firstName, string lastName, string email)
-            :base( id,  firstName,  lastName,  email)
+        public CommercialUser(long id, string firstName, string lastName, string email)
+            : base(id, "CommercialUser", firstName, lastName, email)
         {
-            
+
         }
     }
 }

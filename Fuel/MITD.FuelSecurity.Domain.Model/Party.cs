@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MITD.FuelSecurity.Domain.Model.ErorrException;
+using MITD.FuelSecurity.Domain.Model.ErrorException;
 
 namespace MITD.FuelSecurity.Domain.Model
 {
@@ -11,16 +11,14 @@ namespace MITD.FuelSecurity.Domain.Model
     {
         #region Prop
 
-        private readonly byte[] rowVersion;
-        protected IDictionary<int, bool> customActions = new Dictionary<int, bool>();
-        public virtual IDictionary<int, bool> CustomActions
-        {
-            get { return customActions.ToDictionary(c => c.Key, c => c.Value); }
-        }
+        public byte[] RowVersion { get; private set; }
+
+        public virtual List<PartyCustomAction> CustomActions { get; set; }
 
         private long id;
         public long Id { get; private set; }
 
+        public string PartyName { get; private set; }
 
         #endregion
 
@@ -28,28 +26,35 @@ namespace MITD.FuelSecurity.Domain.Model
 
         public Party()
         {
-
+            CustomActions = new List<PartyCustomAction>();
         }
 
-        public Party(long? id)
+        public Party(long? id, string partyName) : this()
         {
-            if (id == null)
+            if (id == null || partyName == null)
                 throw new ArgumentNullException();
             this.Id = id.Value;
+            this.PartyName = partyName;
         }
 
         #endregion
 
         #region Method
 
-        public virtual void AssignCustomActions(ActionType actionType, bool value)
+        public virtual void AssignCustomActions(ActionType actionType, bool isGranted)
         {
             if (actionType == null)
                 throw new FuelSecurityException(0, "عدم دسترسی مناسب");
-            int actid = int.Parse(actionType.Value);
-            if (CustomActions.Keys.Contains(actid))
-                customActions.Remove(actid);
-            customActions.Add(int.Parse(actionType.Value), value);
+
+
+            if (this.CustomActions.Count(p => p.ActionTypeId == actionType.Id) > 0)
+            {
+                CustomActions.RemoveAll(pa => pa.ActionTypeId == actionType.Id);
+            }
+
+            var customAction = new PartyCustomAction(this.Id, actionType.Id, isGranted);
+
+            CustomActions.Add(customAction);
 
         }
 
@@ -58,27 +63,27 @@ namespace MITD.FuelSecurity.Domain.Model
             var actions = customActionsParam.Keys;
             foreach (var action in actions)
             {
-                if (customActions.Keys.Contains(int.Parse(action.Value)))
-                    customActions[int.Parse(action.Value)] = customActionsParam[action];
-                
+                var isGranted = customActionsParam[action];
+
+                if (CustomActions.Count(p => p.ActionTypeId == action.Id) > 0)
+                {
+                    var actionType = CustomActions.Single(ca => ca.ActionTypeId == action.Id);
+                    actionType.IsGranted = isGranted;
+                }
                 else
                 {
-                    customActions.Add(int.Parse(action.Value), customActionsParam[action]);
+                    var customAction = new PartyCustomAction(this.Id, action.Id, isGranted);
+
+                    CustomActions.Add(customAction);
                 }
 
-                var actids = new List<int>(customActions.Keys);
-                actids.ForEach(c =>
-                               {
-                                   if (!customActionsParam.Keys.Select(a => a.Value).Contains(c.ToString()))
-                                       customActions.Remove(c);
-                               });
+
+                CustomActions.RemoveAll(ca => actions.Count(ac => ac.Id == ca.ActionTypeId) == 0);
 
             }
 
+            #endregion
 
         }
-
-        #endregion
-
     }
 }

@@ -67,15 +67,25 @@
   <ItemGroup>
     <Compile Include="DTOs\FuelReportCommandDto_Server.cs" />
     <Compile Include="DTOs\ResultFuelReportDto.cs" />
-    <Compile Include="DTOs\Security\ActionTypeDto.cs" />
-    <Compile Include="DTOs\Security\ActionTypeDto_Server.cs" />
     <Compile Include="DTOs\PartyDto.cs" />
     <Compile Include="DTOs\PartyDto_Server.cs" />
+    <Compile Include="DTOs\FuelReportCommandDto.cs" />
+    <Compile Include="DTOs\Security\ActionTypeDto.cs" />
+    <Compile Include="DTOs\Security\ActionTypeDto_Server.cs" />
+    <Compile Include="DTOs\Security\PartyDto.cs" />
     <Compile Include="DTOs\Security\PartyDTOwithActions.cs" />
+    <Compile Include="DTOs\Security\PartyDto_Server.cs" />
+    <Compile Include="DTOs\Security\UserDescriptionDTO.cs" />
+    <Compile Include="DTOs\Security\UserDescriptionDTO_Server.cs" />
+    <Compile Include="DTOs\Security\UserDto.cs" />
+    <Compile Include="DTOs\Security\UserDTOWithActions.cs" />
     <Compile Include="DTOs\Security\UserGroupDescriptionDto.cs" />
     <Compile Include="DTOs\Security\UserGroupDescriptionDto_Server.cs" />
     <Compile Include="DTOs\Security\UserGroupDto.cs" />
-    <Compile Include="DTOs\FuelReportCommandDto.cs" />
+    <Compile Include="DTOs\Security\UserGroupDTOWithActions.cs" />
+    <Compile Include="DTOs\Security\UserGroupDtoWithActions_Server.cs" />
+    <Compile Include="DTOs\Security\UserState.cs" />
+    <Compile Include="DTOs\Security\UserState_Server.cs" />
     <Compile Include="Enums\ReferenceTypeEnum.cs" />
     <Compile Include="Enums\ResultType.cs" />
     <Compile Include="Enums\WorkflowStageEnum.cs" />
@@ -164,7 +174,6 @@
     <Compile Include="DTOs\CompanyDto.cs" />
     <Compile Include="DTOs\OrderItemDto.cs" />
     <Compile Include="DTOs\OrderItemDto_Server.cs" />
-    <Compile Include="DTOs\Security\UserDto.cs" />
     <Compile Include="DTOs\VesselDto.cs" />
     <Compile Include="DTOs\VesselDto_Server.cs" />
     <Compile Include="Enums\FuelReportTypeEnum.cs" />
@@ -198,10 +207,6 @@
     <ProjectReference Include="..\MITD.Fuel.Domain.Model\MITD.Fuel.Domain.Model.csproj">
       <Project>{F75008B5-5BFE-4570-B583-9C3E0468ED68}</Project>
       <Name>MITD.Fuel.Domain.Model</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MITD.FuelSecurity.Domain.Model\MITD.FuelSecurity.Domain.Model.csproj">
-      <Project>{081bb795-014b-43aa-bf32-ab4d8d9f0d0c}</Project>
-      <Name>MITD.FuelSecurity.Domain.Model</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

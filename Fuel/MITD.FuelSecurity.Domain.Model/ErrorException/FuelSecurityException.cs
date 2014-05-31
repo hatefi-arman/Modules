@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MITD.FuelSecurity.Domain.Model.ErorrException
+namespace MITD.FuelSecurity.Domain.Model.ErrorException
 {
    [Serializable]
     public class FuelSecurityException : Exception

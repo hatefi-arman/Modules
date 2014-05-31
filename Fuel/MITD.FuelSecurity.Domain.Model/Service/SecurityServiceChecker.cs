@@ -5,7 +5,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MITD.FuelSecurity.Domain.Model.ErorrException;
+using MITD.FuelSecurity.Domain.Model.ErrorException;
 using MITD.FuelSecurity.Domain.Model.Repository;
 
 namespace MITD.FuelSecurity.Domain.Model.Service
@@ -37,21 +37,21 @@ namespace MITD.FuelSecurity.Domain.Model.Service
             users.ForEach(c=>authorizedActionsUser.AddRange(c.Actions));
             authorizedActionsUser = authorizedActionsUser.Distinct().ToList();
 
-            user.CustomActions.ToList().ForEach(c =>
-                                                {
-                                                    var custmAction =
-                                                        ActionType.GetAllActions().Single(a => a.Value == c.Key.ToString());
-                                                    if (c.Value)
-                                                    {
-                                                        if(!authorizedActionsUser.Contains(custmAction))
-                                                            authorizedActionsUser.Add(custmAction);
+            //user.CustomActions.ToList().ForEach(c =>
+            //                                    {
+            //                                        var custmAction =
+            //                                            ActionType.GetAllActions().Single(a => a.Value == c.Key.ToString());
+            //                                        if (c.Value)
+            //                                        {
+            //                                            if(!authorizedActionsUser.Contains(custmAction))
+            //                                                authorizedActionsUser.Add(custmAction);
 
-                                                    }
-                                                    else if (authorizedActionsUser.Contains(custmAction))
-                                                    {
-                                                        authorizedActionsUser.Remove(custmAction);
-                                                    }
-                                                });
+            //                                        }
+            //                                        else if (authorizedActionsUser.Contains(custmAction))
+            //                                        {
+            //                                            authorizedActionsUser.Remove(custmAction);
+            //                                        }
+            //                                    });
 
             return authorizedActionsUser;
 
