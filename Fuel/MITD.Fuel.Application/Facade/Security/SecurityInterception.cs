@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Castle.DynamicProxy;
 using MITD.Fuel.Application.Facade.Security;
-using MITD.FuelSecurity.Domain.Model.ErorrException;
+using MITD.FuelSecurity.Domain.Model.ErrorException;
 
 namespace MITD.Fuel.Application
 {

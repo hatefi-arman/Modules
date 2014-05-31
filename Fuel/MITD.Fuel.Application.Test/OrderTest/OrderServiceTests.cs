@@ -102,11 +102,11 @@ namespace MITD.Fuel.Application.Test
                 new CompanyAntiCorruptionAdapter(new CompanyAntiCorruptionServiceWrapper(client, hostAdapter), new CompanyAntiCorruptionMapper()),
                 new CompanyRepository(_scope));
 
-            _target = new OrderApplicationService
-                (
-                _orderRepository, _scope, new UserRepository(_scope), vesselService, goodService,
-                new OrderFactory(new OrderCodeGenerator(_orderRepository), orderConfigurator, new WorkflowRepository(_scope)), companyService,
-                new OrderItemDomainService(new EFRepository<OrderItem>(_scope)), orderConfigurator);
+            //_target = new OrderApplicationService
+            //    (
+            //    _orderRepository, _scope, new UserRepository(_scope), vesselService, goodService,
+            //    new OrderFactory(new OrderCodeGenerator(_orderRepository), orderConfigurator, new WorkflowRepository(_scope)), companyService,
+            //    new OrderItemDomainService(new EFRepository<OrderItem>(_scope)), orderConfigurator);
 
 
             //_sapid = FakeDomainService.GetCompanies().Single(c => c.Id == 1);

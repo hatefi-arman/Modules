@@ -20,7 +20,7 @@ namespace MITD.Main.Presentation.Logic.SL.Infrastructure
     public class MenuHelper
     {
         private string name;
-        private IStorageSpaceController storageSpaceController;
+        private IFuelController storageSpaceController;
 
         private ObservableCollection<CommandViewModel> cmdList;
 
@@ -34,7 +34,7 @@ namespace MITD.Main.Presentation.Logic.SL.Infrastructure
         //    this.name = name;
         //}
 
-        public MenuHelper(IStorageSpaceController storageSpaceController)
+        public MenuHelper(IFuelController storageSpaceController)
         {
             this.storageSpaceController = storageSpaceController;
             this.cmdList = new ObservableCollection<CommandViewModel>();

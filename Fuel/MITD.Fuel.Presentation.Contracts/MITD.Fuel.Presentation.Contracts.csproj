@@ -67,8 +67,6 @@
   <ItemGroup>
     <Compile Include="DTOs\FuelReportCommandDto_Server.cs" />
     <Compile Include="DTOs\ResultFuelReportDto.cs" />
-    <Compile Include="DTOs\PartyDto.cs" />
-    <Compile Include="DTOs\PartyDto_Server.cs" />
     <Compile Include="DTOs\FuelReportCommandDto.cs" />
     <Compile Include="DTOs\Security\ActionTypeDto.cs" />
     <Compile Include="DTOs\Security\ActionTypeDto_Server.cs" />
@@ -207,6 +205,10 @@
     <ProjectReference Include="..\MITD.Fuel.Domain.Model\MITD.Fuel.Domain.Model.csproj">
       <Project>{F75008B5-5BFE-4570-B583-9C3E0468ED68}</Project>
       <Name>MITD.Fuel.Domain.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MITD.FuelSecurity.Domain.Model\MITD.FuelSecurity.Domain.Model.csproj">
+      <Project>{081bb795-014b-43aa-bf32-ab4d8d9f0d0c}</Project>
+      <Name>MITD.FuelSecurity.Domain.Model</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
