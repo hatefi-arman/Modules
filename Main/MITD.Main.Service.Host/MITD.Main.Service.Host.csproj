@@ -20,7 +20,7 @@
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
-    <SilverlightApplicationList>{97CA646E-526B-43A0-8C07-7ACF8A281B71}|..\MITD.Main.Presentation.UI.SL\MITD.Main.Presentation.UI.SL.csproj|ClientBin|False,{0CD7ED92-954E-410B-B67B-12FBB61856E6}|..\..\Fuel\MITD.Fuel.Presentation.UI.SL\MITD.Fuel.Presentation.UI.SL.csproj|ClientBin|False</SilverlightApplicationList>
+    <SilverlightApplicationList>{0CD7ED92-954E-410B-B67B-12FBB61856E6}|..\..\Fuel\MITD.Fuel.Presentation.UI.SL\MITD.Fuel.Presentation.UI.SL.csproj|ClientBin|False,{97CA646E-526B-43A0-8C07-7ACF8A281B71}|..\MITD.Main.Presentation.UI.SL\MITD.Main.Presentation.UI.SL.csproj|ClientBin|False</SilverlightApplicationList>
     <SccProjectName>SAK</SccProjectName>
     <SccLocalPath>SAK</SccLocalPath>
     <SccAuxPath>SAK</SccAuxPath>
@@ -210,6 +210,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="ClientBin\Debug\MITD.Fuel.Presentation.UI.SL.xap" />
+    <Content Include="ClientBin\Debug\MITD.Main.Presentation.UI.SL.xap" />
     <Content Include="ClientBin\MITD.Fuel.Presentation.UI.SL.xap" />
     <Content Include="ClientBin\MITD.Main.Presentation.UI.SL.xap" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
@@ -268,13 +270,22 @@
     <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
-    <Content Include="ClientBin\System.Windows.Controls.DataVisualization.Toolkit.zip" />
-    <Content Include="ClientBin\System.Windows.Controls.zip" />
-    <Content Include="ClientBin\System.Windows.Controls.Input.Toolkit.zip" />
-    <Content Include="ClientBin\System.Windows.Controls.Layout.Toolkit.zip" />
-    <Content Include="ClientBin\System.Windows.Controls.Theming.Toolkit.zip" />
-    <Content Include="ClientBin\System.Windows.Controls.Theming.TwilightBlue.zip" />
-    <Content Include="ClientBin\System.Windows.Controls.Toolkit.zip" />
+    <Content Include="ClientBin\Debug\MITD.Core.Config.Castle.SL.zip" />
+    <Content Include="ClientBin\Debug\MITD.Core.SL.zip" />
+    <Content Include="ClientBin\Debug\MITD.Presentation.Config.Castle.SL.zip" />
+    <Content Include="ClientBin\Debug\MITD.Presentation.SL.zip" />
+    <Content Include="ClientBin\Debug\MITD.Presentation.UI.SL.zip" />
+    <Content Include="ClientBin\Debug\System.ComponentModel.DataAnnotations.zip" />
+    <Content Include="ClientBin\Debug\System.Windows.Controls.Data.zip" />
+    <Content Include="ClientBin\Debug\System.Windows.Controls.Data.Input.zip" />
+    <Content Include="ClientBin\Debug\System.Windows.Controls.zip" />
+    <Content Include="ClientBin\Debug\System.Windows.Controls.Toolkit.zip" />
+    <Content Include="ClientBin\Debug\System.Windows.Data.zip" />
+    <Content Include="ClientBin\Debug\System.Windows.Controls.DataVisualization.Toolkit.zip" />
+    <Content Include="ClientBin\Debug\System.Windows.Controls.Input.Toolkit.zip" />
+    <Content Include="ClientBin\Debug\System.Windows.Controls.Layout.Toolkit.zip" />
+    <Content Include="ClientBin\Debug\System.Windows.Controls.Theming.Toolkit.zip" />
+    <Content Include="ClientBin\Debug\System.Windows.Controls.Theming.TwilightBlue.zip" />
     <Content Include="ClientBin\MITD.Core.Config.Castle.SL.zip" />
     <Content Include="ClientBin\MITD.Core.SL.zip" />
     <Content Include="ClientBin\MITD.Presentation.Config.Castle.SL.zip" />
@@ -283,7 +294,14 @@
     <Content Include="ClientBin\System.ComponentModel.DataAnnotations.zip" />
     <Content Include="ClientBin\System.Windows.Controls.Data.zip" />
     <Content Include="ClientBin\System.Windows.Controls.Data.Input.zip" />
+    <Content Include="ClientBin\System.Windows.Controls.zip" />
+    <Content Include="ClientBin\System.Windows.Controls.Toolkit.zip" />
     <Content Include="ClientBin\System.Windows.Data.zip" />
+    <Content Include="ClientBin\System.Windows.Controls.DataVisualization.Toolkit.zip" />
+    <Content Include="ClientBin\System.Windows.Controls.Input.Toolkit.zip" />
+    <Content Include="ClientBin\System.Windows.Controls.Layout.Toolkit.zip" />
+    <Content Include="ClientBin\System.Windows.Controls.Theming.Toolkit.zip" />
+    <Content Include="ClientBin\System.Windows.Controls.Theming.TwilightBlue.zip" />
     <None Include="Config\Web.Debug.config" />
     <None Include="Properties\PublishProfiles\MITD.Main.pubxml" />
     <Content Include="Fms.aspx" />

@@ -10,6 +10,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
+using MITD.Core;
 using MITD.Presentation;
 using MITD.Fuel.Presentation.Contracts.SL.Controllers;
 using MITD.Presentation;
@@ -36,6 +37,8 @@ namespace MITD.Main.Presentation.Logic.SL.Infrastructure
 
         public MenuHelper(IFuelController storageSpaceController)
         {
+            
+
             this.storageSpaceController = storageSpaceController;
             this.cmdList = new ObservableCollection<CommandViewModel>();
             //if (MenuItems==null)

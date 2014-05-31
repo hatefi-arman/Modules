@@ -162,7 +162,7 @@ namespace MITD.Main.Presentation.Logic.SL.Infrastructure
     {
         #region ctor
 
-
+     
         public FuelController(
             IViewManager viewManager,
             IEventPublisher eventPublisher,

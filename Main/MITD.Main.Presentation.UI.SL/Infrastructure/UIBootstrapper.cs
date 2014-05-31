@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Castle.MicroKernel.Registration;
 using Castle.Windsor;
 using MITD.Core;
+using MITD.Fuel.Presentation.Contracts.SL.Infrastructure;
 using MITD.Presentation.Config;
 using MITD.Fuel.Presentation.Contracts.SL.Controllers;
 using MITD.Fuel.Presentation.Contracts.SL.Views;
@@ -71,6 +72,14 @@ namespace MITD.Main.Presentation.UI.SL.Infrastructure
             container.Register(Component.For<IValueInjecter>()
                                    .ImplementedBy<ValueInjecter>()
                                    .LifestyleSingleton());
+
+            container.Register(
+
+
+                          Component.For<IUserProvider>()
+                           .ImplementedBy<UserProvider>()
+                          .LifestyleTransient());
+
             //logic bootstrapper 
             (new LogicBootstrapper()).Execute();
 
