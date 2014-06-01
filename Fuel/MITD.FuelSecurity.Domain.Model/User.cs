@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MITD.FuelSecurity.Domain.Model
 {
-    public class User:Party
+    public class User : Party
     {
         #region Prop
         public virtual List<ActionType> Actions
@@ -17,8 +17,8 @@ namespace MITD.FuelSecurity.Domain.Model
             }
         }
 
- 
- public virtual List<Group> Groups { get; set; }
+
+        public virtual List<Group> Groups { get; set; }
 
         public virtual string FirstName { get; private set; }
 
@@ -82,7 +82,7 @@ namespace MITD.FuelSecurity.Domain.Model
                 AssignGroup(group);
             }
 
-           
+
             this.Groups.RemoveAll(localg => groups.Count(gparam => gparam.Id == localg.Id) == 0);
         }
 
@@ -91,7 +91,7 @@ namespace MITD.FuelSecurity.Domain.Model
             if (group == null)
                 throw new NullReferenceException();
 
-           
+
             if (this.Groups.Count(g => g.Id == group.Id) == 0)
                 this.Groups.Add(group);
         }

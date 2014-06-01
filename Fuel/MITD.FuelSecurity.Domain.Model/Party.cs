@@ -16,6 +16,7 @@ namespace MITD.FuelSecurity.Domain.Model
         public virtual List<PartyCustomAction> CustomActions { get; set; }
 
         private long id;
+
         public long Id { get; private set; }
 
         public string PartyName { get; private set; }
