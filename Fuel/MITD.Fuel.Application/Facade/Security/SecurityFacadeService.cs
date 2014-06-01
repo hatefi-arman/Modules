@@ -1,17 +1,34 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using MITD.Core;
+using MITD.Fuel.Application.Service.Security;
 using MITD.Fuel.Presentation.Contracts.FacadeServices;
+using MITD.FuelSecurity.Domain.Model;
 
 namespace MITD.Fuel.Application.Facade
 {
     public class SecurityFacadeService : ISecurityFacadeService
     {
+        private readonly IMapper<List<ActionType>, ClaimsPrincipal> _userActionMapper;
+
+        private readonly ISecurityApplicationService _securityApplicationService;
+        public SecurityFacadeService(IMapper<List<ActionType>, ClaimsPrincipal> userActionMapper,ISecurityApplicationService securityApplicationService)
+        {
+            this._userActionMapper = userActionMapper;
+            this._securityApplicationService = securityApplicationService;
+        }
+
+
         public bool IsAuthorize(string className, string methodName, System.Security.Claims.ClaimsPrincipal userClaimsPrincipal)
         {
-            throw new NotImplementedException();
+            var methodMapper = new MethodMapper();
+            var methodRequiredActions = methodMapper.Map(className, methodName);
+            List<ActionType> userActions = _userActionMapper.MapToEntity(userClaimsPrincipal);
+            return _securityApplicationService.IsAuthorize(userActions, methodRequiredActions);          
         }
 
         public List<FuelSecurity.Domain.Model.ActionType> GetUserAuthorizedActions(System.Security.Claims.ClaimsPrincipal userClaimsPrincipal)

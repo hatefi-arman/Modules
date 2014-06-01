@@ -21,6 +21,7 @@ namespace MITD.Fuel.Application
                 if (securityService.IsAuthorize(invocation.Method.DeclaringType.Name,invocation.Method.Name,user))
                 {
                     invocation.Proceed();
+                    //logservice
                 }
                 else
                 {
@@ -30,7 +31,7 @@ namespace MITD.Fuel.Application
             }
             finally
             {
-                //SecurityFacadeServiceFactory.Release();
+                SecurityFacadeServiceFactory.Release(securityService);
             }
         }
 

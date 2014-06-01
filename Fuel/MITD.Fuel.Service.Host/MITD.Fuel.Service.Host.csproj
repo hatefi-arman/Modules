@@ -277,6 +277,7 @@
     <Compile Include="Areas\Fuel\Controllers\VesselController.cs" />
     <Compile Include="Areas\Fuel\Controllers\OrderController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Infrastructure\ClaimsTransformer.cs" />
     <Compile Include="Infrastructure\FuelApplicationExceptionAdapter.cs" />
     <Compile Include="Infrastructure\GlobalExceptionHandlingAttribute.cs" />
     <Compile Include="Global.asax.cs">
@@ -434,6 +435,10 @@
     <ProjectReference Include="..\MITD.Fuel.Presentation.Contracts\MITD.Fuel.Presentation.Contracts.csproj">
       <Project>{087d039b-81f3-4f11-bb55-647f0f4bd06d}</Project>
       <Name>MITD.Fuel.Presentation.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MITD.FuelSecurity.Domain.Model\MITD.FuelSecurity.Domain.Model.csproj">
+      <Project>{081bb795-014b-43aa-bf32-ab4d8d9f0d0c}</Project>
+      <Name>MITD.FuelSecurity.Domain.Model</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Routing;
+using Castle.Core;
 using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.Releasers;
 using Castle.Windsor;
@@ -15,6 +16,7 @@ using MITD.DataAccess.Config;
 using MITD.DataAccess.EF;
 using MITD.Domain.Model;
 using MITD.Domain.Repository;
+using MITD.Fuel.Application;
 using MITD.Fuel.Domain.Model.Factories;
 using MITD.Fuel.Domain.Model.IDomainServices;
 using MITD.Fuel.Infrastructure.Service;
@@ -173,6 +175,9 @@ namespace MITD.Fuel.Service.Host.Infrastructure
                 fromAssemblyDescriptor
                     .BasedOn(typeof(IFacadeService))
                     .WithServiceFromInterface().LifestyleTransient());
+
+            container.Register(
+                Component.For<IFacadeService>().Interceptors(InterceptorReference.ForType<SecurityInterception>()).Anywhere, Component.For<SecurityInterception>());
 
             #endregion
 

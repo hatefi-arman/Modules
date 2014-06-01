@@ -18,7 +18,7 @@ namespace MITD.Fuel.Service.Host.App_Start
             var authConfig = new AuthenticationConfiguration
             {
                 RequireSsl = false,
-                ClaimsAuthenticationManager = new ClaimsAuthenticationManager(),
+                ClaimsAuthenticationManager = new ClaimsTransformer(),
                 EnableSessionToken = true,
                 //SessionToken = new SessionTokenConfiguration()
                 //               {

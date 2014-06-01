@@ -91,6 +91,8 @@
     <Compile Include="Facade\Contracts\Mappers\IPricingValueToPricingValueDtoMapper.cs" />
     <Compile Include="Facade\Contracts\Mappers\IEffectiveFactorMapper.cs" />
     <Compile Include="Facade\Contracts\Mappers\IInvoiceAdditionalPriceToDtoMapper.cs" />
+    <Compile Include="Facade\Contracts\Mappers\IUserToUserDto.cs" />
+    <Compile Include="Facade\MethodMapper.cs" />
     <Compile Include="Facade\Security\SecurityFacadeService.cs" />
     <Compile Include="Facade\Security\SecurityFacadeServiceFactory.cs" />
     <Compile Include="Facade\UnitOfMeasuresAndCurrencies.cs" />
@@ -155,6 +157,8 @@
     <Compile Include="Facade\FuelReportCompanyFacadeService.cs" />
     <Compile Include="Facade\FuelReportFacadeService.cs" />
     <Compile Include="Facade\FuelReportVesselFacadeService.cs" />
+    <Compile Include="Facade\Security\UserActionsMapper.cs" />
+    <Compile Include="Facade\Security\UserMapper.cs" />
     <Compile Include="Facade\VoyageFacadeService.cs" />
     <Compile Include="Facade\CompanyFacadeService.cs" />
     <Compile Include="Facade\OrderFacadeService.cs" />

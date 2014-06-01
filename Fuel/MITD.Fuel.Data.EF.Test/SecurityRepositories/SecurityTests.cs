@@ -106,7 +106,7 @@ namespace MITD.Fuel.Data.EF.Test
 
             using (var ctx = new DataContainer())
             {
-                user = new AdminUser(1, "f", "l", "e");
+                user = new AdminUser( "f", "l", "e");
 
                 ctx.Parties.Add(user);
 

@@ -17,7 +17,7 @@ namespace MITD.Fuel.Application.Facade.Security
 
       public static void Release(ISecurityFacadeService securityFacadeService)
       {
-         // realse
+          ServiceLocator.Current.Release(securityFacadeService);
       }
 
     }

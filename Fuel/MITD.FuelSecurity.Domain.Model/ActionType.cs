@@ -56,6 +56,9 @@ namespace MITD.FuelSecurity.Domain.Model
             RemoveOffhire,
             ManageOffhireApprovement,
             ManageOffhireSubmittion,
+            AddUser,
+            ModifyUser,
+            DeleteUser
         }
 
      
