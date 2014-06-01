@@ -179,9 +179,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="DBQueries\InventoryDBTest93-01-31.bak" />
-    <None Include="DBQueries\StorageSpace93-02-03.bak" />
-    <None Include="DBQueries\StorageSpace93-02-07.bak" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -204,6 +201,10 @@
     <Content Include="DBQueries\BasicInfoData.sql" />
     <Content Include="DBQueries\BasicInfoViews_Drop.sql" />
     <Content Include="DBQueries\BasicInfoViews_Create2.sql" />
+    <Content Include="DBQueries\Create Inventory BasicInfo Views.sql" />
+    <Content Include="DBQueries\Create SAPID-HAFIZ Voyages Views.sql" />
+    <Content Include="DBQueries\Drop Inventory BasicInfo Views.sql" />
+    <Content Include="DBQueries\Drop SAPID-HAFIZ Voyages Views.sql" />
     <Content Include="DBQueries\DropVoyagesView.sql" />
     <Content Include="DBQueries\CreateVoyagesView.sql" />
   </ItemGroup>

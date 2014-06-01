@@ -15,7 +15,7 @@ namespace MITD.Fuel.Data.EF.Migrations
             createUsersTable();
 
             //Execute.Script(@"Fuel\MITD.Fuel.Data.EF\DBQueries\Create SAPID-HAFIZ Rotation Linked Servers.sql");
-            Execute.Script(@"Fuel\MITD.Fuel.Data.EF\DBQueries\Create SAPID-HAFIZ Voyages Views.sql");
+            //Execute.Script(@"Fuel\MITD.Fuel.Data.EF\DBQueries\Create SAPID-HAFIZ Voyages Views.sql");
 
             Execute.Script(@"Fuel\MITD.Fuel.Data.EF\DBQueries\Create Inventory BasicInfo Views.sql");
 
@@ -416,7 +416,7 @@ namespace MITD.Fuel.Data.EF.Migrations
 
             Execute.Script(@"Fuel\MITD.Fuel.Data.EF\DBQueries\Drop Inventory BasicInfo Views.sql");
 
-            Execute.Script(@"Fuel\MITD.Fuel.Data.EF\DBQueries\Drop SAPID-HAFIZ Voyages Views.sql");
+            //Execute.Script(@"Fuel\MITD.Fuel.Data.EF\DBQueries\Drop SAPID-HAFIZ Voyages Views.sql");
             //Execute.Script(@"Fuel\MITD.Fuel.Data.EF\DBQueries\Drop SAPID-HAFIZ Rotation Linked Servers.sql");
 
             Execute.Script(@"Fuel\MITD.Fuel.Data.EF\DBQueries\BasicInfoViews_Drop.sql");

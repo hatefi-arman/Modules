@@ -9,6 +9,7 @@ using MITD.Fuel.Domain.Model.Enums;
 using System.Data.Entity.Migrations;
 using System.Data.Entity;
 using MITD.Fuel.Domain.Model.FakeDomainServices;
+using MITD.FuelSecurity.Domain.Model;
 
 namespace MITD.Fuel.Data.EF.Migrations
 {
@@ -27,6 +28,7 @@ namespace MITD.Fuel.Data.EF.Migrations
 
                 //insertBasicInfo(context);
 
+                insertUser(context);
 
                 context.Vessels.AddOrUpdate(FakeDomainService.GetVessels().ToArray());
                 context.SaveChanges();
@@ -87,6 +89,15 @@ namespace MITD.Fuel.Data.EF.Migrations
                 throw;
 
             }
+        }
+
+        private void insertUser(DataContainer context)
+        {
+            var user = new User(1, "FuelUser1", "f", "l", "e");
+
+            context.Parties.Add(user);
+
+            context.SaveChanges();
         }
 
         private void insertOrderFakeData(long userId, DataContainer context)

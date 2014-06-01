@@ -81,6 +81,7 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
+    <Reference Include="System.Transactions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -97,6 +98,7 @@
     <Compile Include="Repositories\CharterOutRepositoryTest.cs" />
     <Compile Include="Repositories\ChaterRepositoryTest.cs" />
     <Compile Include="Repositories\OrderRepositoryTest.cs" />
+    <Compile Include="SecurityRepositories\SecurityTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.Config" />
@@ -114,6 +116,10 @@
     <ProjectReference Include="..\MITD.Fuel.Domain.Model\MITD.Fuel.Domain.Model.csproj">
       <Project>{f75008b5-5bfe-4570-b583-9c3e0468ed68}</Project>
       <Name>MITD.Fuel.Domain.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MITD.FuelSecurity.Domain.Model\MITD.FuelSecurity.Domain.Model.csproj">
+      <Project>{081BB795-014B-43AA-BF32-AB4D8D9F0D0C}</Project>
+      <Name>MITD.FuelSecurity.Domain.Model</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

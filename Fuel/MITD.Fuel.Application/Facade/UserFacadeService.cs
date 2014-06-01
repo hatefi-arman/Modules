@@ -25,10 +25,6 @@ namespace MITD.Fuel.Application.Facade
 
         #region ctor
 
-        public UserFacadeService()
-        {
-
-        }
         public UserFacadeService(IUserRepository userRepository, IFacadeMapper<FuelUser, UserDto> mapper, IFacadeMapper<Company, CompanyDto> companyMapper)
         {
             _userRepository = userRepository;
