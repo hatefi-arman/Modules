@@ -43,9 +43,22 @@ namespace MITD.FuelSecurity.Domain.Model
             ManageOrderApprovement,
             ManageOrderSubmittion,
             CancelOrder,
+            ViewInvoices,
+            RegisterInvoice,
+            EditInvoice,
+            RemoveInvoice,
+            ManageInvoiceApprovement,
+            ManageInvoiceSubmittion,
+            ManageEffectiveFactors,
+            ViewOffhires,
+            ImportOffhire,
+            EditOffhire,
+            RemoveOffhire,
+            ManageOffhireApprovement,
+            ManageOffhireSubmittion,
         }
 
-
+     
         #region Charter In Actions
         public static readonly ActionType AddCharterIn = new ActionType((int)ActionTypes.AddCharterIn, "AddCharterIn", "افزودن چارتر In");
         public static readonly ActionType EditCharterIn = new ActionType((int)ActionTypes.EditCharterIn, "EditCharterIn", "ویرایش چارتر In");
@@ -97,31 +110,30 @@ namespace MITD.FuelSecurity.Domain.Model
 
         #region Offhire Actions
 
-        public static readonly ActionType ViewOffhires;
-        public static readonly ActionType ImportOffhire;
-        public static readonly ActionType EditOffhire;
-        public static readonly ActionType RemoveOffhire;
-        public static readonly ActionType ManageOffhireApprovement;
-        public static readonly ActionType ManageOffhireSubmittion;
+        public static readonly ActionType ViewOffhires = new ActionType((int)ActionTypes.ViewOffhires, "ViewOffhires", "نمایش آف هایر");
+        public static readonly ActionType ImportOffhire= new ActionType((int)ActionTypes.ImportOffhire, "ImportOffhire", "ثبت آف هایر");
+        public static readonly ActionType EditOffhire= new ActionType((int)ActionTypes.EditOffhire, "EditOffhire", "اصلاح آف هایر");
+        public static readonly ActionType RemoveOffhire= new ActionType((int)ActionTypes.RemoveOffhire, "RemoveOffhire", "حذف آف هایر");
+        public static readonly ActionType ManageOffhireApprovement = new ActionType((int)ActionTypes.ManageOffhireApprovement, "ManageOffhireApprovement", "مدیریت تایید آف هایر");
+        public static readonly ActionType ManageOffhireSubmittion = new ActionType((int)ActionTypes.ManageOffhireSubmittion, "ManageOffhireSubmittion", "مدیریت ارسال آف هایر");
 
         #endregion
 
         #region Invoice & Effective Factors Actions
 
-        public static readonly ActionType ViewInvoices;
-        public static readonly ActionType RegisterInvoice;
-        public static readonly ActionType EditInvoice;
-        public static readonly ActionType RemoveInvoice;
-        public static readonly ActionType ManageInvoiceApprovement;
-        public static readonly ActionType ManageInvoiceSubmittion;
-
-        public static readonly ActionType ManageEffectiveFactors;
+        public static readonly ActionType ViewInvoices = new ActionType((int)ActionTypes.ViewInvoices, "ViewInvoices", "نمایش صورتحساب");
+        public static readonly ActionType RegisterInvoice = new ActionType((int)ActionTypes.RegisterInvoice, "RegisterInvoice", "ثبت صورتحساب");
+        public static readonly ActionType EditInvoice = new ActionType((int)ActionTypes.EditInvoice, "EditInvoice", "اصلاح صورتحساب");
+        public static readonly ActionType RemoveInvoice = new ActionType((int)ActionTypes.RemoveInvoice, "RemoveInvoice", "حذف صورتحساب");
+        public static readonly ActionType ManageInvoiceApprovement = new ActionType((int)ActionTypes.ManageInvoiceApprovement, "ManageInvoiceApprovement", "مدیریت تایید صورتحساب");
+        public static readonly ActionType ManageInvoiceSubmittion = new ActionType((int)ActionTypes.ManageInvoiceSubmittion, "ManageInvoiceSubmittion", "مدیریت ارسال صورتحساب");
+        public static readonly ActionType ManageEffectiveFactors = new ActionType((int)ActionTypes.ManageEffectiveFactors, "ManageEffectiveFactors", "مدیریت عوامل تاثیر گزار");
 
         #endregion
 
 
 
-
+       
 
         public int Id { get; set; }
 
@@ -165,7 +177,7 @@ namespace MITD.FuelSecurity.Domain.Model
 
         }
 
-
+       
 
     }
 }
