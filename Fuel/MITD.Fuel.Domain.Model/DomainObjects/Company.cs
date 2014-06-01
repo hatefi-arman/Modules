@@ -19,7 +19,7 @@ namespace MITD.Fuel.Domain.Model.DomainObjects
         public virtual List<VesselInCompany> VesselsOperationInCompany { get; set; }
         public virtual List<Vessel> Fleet { get; set; }
 
-        public virtual List<User> Users { get; set; }
+        public virtual List<FuelUser> Users { get; set; }
 
         public virtual List<Good> Goods { get; set; }
 

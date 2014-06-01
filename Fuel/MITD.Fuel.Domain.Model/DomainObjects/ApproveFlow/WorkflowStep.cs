@@ -20,7 +20,7 @@ namespace MITD.Fuel.Domain.Model.DomainObjects
         public WorkflowStages CurrentWorkflowStage { get; private set; }
 
         public virtual WorkflowStep NextWorkflowStep { get; set; }
-        public virtual User ActorUser { get; private set; }
+        public virtual FuelUser ActorUser { get; private set; }
 
 
         #endregion

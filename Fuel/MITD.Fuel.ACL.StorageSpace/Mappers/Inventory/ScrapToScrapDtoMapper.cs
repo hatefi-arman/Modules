@@ -15,14 +15,14 @@ namespace MITD.Fuel.ACL.StorageSpace.Mappers.Inventory
         private readonly IFacadeMapper<Company, CompanyDto> companyDtoMapper;
         private readonly IScrapDetailToScrapDetailDtoMapper scrapDetailMapper;
         private readonly ITankToTankDtoMapper tankDtoMapper;
-        private readonly IFacadeMapper<User, UserDto> userDtoMapper;
+        private readonly IFacadeMapper<FuelUser, UserDto> userDtoMapper;
 
         public ScrapToScrapDtoMapper(
             IVesselToVesselDtoMapper vesselDtoMapper,
             IFacadeMapper<Company, CompanyDto> companyDtoMapper,
             IScrapDetailToScrapDetailDtoMapper scrapDetailMapper,
             ITankToTankDtoMapper tankDtoMapper,
-            IFacadeMapper<User, UserDto> userDtoMapper)
+            IFacadeMapper<FuelUser, UserDto> userDtoMapper)
         {
             this.vesselDtoMapper = vesselDtoMapper;
             this.companyDtoMapper = companyDtoMapper;

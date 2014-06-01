@@ -31,7 +31,7 @@ namespace MITD.Fuel.Domain.Model.DomainObjects
 
         public bool Active { get; set; }
 
-        public virtual User ActorUser { get; private set; }
+        public virtual FuelUser ActorUser { get; private set; }
 
         public virtual WorkflowStep CurrentWorkflowStep { get; set; }
         public long CurrentWorkflowStepId { get; set; }

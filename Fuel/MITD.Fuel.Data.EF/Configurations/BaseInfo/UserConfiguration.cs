@@ -4,7 +4,7 @@ using MITD.Fuel.Domain.Model.DomainObjects;
 
 namespace MITD.Fuel.Data.EF.Configurations.BaseInfo
 {
-    public class UserConfiguration : EntityTypeConfiguration<User>
+    public class UserConfiguration : EntityTypeConfiguration<FuelUser>
     {
         public UserConfiguration()
         {

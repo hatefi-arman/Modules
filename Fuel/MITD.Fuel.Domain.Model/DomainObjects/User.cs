@@ -11,13 +11,13 @@ using System.Threading.Tasks;
 
 namespace MITD.Fuel.Domain.Model.DomainObjects
 {
-    public class User
+    public class FuelUser
     {
-        public User()
+        public FuelUser()
         {
         }
 
-        public User(long id, string name, long roleId, long companyId)
+        public FuelUser(long id, string name, long roleId, long companyId)
         {
             Id = id;
             Name = name;

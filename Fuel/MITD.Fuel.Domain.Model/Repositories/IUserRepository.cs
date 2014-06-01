@@ -12,7 +12,7 @@ using MITD.Fuel.Domain.Model.DomainObjects;
 
 namespace MITD.Fuel.Domain.Model.Repositories
 {
-    public interface IUserRepository : IRepository<User>
+    public interface IUserRepository : IRepository<FuelUser>
     {
     }
 }

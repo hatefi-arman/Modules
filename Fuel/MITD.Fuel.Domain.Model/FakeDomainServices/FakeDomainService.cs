@@ -47,9 +47,9 @@ namespace MITD.Fuel.Domain.Model.FakeDomainServices
         //    return new List<Company> { new Company(1, "SAPID", "SAPID"), new Company(2, "HAFIZ", "HAFIZ"), new Company(3, "IMSENGCO", "IMSENGCO"), new Company(4, "IRISL", "IRISL") };
         //}
 
-        public static List<User> GetUsers()
+        public static List<FuelUser> GetUsers()
         {
-            return new List<User> { new User(1, "Admin", 1, 1), };
+            return new List<FuelUser> { new FuelUser(1, "Admin", 1, 1), };
         }
 
         public static List<Voyage> GetVoyages()

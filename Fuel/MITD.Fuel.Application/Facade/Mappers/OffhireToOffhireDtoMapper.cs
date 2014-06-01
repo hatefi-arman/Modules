@@ -16,7 +16,7 @@ namespace MITD.Fuel.Application.Facade.Mappers
         private readonly IFacadeMapper<Company, CompanyDto> companyDtoMapper;
         private readonly IOffhireDetailToOffhireDetailDtoMapper offhireDetailMapper;
         private readonly ITankToTankDtoMapper tankDtoMapper;
-        private readonly IFacadeMapper<User, UserDto> userDtoMapper;
+        private readonly IFacadeMapper<FuelUser, UserDto> userDtoMapper;
         private readonly IActivityLocationToActivityLocationDtoMapper activityLocationDtoMapper;
         private readonly ICurrencyToCurrencyDtoMapper currencyDtoMapper;
         private readonly IVoyageToVoyageDtoMapper voyageDtoMapper;
@@ -26,7 +26,7 @@ namespace MITD.Fuel.Application.Facade.Mappers
             IFacadeMapper<Company, CompanyDto> companyDtoMapper,
             IOffhireDetailToOffhireDetailDtoMapper offhireDetailMapper,
             ITankToTankDtoMapper tankDtoMapper,
-            IFacadeMapper<User, UserDto> userDtoMapper,
+            IFacadeMapper<FuelUser, UserDto> userDtoMapper,
             IActivityLocationToActivityLocationDtoMapper activityLocationDtoMapper,
             ICurrencyToCurrencyDtoMapper currencyDtoMapper, IVoyageToVoyageDtoMapper voyageDtoMapper)
         {

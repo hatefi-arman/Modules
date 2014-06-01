@@ -16,7 +16,7 @@ namespace MITD.Fuel.Application.Facade
     public class UserFacadeService : IUserFacadeService
     {
         private readonly IUserRepository _userRepository;
-        private readonly IFacadeMapper<User, UserDto> _mapper;
+        private readonly IFacadeMapper<FuelUser, UserDto> _mapper;
         private readonly IFacadeMapper<Company, CompanyDto> _companyMapper;
 
         #region props
@@ -29,7 +29,7 @@ namespace MITD.Fuel.Application.Facade
         {
 
         }
-        public UserFacadeService(IUserRepository userRepository, IFacadeMapper<User, UserDto> mapper, IFacadeMapper<Company, CompanyDto> companyMapper)
+        public UserFacadeService(IUserRepository userRepository, IFacadeMapper<FuelUser, UserDto> mapper, IFacadeMapper<Company, CompanyDto> companyMapper)
         {
             _userRepository = userRepository;
             _mapper = mapper;
@@ -60,7 +60,7 @@ namespace MITD.Fuel.Application.Facade
 
         public UserDto GetUserWithCompany(int id)
         {
-            var fetch = new SingleResultFetchStrategy<User>().Include(c => c.Company);
+            var fetch = new SingleResultFetchStrategy<FuelUser>().Include(c => c.Company);
 
             var ent = _userRepository.Single(c => c.Id == id, fetch);
 
@@ -81,7 +81,7 @@ namespace MITD.Fuel.Application.Facade
 
         public List<UserDto> GetAll(int pageSize, int pageIndex)
         {
-            var fetch = new ListFetchStrategy<User>().WithPaging(pageSize, pageIndex );
+            var fetch = new ListFetchStrategy<FuelUser>().WithPaging(pageSize, pageIndex );
 
             _userRepository.GetAll(fetch);
 
