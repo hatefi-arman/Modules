@@ -46,7 +46,20 @@ namespace MITD.Fuel.Application.Facade
         public List<CompanyDto> GetAll()
         {
             var entities = _companyDomainService.GetAll();
-            var dtos = _mapper.MapToModel(entities).ToList();
+            var dtos =new List<CompanyDto>();
+                 entities.ForEach(c =>
+                                  {
+                                      var dto = new CompanyDto()
+                                                {
+                                            Id=c.Id,
+                                            Code=c.Code,
+                                            Name=c.Name
+                                           
+                                                };
+                                      dtos.Add(dto);
+                                  });
+
+          //  var dtos = _mapper.MapToModel(entities).ToList();
 
             return dtos;
         }
