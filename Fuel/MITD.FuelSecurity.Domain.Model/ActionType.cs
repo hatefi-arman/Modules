@@ -13,7 +13,6 @@ namespace MITD.FuelSecurity.Domain.Model
     {
         private enum ActionTypes
         {
-           
             AddCharterIn,
             EditCharterIn,
             DeleteCharterIn,
@@ -26,9 +25,27 @@ namespace MITD.FuelSecurity.Domain.Model
             AddCharterOutItem,
             EditCharterOutItem,
             DeleteCharterOutItem,
+            ViewFuelReports,
+            EditFuelReport,
+            ImportFuelReports,
+            ManageFuelReportApprovement,
+            ManageFuelReportSubmittion,
+            ViewScraps,
+            CreateScrap,
+            EditScrap,
+            RemoveScrap,
+            ManageScrapApprovement,
+            ManageScrapSubmittion,
+            ViewOrders,
+            CreateOrder,
+            EditOrder,
+            RemoveOrder,
+            ManageOrderApprovement,
+            ManageOrderSubmittion,
+            CancelOrder,
         }
 
-     
+
         #region Charter In Actions
         public static readonly ActionType AddCharterIn = new ActionType((int)ActionTypes.AddCharterIn, "AddCharterIn", "افزودن چارتر In");
         public static readonly ActionType EditCharterIn = new ActionType((int)ActionTypes.EditCharterIn, "EditCharterIn", "ویرایش چارتر In");
@@ -46,34 +63,34 @@ namespace MITD.FuelSecurity.Domain.Model
 
         #region FuelReport Actions
 
-        public static readonly ActionType ViewFuelReports;
-        public static readonly ActionType EditFuelReport;
-        public static readonly ActionType ImportFuelReports;
-        public static readonly ActionType ManageFuelReportApprovement;
-        public static readonly ActionType ManageFuelReportSubmittion;
+        public static readonly ActionType ViewFuelReports = new ActionType((int)ActionTypes.ViewFuelReports, "ViewFuelReports", "مشاهده لیست گزارشات سوخت");
+        public static readonly ActionType EditFuelReport = new ActionType((int)ActionTypes.EditFuelReport, "EditFuelReport", "ویرایش گزارش سوخت");
+        public static readonly ActionType ImportFuelReports = new ActionType((int)ActionTypes.ImportFuelReports, "ImportFuelReports", "ثبت دستی گزارشات سوخت");
+        public static readonly ActionType ManageFuelReportApprovement = new ActionType((int)ActionTypes.ManageFuelReportApprovement, "ManageFuelReportApprovement", "انجام تأییدات میانی گزارش سوخت");
+        public static readonly ActionType ManageFuelReportSubmittion = new ActionType((int)ActionTypes.ManageFuelReportSubmittion, "ManageFuelReportSubmittion", "انجام تأیید نهایی گزارش سوخت");
 
         #endregion
 
         #region Scrap Actions
 
-        public static readonly ActionType ViewScraps;
-        public static readonly ActionType CreateScrap;
-        public static readonly ActionType EditScrap;
-        public static readonly ActionType RemoveScrap;
-        public static readonly ActionType ManageScrapApprovement;
-        public static readonly ActionType ManageScrapSubmittion;
+        public static readonly ActionType ViewScraps = new ActionType((int)ActionTypes.ViewScraps, "ViewScraps", "مشاهده لیست Scrap");
+        public static readonly ActionType CreateScrap = new ActionType((int)ActionTypes.CreateScrap, "CreateScrap", "ایجاد Scrap");
+        public static readonly ActionType EditScrap = new ActionType((int)ActionTypes.EditScrap, "EditScrap", "ویرایش Scrap");
+        public static readonly ActionType RemoveScrap = new ActionType((int)ActionTypes.RemoveScrap, "RemoveScrap", "حذف Scrap");
+        public static readonly ActionType ManageScrapApprovement = new ActionType((int)ActionTypes.ManageScrapApprovement, "ManageScrapApprovement", "انجام تأییدات میانی Scrap");
+        public static readonly ActionType ManageScrapSubmittion = new ActionType((int)ActionTypes.ManageScrapSubmittion, "ManageScrapSubmittion", "انجام تأیید نهایی Scrap");
 
         #endregion
 
         #region Order Actions
 
-        public static readonly ActionType ViewOrders;
-        public static readonly ActionType CreateOrder;
-        public static readonly ActionType EditOrder;
-        public static readonly ActionType RemoveOrder;
-        public static readonly ActionType ManageOrderApprovement;
-        public static readonly ActionType ManageOrderSubmittion;
-        public static readonly ActionType CancelOrder;
+        public static readonly ActionType ViewOrders = new ActionType((int)ActionTypes.ViewOrders, "ViewOrders", "مشاهده لیست سفارشات");
+        public static readonly ActionType CreateOrder = new ActionType((int)ActionTypes.CreateOrder, "CreateOrder", "ایجاد سفارش");
+        public static readonly ActionType EditOrder = new ActionType((int)ActionTypes.EditOrder, "EditOrder", "ویرایش سفارش");
+        public static readonly ActionType RemoveOrder = new ActionType((int)ActionTypes.RemoveOrder, "RemoveOrder", "حذف سفارش");
+        public static readonly ActionType ManageOrderApprovement = new ActionType((int)ActionTypes.ManageOrderApprovement, "ManageOrderApprovement", "انجام تأییدات میانی سفارش");
+        public static readonly ActionType ManageOrderSubmittion = new ActionType((int)ActionTypes.ManageOrderSubmittion, "ManageOrderSubmittion", "انجام تأییدات نهایی سفارش");
+        public static readonly ActionType CancelOrder = new ActionType((int)ActionTypes.CancelOrder, "CancelOrder", "کنسل نمودن سفارش");
 
 
         #endregion
@@ -104,7 +121,7 @@ namespace MITD.FuelSecurity.Domain.Model
 
 
 
-       
+
 
         public int Id { get; set; }
 
@@ -148,7 +165,7 @@ namespace MITD.FuelSecurity.Domain.Model
 
         }
 
-       
+
 
     }
 }
