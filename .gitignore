@@ -40,10 +40,10 @@ packages/FluentMigrator.1.1.2.1/tools/migrate.exe.config
 Migrate.exe.config
 *.vsext
 /UpgradeLog2.htm
-./Fuel/MITD.Fuel.Service.Host/[Ww]eb.[Dd]ebug.config
-./Fuel/MITD.Fuel.Service.Host/[Ww]eb.[Cc]onfig
-./Main/MITD.Main.Service.Host/[Ww]eb.[Dd]ebug.config
-./Main/MITD.Main.Service.Host/[Ww]eb.[Cc]onfig
-./Main/MITD.Main.Service.Host/ClientBin*/
-./Main/MITD.Main.Service.Host/ClientBin/*.*
-./Main/MITD.Main.Service.Host/ClientBin
+Fuel/MITD.Fuel.Service.Host/[Ww]eb.[Dd]ebug.config
+Fuel/MITD.Fuel.Service.Host/[Ww]eb.[Cc]onfig
+Main/MITD.Main.Service.Host/[Ww]eb.[Dd]ebug.config
+Main/MITD.Main.Service.Host/[Ww]eb.[Cc]onfig
+
+Main/MITD.Main.Service.Host/ClientBin*/
+Main/MITD.Main.Service.Host/ClientBin/*.*
