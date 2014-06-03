@@ -20,6 +20,7 @@ using MITD.Fuel.Domain.Model.IDomainServices;
 using MITD.Fuel.Domain.Model.Factories;
 using MITD.Fuel.Domain.Model.Repositories;
 using MITD.Fuel.Presentation.Contracts.DTOs;
+using MITD.FuelSecurity.Domain.Model.Repository;
 
 #endregion
 
@@ -51,7 +52,7 @@ namespace MITD.Fuel.Application.Service
         public InvoiceApplicationService(IInvoiceRepository invoiceRepository,
                                          IUnitOfWorkScope unitOfWorkScope,
             //  IGoodPartyAssignmentDomainService goodPartyAssignmentDomainService,
-                                         IUserRepository userRepository,
+                                         //IUserRepository userRepository,
                                          IVesselInCompanyDomainService vesselDomainService,
                                          IGoodDomainService goodDomainService,
                                          IInvoiceFactory invoiceFactory,

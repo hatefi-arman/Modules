@@ -35,7 +35,7 @@ namespace MITD.Fuel.Application.Service
         public OrderApplicationService(IOrderRepository orderRepository,
                                        IUnitOfWorkScope unitOfWorkScope,
             //  IGoodPartyAssignmentDomainService goodPartyAssignmentDomainService,
-                                       IUserRepository userRepository,
+                                       //IFuelUserRepository userRepository,
                                        IVesselInCompanyDomainService vesselDomainService,
                                        IGoodDomainService goodDomainService,
                                        IOrderFactory iOrderFactory,

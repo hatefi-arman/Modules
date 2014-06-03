@@ -74,7 +74,7 @@ namespace MITD.Fuel.Data.EF.Context
         public DbSet<Good> Goods { get; set; }
         public DbSet<SharedGood> SharedGoods { get; set; }
 
-        public DbSet<User> Users { get; set; }
+        public DbSet<FuelUser> Users { get; set; }
 
         public DbSet<GoodUnit> GoodUnits { get; set; }
         public DbSet<Unit> Units { get; set; }
@@ -153,6 +153,7 @@ namespace MITD.Fuel.Data.EF.Context
             modelBuilder.Configurations.Add(new VesselInCompanyConfiguration());
             modelBuilder.Configurations.Add(new VesselInInventoryConfiguration());
 
+            modelBuilder.Configurations.Add(new FuelUserConfiguration());
 
             modelBuilder.Configurations.Add(new OrderConfiguration());
             modelBuilder.Configurations.Add(new OrderItemConfiguration());

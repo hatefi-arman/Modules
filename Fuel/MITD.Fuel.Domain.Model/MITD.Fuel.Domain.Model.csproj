@@ -350,7 +350,7 @@
     <Compile Include="Repositories\IWorkflowLogRepository.cs" />
     <Compile Include="Repositories\IWorkflowRepository.cs" />
     <Compile Include="Repositories\IOrderRepository.cs" />
-    <Compile Include="Repositories\IUserRepository.cs" />
+    <Compile Include="Repositories\IFuelUserRepository.cs" />
     <Compile Include="Repositories\IVoyageRepository.cs" />
     <Compile Include="DomainObjects\OrderAggreate\Specifications\IsFinalApprovedOrderTypeForBuyers.cs" />
     <Compile Include="DomainObjects\OrderAggreate\Specifications\IsFinalApprovedOrderTypeForSellers.cs" />

@@ -13,10 +13,10 @@ GO
 IF  EXISTS (SELECT * FROM sys.views WHERE object_id = OBJECT_ID(N'[BasicInfo].[VesselView]'))
 DROP VIEW [BasicInfo].[VesselView]
 GO
-/****** Object:  View [BasicInfo].[UserView]    Script Date: 7/4/2014 11:39:25 AM ******/
-IF  EXISTS (SELECT * FROM sys.views WHERE object_id = OBJECT_ID(N'[BasicInfo].[UserView]'))
-DROP VIEW [BasicInfo].[UserView]
-GO
+--/****** Object:  View [BasicInfo].[UserView]    Script Date: 7/4/2014 11:39:25 AM ******/
+--IF  EXISTS (SELECT * FROM sys.views WHERE object_id = OBJECT_ID(N'[BasicInfo].[UserView]'))
+--DROP VIEW [BasicInfo].[UserView]
+--GO
 /****** Object:  View [BasicInfo].[UnitView]    Script Date: 7/4/2014 11:39:25 AM ******/
 IF  EXISTS (SELECT * FROM sys.views WHERE object_id = OBJECT_ID(N'[BasicInfo].[UnitView]'))
 DROP VIEW [BasicInfo].[UnitView]

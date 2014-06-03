@@ -147,7 +147,7 @@
     <Compile Include="Configurations\FuelReportDetailConfiguration.cs" />
     <Compile Include="Configurations\OrderConfiguration.cs" />
     <Compile Include="Configurations\OrderItemConfiguration.cs" />
-    <Compile Include="Configurations\BaseInfo\UserConfiguration.cs" />
+    <Compile Include="Configurations\BaseInfo\FuelUserConfiguration.cs" />
     <Compile Include="Configurations\BaseInfo\VesselInCompanyConfiguration.cs" />
     <Compile Include="Configurations\VoyageConfiguration.cs" />
     <Compile Include="Contexts\DataContainer.cs" />
@@ -156,7 +156,9 @@
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Migrations\Migration_Seed.cs" />
     <Compile Include="Migrations\Migration_Initial.cs" />
+    <Compile Include="Migrations\Migration_V2_UserView.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\FuelUserRepository.cs" />
     <Compile Include="Repositories\GoodRepository.cs" />
     <Compile Include="Repositories\CharterInRepository.cs" />
     <Compile Include="Repositories\CharterOutRepository.cs" />
@@ -201,8 +203,10 @@
     <Content Include="DBQueries\BasicInfoData.sql" />
     <Content Include="DBQueries\BasicInfoViews_Drop.sql" />
     <Content Include="DBQueries\BasicInfoViews_Create2.sql" />
+    <Content Include="DBQueries\Create BasicInfo.UserView.sql" />
     <Content Include="DBQueries\Create Inventory BasicInfo Views.sql" />
     <Content Include="DBQueries\Create SAPID-HAFIZ Voyages Views.sql" />
+    <Content Include="DBQueries\Drop BasicInfo.UserView.sql" />
     <Content Include="DBQueries\Drop Inventory BasicInfo Views.sql" />
     <Content Include="DBQueries\Drop SAPID-HAFIZ Voyages Views.sql" />
     <Content Include="DBQueries\DropVoyagesView.sql" />
