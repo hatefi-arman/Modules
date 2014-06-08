@@ -9,10 +9,7 @@ using MITD.Core;
 using MITD.Core.Config;
 using MITD.DataAccess.Config;
 using MITD.Domain.Repository;
-//using MITD.StorageSpace.Data.EF.Contexts;
-//using MITD.StorageSpace.Data.EF.Infrastructure;
-//using MITD.StorageSpace.Services.Application.Infrastructure;
-//using MITD.StorageSpace.Services.Facade.Infrastructure;
+
 
 namespace MITD.Main.Services.Host.Infrastructure
 {

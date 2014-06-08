@@ -17,6 +17,7 @@ using MITD.DataAccess.EF;
 using MITD.Domain.Model;
 using MITD.Domain.Repository;
 using MITD.Fuel.Application;
+using MITD.Fuel.Application.Facade;
 using MITD.Fuel.Domain.Model.Factories;
 using MITD.Fuel.Domain.Model.IDomainServices;
 using MITD.Fuel.Infrastructure.Service;
@@ -177,7 +178,9 @@ namespace MITD.Fuel.Service.Host.Infrastructure
                     .WithServiceFromInterface().LifestyleTransient());
 
             container.Register(
-                Component.For<IFacadeService>().Interceptors(InterceptorReference.ForType<SecurityInterception>()).Anywhere, Component.For<SecurityInterception>());
+                Component.For<IFacadeService>().
+                Interceptors(InterceptorReference.ForType<SecurityInterception>())
+               .Anywhere, Component.For<SecurityInterception>());
 
             #endregion
 

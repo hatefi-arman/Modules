@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MITD.FuelSecurity.Domain.Model;
+using MITD.Services.Application;
 
 namespace MITD.Fuel.Application.Service.Security
 {
-    public interface ISecurityApplicationService
+    public interface ISecurityApplicationService : IApplicationService
     {
         bool IsAuthorize(List<ActionType> userActionTypes, List<ActionType> methodRequiredActionTypes);
         List<ActionType> GetAllAuthorizedActions(List<User> users);

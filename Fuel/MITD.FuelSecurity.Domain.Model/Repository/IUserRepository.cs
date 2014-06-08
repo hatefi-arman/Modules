@@ -8,11 +8,11 @@ using MITD.Domain.Repository;
 
 namespace MITD.FuelSecurity.Domain.Model.Repository
 {
-    public interface IUserRepository : IRepository<User>
+    public interface IUserRepository : IRepository<Party>
     {
-        IList<User> GetAllUsers();
-        void FindUser(Expression<Func<User, bool>> predicatExpression, ListFetchStrategy<User> fetchStrategy);
-        User GetUserById(long id);
+        IList<Party> GetAllUsers();
+        void FindUser(Expression<Func<Party, bool>> predicatExpression, ListFetchStrategy<Party> fetchStrategy);
+        Party GetUserById(long id);
         IList<Group> GetAllGroups();
         Group GetGroupById(long id);
         void Delete(Party user);

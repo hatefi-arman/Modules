@@ -74,7 +74,7 @@ namespace MITD.Fuel.Data.EF.Context
         public DbSet<Good> Goods { get; set; }
         public DbSet<SharedGood> SharedGoods { get; set; }
 
-        public DbSet<User> Users { get; set; }
+     
 
         public DbSet<GoodUnit> GoodUnits { get; set; }
         public DbSet<Unit> Units { get; set; }
@@ -108,6 +108,8 @@ namespace MITD.Fuel.Data.EF.Context
         public DbSet<ActionType> ActionTypes { get; set; }
 
         public DbSet<PartyCustomAction> PartyCustomActions { get; set; }
+
+        public DbSet<User> Users { get; set; }
 
         #endregion
 

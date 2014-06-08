@@ -12,14 +12,16 @@ using MITD.FuelSecurity.Domain.Model;
 namespace MITD.Fuel.Application.Facade
 {
 
-    public class UserActionsMapper : BaseMapper<List<ActionType>, ClaimsPrincipal>, IMapper<List<ActionType>, ClaimsPrincipal>
+    public class UserActionsMapper //: BaseMapper<List<ActionType>, ClaimsPrincipal>, IMapper<List<ActionType>, ClaimsPrincipal>
     {
-        public override ClaimsPrincipal MapToModel(List<ActionType> entity)
+
+
+        public  ClaimsPrincipal MapToModel(List<ActionType> entity)
         {
             throw new NotSupportedException("map List<User> to ClaimsPrincipal not supported  ");
         }
 
-        public override List<ActionType> MapToEntity(ClaimsPrincipal user)
+        public  List<ActionType> MapToEntity(ClaimsPrincipal user)
         {
             var res = new List<ActionType>();
             var claimUserActions = user.Claims.SingleOrDefault(c => c.Type == "CurrentUserActions");

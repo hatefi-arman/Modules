@@ -6,6 +6,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using System.Transactions;
+using MITD.Core;
 using MITD.FuelSecurity.Domain.Model.Repository;
 using MITD.FuelSecurity.Domain.Model.Service;
 using MITD.FuelSecurity.Domain.Model;
@@ -19,7 +20,13 @@ namespace MITD.Fuel.Application.Service.Security
         private ISecurityServiceChecker _securityServiceChecker;
 
 
-        #region
+        #region  ctor
+
+        public SecurityApplicationService()
+        {
+            var x = ServiceLocator.Current.GetAllInstances<IUserRepository>();
+            var x1 = ServiceLocator.Current.GetAllInstances<ISecurityServiceChecker>();
+        }
 
         public SecurityApplicationService(IUserRepository userRepository, ISecurityServiceChecker securityServiceChecker)
         {
@@ -31,6 +38,7 @@ namespace MITD.Fuel.Application.Service.Security
 
         public bool IsAuthorize(List<ActionType> userActionTypes, List<ActionType> methodRequiredActionTypes)
         {
+            _securityServiceChecker=new SecurityServiceChecker(this._userRepository);
             return _securityServiceChecker.IsAuthorize(userActionTypes, methodRequiredActionTypes);
         }
 
@@ -41,7 +49,7 @@ namespace MITD.Fuel.Application.Service.Security
 
         public User GetUser(long id)
         {
-            return _userRepository.GetUserById(id);
+            return _userRepository.GetUserById(id)as User;
         }
 
         public User GetLogonUser()
@@ -80,7 +88,7 @@ namespace MITD.Fuel.Application.Service.Security
                 var u = _userRepository.GetUserById(id);
                 //u.Update(firstName,lastName,email,isActive,customActions,groups);
                 //scope.Complete();
-                return u;
+                return u as User;
             }
         }
 

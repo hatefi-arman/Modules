@@ -13,12 +13,19 @@ namespace MITD.Fuel.Application.Facade
 {
     public class SecurityFacadeService : ISecurityFacadeService
     {
-        private readonly IMapper<List<ActionType>, ClaimsPrincipal> _userActionMapper;
-
+      //  private readonly IMapper<List<ActionType>, ClaimsPrincipal> _userActionMapper;
+        private readonly UserActionsMapper _userActionMapper;
         private readonly ISecurityApplicationService _securityApplicationService;
-        public SecurityFacadeService(IMapper<List<ActionType>, ClaimsPrincipal> userActionMapper,ISecurityApplicationService securityApplicationService)
+
+        //public SecurityFacadeService()
+        //{
+        //    var x = ServiceLocator.Current.GetAllInstances<IMapper<List<ActionType>, ClaimsPrincipal>>();
+        //}
+        
+        public SecurityFacadeService(//(IMapper<List<ActionType>, ClaimsPrincipal> userActionMapper,
+            ISecurityApplicationService securityApplicationService)
         {
-            this._userActionMapper = userActionMapper;
+            this._userActionMapper = new UserActionsMapper();
             this._securityApplicationService = securityApplicationService;
         }
 
