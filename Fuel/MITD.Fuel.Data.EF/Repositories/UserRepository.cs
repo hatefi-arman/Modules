@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using System.Linq;
 using MITD.DataAccess.EF;
 using MITD.Domain.Repository;
 
@@ -35,7 +35,27 @@ namespace MITD.Fuel.Data.EF.Repositories
 
         public Party GetUserById(long id)
         {
-            throw new NotImplementedException();
+            var q=this.Context.CreateObjectSet<Party>().OfType<User>()
+                .AsQueryable();
+            return q.Single(c => c.Id == id);
+
+        }
+
+        public Party GetUserById(string username)
+        {
+            try
+            {
+                var q = this.Context.CreateObjectSet<Party>().OfType<User>()
+                .AsQueryable();
+                return q.Single(c => c.UserName == username);
+            }
+            catch (Exception ex)
+            {
+                    
+                throw;
+            }
+            
+
         }
 
         public IList<Group> GetAllGroups()

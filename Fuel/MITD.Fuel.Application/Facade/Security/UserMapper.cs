@@ -125,7 +125,7 @@ namespace MITD.Fuel.Application.Facade
             foreach (var role in claimRoles)
             {
                 if (role == "Admin")
-                    res.Add(new AdminUser( fName, lName, email));
+                    res.Add(new AdminUser( fName, lName, email,username));
                 //if (role == "Employee")
                 //{
                 //    var employeeNoClaim = user.Claims.Single(c => c.Type == "http://identityserver.thinktecture.com/claims/profileclaims/employeeno");
@@ -149,6 +149,7 @@ namespace MITD.Fuel.Application.Facade
                 LastName = entity.LastName,
                 //Email = entity.Email,
                 IsActive = entity.Active,
+                UserName=entity.UserName
                 
 
             };
@@ -160,7 +161,7 @@ namespace MITD.Fuel.Application.Facade
 
         public override User MapToEntity(UserDto model)
         {
-            var res = new User(model.Id,model.PartyName, model.FirstName, model.LastName,"", model.IsActive);
+            var res = new User(model.Id,model.PartyName, model.FirstName, model.LastName,"",model.IsActive,model.UserName);
             return res;
 
         }
@@ -179,6 +180,7 @@ namespace MITD.Fuel.Application.Facade
                 LastName = entity.LastName,
                 Email = entity.Email,
                 IsActive = entity.Active,
+               
                 //Privileges = entity.CustomActions
               //  ActionCodes = new List<int>() { (int)ActionType.AddUser, (int)ActionType.ModifyUser, (int)ActionType.DeleteUser }
             };

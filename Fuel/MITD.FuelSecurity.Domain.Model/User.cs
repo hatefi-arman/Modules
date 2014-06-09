@@ -22,6 +22,8 @@ namespace MITD.FuelSecurity.Domain.Model
 
         public virtual string FirstName { get; private set; }
 
+        public virtual string UserName { get; private set; }
+
         public virtual string LastName { get; private set; }
 
         public virtual string Email { get; private set; }
@@ -38,24 +40,26 @@ namespace MITD.FuelSecurity.Domain.Model
             this.Groups = new List<Group>();
         }
 
-        public User(long id, string partyName, string firstName, string lastName, string email, bool active)
+        public User(long id, string partyName, string firstName, string lastName, string email, bool active,string userName)
             : base(id, partyName)
         {
             this.FirstName = firstName;
             this.LastName = lastName;
             this.Email = email;
             this.Active = active;
+            this.UserName = userName;
             this.Groups = new List<Group>();
 
         }
 
-        public User(long id, string partyName, string firstName, string lastName, string email)
+        public User(long id, string partyName, string firstName, string lastName, string email,string userName)
             : base(id, partyName)
         {
             this.FirstName = firstName;
             this.LastName = lastName;
             this.Email = email;
             this.Active = true;
+            this.UserName = userName;
             this.Groups = new List<Group>();
         }
         #endregion

@@ -77,7 +77,7 @@ namespace MITD.Fuel.Presentation.Logic.SL.ServiceWrapper
         public void Add(Action<CharterDto, Exception> action, CharterDto charterDto)
         {
             var uri = String.Concat(hostCharterAddressController, "?charterType=" + CharterType.In);
-            WebClientHelper.Post<CharterDto, CharterDto>(new Uri(uri, UriKind.Absolute), action, charterDto, WebClientHelper.MessageFormat.Json);
+            WebClientHelper.Post<CharterDto, CharterDto>(new Uri(uri, UriKind.Absolute), action, charterDto, WebClientHelper.MessageFormat.Json,ApiConfig.Headers);
         }
 
         public void Update(Action<CharterDto, Exception> action, long id, CharterDto charterDto)

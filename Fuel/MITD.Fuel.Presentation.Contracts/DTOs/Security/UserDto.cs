@@ -41,6 +41,15 @@ namespace MITD.Fuel.Presentation.Contracts.DTOs
             set { this.SetField(p => p.LastName, ref lastName, value); }
         }
 
+
+        string userName;
+        // [Required(AllowEmptyStrings = false, ErrorMessage = "Name can't be empty")]
+        public string UserName
+        {
+            get { return userName; }
+            set { this.SetField(p => p.UserName, ref userName, value); }
+        }
+
         private bool isActive;
         public bool IsActive
         {

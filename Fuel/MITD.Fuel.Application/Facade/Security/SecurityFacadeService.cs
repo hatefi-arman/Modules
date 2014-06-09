@@ -15,6 +15,7 @@ namespace MITD.Fuel.Application.Facade
     {
       //  private readonly IMapper<List<ActionType>, ClaimsPrincipal> _userActionMapper;
         private readonly UserActionsMapper _userActionMapper;
+        private readonly PMSUserMapper _pmsUserMapper;
         private readonly ISecurityApplicationService _securityApplicationService;
 
         //public SecurityFacadeService()
@@ -27,10 +28,11 @@ namespace MITD.Fuel.Application.Facade
         {
             this._userActionMapper = new UserActionsMapper();
             this._securityApplicationService = securityApplicationService;
+            this._pmsUserMapper=new PMSUserMapper();
         }
 
 
-        public bool IsAuthorize(string className, string methodName, System.Security.Claims.ClaimsPrincipal userClaimsPrincipal)
+        public bool IsAuthorize(string className, string methodName, ClaimsPrincipal userClaimsPrincipal)
         {
             var methodMapper = new MethodMapper();
             var methodRequiredActions = methodMapper.Map(className, methodName);
@@ -38,17 +40,17 @@ namespace MITD.Fuel.Application.Facade
             return _securityApplicationService.IsAuthorize(userActions, methodRequiredActions);          
         }
 
-        public List<FuelSecurity.Domain.Model.ActionType> GetUserAuthorizedActions(System.Security.Claims.ClaimsPrincipal userClaimsPrincipal)
+        public List<ActionType> GetUserAuthorizedActions(ClaimsPrincipal userClaimsPrincipal)
+        {
+           return this._securityApplicationService.GetAllAuthorizedActions(_pmsUserMapper.MapToEntity(userClaimsPrincipal));
+        }
+
+        public void AddUpdateUser(ClaimsPrincipal userClaimsPrincipal)
         {
             throw new NotImplementedException();
         }
 
-        public void AddUpdateUser(System.Security.Claims.ClaimsPrincipal userClaimsPrincipal)
-        {
-            throw new NotImplementedException();
-        }
-
-        public FuelSecurity.Domain.Model.User GetLogonUser()
+        public User GetLogonUser()
         {
             throw new NotImplementedException();
         }

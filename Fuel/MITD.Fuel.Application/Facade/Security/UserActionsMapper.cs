@@ -31,9 +31,10 @@ namespace MITD.Fuel.Application.Facade
 
             foreach (var actionCode in claimUserActions.Value.Split(','))
             {
-                var actionType =ActionType.FromValue(int.Parse(actionCode));
+               // var actionType =ActionType.FromValue(int.Parse(actionCode));
+                var actionType = ActionType.GetActionType(actionCode);
                 if (actionType != null)
-                    res.Add(actionType);
+                    res.Add(actionType.First());
             }
             return res;
         }

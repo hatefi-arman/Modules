@@ -10,8 +10,8 @@ namespace MITD.FuelSecurity.Domain.Model
     {
         public override List<ActionType> Actions { get { return new List<ActionType>(); } }
 
-        public FinancialUser(long id, string firstName, string lastName, string email)
-            : base(id, "FinancialUser", firstName, lastName, email)
+        public FinancialUser(long id, string firstName, string lastName, string email, string userName)
+            : base(id, "FinancialUser", firstName, lastName, email, userName)
         {
 
         }

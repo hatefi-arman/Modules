@@ -12,8 +12,8 @@ namespace MITD.FuelSecurity.Domain.Model
             get {return new List<ActionType>(); }
         }
 
-        public CommercialUser(long id, string firstName, string lastName, string email)
-            : base(id, "CommercialUser", firstName, lastName, email)
+        public CommercialUser(long id, string firstName, string lastName, string email, string userName)
+            : base(id, "CommercialUser", firstName, lastName, email, userName)
         {
 
         }

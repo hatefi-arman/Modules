@@ -6,8 +6,8 @@ namespace MITD.FuelSecurity.Domain.Model
     {
       
 
-        public AdminUser( string firstName, string lastName, string email)
-            : base(0, "AdminUser", firstName, lastName, email)
+        public AdminUser( string firstName, string lastName, string email,string userName)
+            : base(0, "AdminUser", firstName, lastName, email, userName)
         {
 
         }

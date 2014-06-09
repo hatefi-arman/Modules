@@ -433,6 +433,7 @@ namespace MITD.Fuel.Data.EF.Migrations
                 .WithColumn("Id").AsInt64().PrimaryKey()
                     .ForeignKey("Parties", "Id")
                 .WithColumn("FirstName").AsString(100).Nullable()
+                .WithColumn("UserName").AsString(100).Nullable()
                 .WithColumn("LastName").AsString(100).Nullable()
                 .WithColumn("Email").AsString(100).Nullable()
                 .WithColumn("Active").AsBoolean().NotNullable();

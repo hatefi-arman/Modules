@@ -264,6 +264,7 @@ namespace MITD.Main.Presentation.Logic.SL.Infrastructure
         {
             userService.GetSessionToken((res, exp) => BeginInvokeOnDispatcher(() =>
             {
+                HideBusyIndicator();
                 if (exp == null)
                 {
                     var json = JObject.Parse(res);
@@ -272,12 +273,12 @@ namespace MITD.Main.Presentation.Logic.SL.Infrastructure
                     var expiration = DateTime.UtcNow.AddSeconds(expiresIn);
                     userProvider.Token = sessionToken;
                     ApiConfig.Headers = ApiConfig.CreateHeaderDic(userProvider.Token);
-                    getLogonUser();
+                  //  getLogonUser();
                     action();
                 }
                 else
                 {
-                    HideBusyIndicator();
+                   
                     HandleException(exp);
                 }
             }), token, newCurrentWorkListUser);

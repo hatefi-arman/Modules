@@ -17,22 +17,24 @@ namespace MITD.Fuel.Application.Service.Security
     {
 
         private IUserRepository _userRepository;
-        private ISecurityServiceChecker _securityServiceChecker;
+        private SecurityServiceChecker _securityServiceChecker;
 
 
         #region  ctor
 
         public SecurityApplicationService()
         {
-            var x = ServiceLocator.Current.GetAllInstances<IUserRepository>();
-            var x1 = ServiceLocator.Current.GetAllInstances<ISecurityServiceChecker>();
+            var _userRepository = ServiceLocator.Current.GetInstance<IUserRepository>();
+           // var _securityServiceChecker = new SecurityServiceChecker(_userRepository); //ServiceLocator.Current.GetInstance<ISecurityServiceChecker>();
         }
 
-        public SecurityApplicationService(IUserRepository userRepository, ISecurityServiceChecker securityServiceChecker)
-        {
-            this._userRepository = userRepository;
-            this._securityServiceChecker = securityServiceChecker;
-        }
+        //public SecurityApplicationService(IUserRepository userRepository, ISecurityServiceChecker securityServiceChecker)
+        //{
+        //    var _userRepository = ServiceLocator.Current.GetInstance<IUserRepository>();
+        //    var _securityServiceChecker = new SecurityServiceChecker(_userRepository); 
+        //  //  this._userRepository = userRepository;
+        //   // this._securityServiceChecker = new SecurityServiceChecker(userRepository);
+        //}
 
         #endregion
 
@@ -44,6 +46,7 @@ namespace MITD.Fuel.Application.Service.Security
 
         public List<ActionType> GetAllAuthorizedActions(List<User> users)
         {
+            _securityServiceChecker = new SecurityServiceChecker(ServiceLocator.Current.GetInstance<IUserRepository>());
             return _securityServiceChecker.GetAllAuthorizedActionTypes(users);
         }
 
@@ -59,13 +62,13 @@ namespace MITD.Fuel.Application.Service.Security
             return GetUser(long.Parse(ClaimsPrincipal.Current.Identity.Name));
         }
 
-        public User AddUser(string firstName, string lastName, bool isActive, string email, Dictionary<int, bool> customActions, List<long> groups)
+        public User AddUser(string firstName, string lastName, bool isActive, string email, Dictionary<int, bool> customActions, List<long> groups,string userName)
         {
             try
             {
                 using (var scope = new TransactionScope())
                 {
-                    var u = new User(0, firstName, lastName, email, "");
+                    var u = new User(0, firstName, lastName, email,"", userName);
                     //assignCustomActionsToParty(u,customActions);
                     //assignUserGroupsToUser(u,groups);
                     //_userRepository.Add(u);

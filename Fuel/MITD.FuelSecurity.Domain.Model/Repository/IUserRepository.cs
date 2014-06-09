@@ -13,6 +13,8 @@ namespace MITD.FuelSecurity.Domain.Model.Repository
         IList<Party> GetAllUsers();
         void FindUser(Expression<Func<Party, bool>> predicatExpression, ListFetchStrategy<Party> fetchStrategy);
         Party GetUserById(long id);
+
+        Party GetUserById(string username);
         IList<Group> GetAllGroups();
         Group GetGroupById(long id);
         void Delete(Party user);

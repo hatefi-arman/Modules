@@ -18,6 +18,7 @@ namespace MITD.Fuel.Data.EF.Configurations.Security
 
             Property(p => p.Id).HasColumnName("Id");
             Property(p => p.FirstName);
+            Property(p => p.UserName);
             Property(p => p.LastName);
             Property(p => p.Email);
             Property(p => p.Active);

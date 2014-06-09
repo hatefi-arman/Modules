@@ -180,7 +180,17 @@ namespace MITD.FuelSecurity.Domain.Model
 
         }
 
-       
+        public static IEnumerable<ActionType> GetActionType(string name)
+        {
+            var fields =
+               (typeof(ActionType)).GetFields(BindingFlags.DeclaredOnly | BindingFlags.Static | BindingFlags.Public);
+            foreach (var fieldInfo in fields)
+            {
+                ActionType actionType = fieldInfo.GetValue((object)null) as ActionType;
+                if (actionType.Name ==name)
+                    yield return actionType;
+            }
+        }
 
     }
 }
