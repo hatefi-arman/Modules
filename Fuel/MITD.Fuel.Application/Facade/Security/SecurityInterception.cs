@@ -26,7 +26,7 @@ namespace MITD.Fuel.Application
                 }
                 else
                 {
-                    throw new BusinessRuleException("7001", "Access Error");
+                    throw new FuelSecurityAccessException(7001, "Access Error");
                 }
 
             }

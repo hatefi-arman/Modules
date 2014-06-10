@@ -49,8 +49,10 @@
     <Compile Include="ActionType.cs" />
     <Compile Include="AdminUser.cs" />
     <Compile Include="CommercialUser.cs" />
+    <Compile Include="CommercialManagerUser.cs" />
     <Compile Include="ErrorException\FuelSecurityException.cs" />
     <Compile Include="FinancialUser.cs" />
+    <Compile Include="FinancialManagerUser.cs" />
     <Compile Include="Group.cs" />
     <Compile Include="Party.cs" />
     <Compile Include="PartyCustomAction.cs" />

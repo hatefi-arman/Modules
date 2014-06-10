@@ -92,7 +92,7 @@ namespace MITD.Fuel.Application.Facade
         }
     }
 
-    public class UserSecurityMapper : BaseMapper<List<User>, ClaimsPrincipal>, IMapper<List<User>, System.Security.Claims.ClaimsPrincipal>
+    public class UserSecurityMapper : BaseMapper<List<User>, ClaimsPrincipal>, IMapper<List<User>, ClaimsPrincipal>
     {
         public override ClaimsPrincipal MapToModel(List<User> entity)
         {

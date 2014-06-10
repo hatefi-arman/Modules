@@ -15,20 +15,17 @@ namespace MITD.Fuel.Application.Facade
     {
       //  private readonly IMapper<List<ActionType>, ClaimsPrincipal> _userActionMapper;
         private readonly UserActionsMapper _userActionMapper;
-        private readonly UserSecurityMapper _pmsUserMapper;
+        private readonly UserSecurityMapper _userSecurityMapper;
         private readonly ISecurityApplicationService _securityApplicationService;
 
-        //public SecurityFacadeService()
-        //{
-        //    var x = ServiceLocator.Current.GetAllInstances<IMapper<List<ActionType>, ClaimsPrincipal>>();
-        //}
+      
         
         public SecurityFacadeService(//(IMapper<List<ActionType>, ClaimsPrincipal> userActionMapper,
             ISecurityApplicationService securityApplicationService)
         {
             this._userActionMapper = new UserActionsMapper();
             this._securityApplicationService = securityApplicationService;
-            this._pmsUserMapper=new UserSecurityMapper();
+            this._userSecurityMapper=new UserSecurityMapper();
         }
 
 
@@ -42,7 +39,7 @@ namespace MITD.Fuel.Application.Facade
 
         public List<ActionType> GetUserAuthorizedActions(ClaimsPrincipal userClaimsPrincipal)
         {
-           return this._securityApplicationService.GetAllAuthorizedActions(_pmsUserMapper.MapToEntity(userClaimsPrincipal));
+           return this._securityApplicationService.GetAllAuthorizedActions(_userSecurityMapper.MapToEntity(userClaimsPrincipal));
         }
 
         public void AddUpdateUser(ClaimsPrincipal userClaimsPrincipal)

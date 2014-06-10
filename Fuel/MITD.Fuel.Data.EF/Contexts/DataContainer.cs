@@ -142,9 +142,10 @@ namespace MITD.Fuel.Data.EF.Context
             modelBuilder.Configurations.Add(new UserConfiguration());
             modelBuilder.Configurations.Add(new GroupConfiguration());
             modelBuilder.Ignore<AdminUser>();
+            modelBuilder.Ignore<CommercialManagerUser>();
+            modelBuilder.Ignore<FinancialManagerUser>();
             modelBuilder.Ignore<CommercialUser>();
             modelBuilder.Ignore<FinancialUser>();
-
             modelBuilder.Configurations.Add(new ActionTypeConfiguration());
 
             modelBuilder.Configurations.Add(new PartyCustomActionConfiguration());
