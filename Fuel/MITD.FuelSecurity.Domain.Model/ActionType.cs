@@ -13,12 +13,14 @@ namespace MITD.FuelSecurity.Domain.Model
     {
         private enum ActionTypes
         {
+            QueryCharterIn,
             AddCharterIn,
             EditCharterIn,
             DeleteCharterIn,
             AddCharterInItem,
             EditCharterInItem,
             DeleteCharterInItem,
+            QueryCharterOut,
             AddCharterOut,
             EditCharterOut,
             DeleteCharterOut,
@@ -63,12 +65,16 @@ namespace MITD.FuelSecurity.Domain.Model
 
      
         #region Charter In Actions
+        public static readonly ActionType QueryCharterIn = new ActionType((int)ActionTypes.QueryCharterIn, "QueryCharterIn", "QueryCharterIn");
+
         public static readonly ActionType AddCharterIn = new ActionType((int)ActionTypes.AddCharterIn, "AddCharterIn", "افزودن چارتر In");
         public static readonly ActionType EditCharterIn = new ActionType((int)ActionTypes.EditCharterIn, "EditCharterIn", "ویرایش چارتر In");
         public static readonly ActionType DeleteCharterIn = new ActionType((int)ActionTypes.DeleteCharterIn, "DeleteCharterIn", "حذف چارتر In");
         public static readonly ActionType AddCharterInItem = new ActionType((int)ActionTypes.AddCharterInItem, "AddCharterInItem", "افزودن ردیف چارتر In");
         public static readonly ActionType EditCharterInItem = new ActionType((int)ActionTypes.EditCharterInItem, "EditCharterInItem", "ویرایش ردیف چارتر In");
         public static readonly ActionType DeleteCharterInItem = new ActionType((int)ActionTypes.DeleteCharterInItem, "DeleteCharterInItem", "حذف ردیف چارتر In");
+
+        public static readonly ActionType QueryCharterOut = new ActionType((int)ActionTypes.QueryCharterOut, "QueryCharterOut", "QueryCharterOut");
         public static readonly ActionType AddCharterOut = new ActionType((int)ActionTypes.AddCharterOut, "AddCharterOut", "افزودن چارتر Out");
         public static readonly ActionType EditCharterOut = new ActionType((int)ActionTypes.EditCharterOut, "EditCharterOut", "ویرایش چارتر Out");
         public static readonly ActionType DeleteCharterOut = new ActionType((int)ActionTypes.DeleteCharterOut, "DeleteCharterOut", "حذف چارتر Out");
