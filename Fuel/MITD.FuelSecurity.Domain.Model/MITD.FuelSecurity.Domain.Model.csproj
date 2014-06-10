@@ -54,6 +54,8 @@
     <Compile Include="FinancialUser.cs" />
     <Compile Include="FinancialManagerUser.cs" />
     <Compile Include="Group.cs" />
+    <Compile Include="Log.cs" />
+    <Compile Include="LogLevel.cs" />
     <Compile Include="Party.cs" />
     <Compile Include="PartyCustomAction.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

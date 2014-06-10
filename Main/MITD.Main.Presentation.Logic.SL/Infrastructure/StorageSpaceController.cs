@@ -288,27 +288,6 @@ namespace MITD.Main.Presentation.Logic.SL.Infrastructure
         }
 
 
-        private void getLogonUser()
-        {
-            userService.GetLogonUser((res, exp) =>
-            {
-                if (exp == null)
-                {
-                    BeginInvokeOnDispatcher(() =>
-                    {
-                        CurrentUserState = res;
-                        LoggedInUserState = res;
-                        Publish(new MainWindowUpdateArgs());
-
-                    });
-                    //createCustomFieldEntityList();
-                }
-                else
-                {
-                    HideBusyIndicator();
-                    HandleException(exp);
-                }
-            });
-        }
+      
     }
 }

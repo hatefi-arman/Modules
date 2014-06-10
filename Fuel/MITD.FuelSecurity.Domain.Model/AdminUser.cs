@@ -18,12 +18,14 @@ namespace MITD.FuelSecurity.Domain.Model
             {
                 return new List<ActionType>()
                 {
+                    ActionType.QueryCharterIn,
                     ActionType.AddCharterIn,
                     ActionType.EditCharterIn,
                     ActionType.DeleteCharterIn,
                     ActionType.AddCharterInItem,
                     ActionType.EditCharterInItem,
                     ActionType.DeleteCharterInItem,
+                    ActionType.QueryCharterOut,
                     ActionType.AddCharterOut,
                     ActionType.EditCharterOut,
                     ActionType.DeleteCharterOut,
