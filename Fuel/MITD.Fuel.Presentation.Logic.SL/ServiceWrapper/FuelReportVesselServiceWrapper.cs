@@ -25,7 +25,7 @@ namespace MITD.Fuel.Presentation.FuelApp.Logic.SL.ServiceWrapper
             var url = string.Format(baseAddress + methodName + "?PageSize=" + pageSize + "&PageIndex=" + pageIndex);
             WebClientHelper.Get<PageResultDto<VesselDto>>(new Uri(url, UriKind.Absolute),
                                                                     (res, exp) => action(res, exp),
-                                                                    WebClientHelper.MessageFormat.Json
+                                                                    WebClientHelper.MessageFormat.Json,ApiConfig.Headers
                 );
         }
 
@@ -34,7 +34,7 @@ namespace MITD.Fuel.Presentation.FuelApp.Logic.SL.ServiceWrapper
             var url = string.Concat(baseAddress, id);
             WebClientHelper.Get<VesselDto>(new Uri(url, UriKind.Absolute),
                                                      (res, exp) => action(res, exp),
-                                                     WebClientHelper.MessageFormat.Json);
+                                                     WebClientHelper.MessageFormat.Json,ApiConfig.Headers);
         }
 
         #endregion

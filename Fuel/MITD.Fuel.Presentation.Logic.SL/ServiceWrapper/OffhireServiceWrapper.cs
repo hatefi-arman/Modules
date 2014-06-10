@@ -45,7 +45,7 @@ namespace MITD.Fuel.Presentation.Logic.SL.ServiceWrapper
         {
             var url = string.Format(this.offhireAddressFormatString, id);
 
-            WebClientHelper.Get(ApiServiceAddressHelper.BuildUri(url), action, WebClientHelper.MessageFormat.Json);
+            WebClientHelper.Get(ApiServiceAddressHelper.BuildUri(url), action, WebClientHelper.MessageFormat.Json,ApiConfig.Headers);
         }
 
         //================================================================================
@@ -58,7 +58,7 @@ namespace MITD.Fuel.Presentation.Logic.SL.ServiceWrapper
             sbUrl.Append(string.Concat("?pageSize=", pageSize));
             sbUrl.Append(string.Concat("&pageIndex=", pageIndex));
 
-            WebClientHelper.Get(ApiServiceAddressHelper.BuildUri(sbUrl), action, WebClientHelper.MessageFormat.Json);
+            WebClientHelper.Get(ApiServiceAddressHelper.BuildUri(sbUrl), action, WebClientHelper.MessageFormat.Json,ApiConfig.Headers);
         }
 
         //================================================================================
@@ -75,7 +75,7 @@ namespace MITD.Fuel.Presentation.Logic.SL.ServiceWrapper
             sbUrl.Append(string.Concat("&pageSize=", pageSize));
             sbUrl.Append(string.Concat("&pageIndex=", pageIndex));
 
-            WebClientHelper.Get(ApiServiceAddressHelper.BuildUri(sbUrl), action, WebClientHelper.MessageFormat.Json);
+            WebClientHelper.Get(ApiServiceAddressHelper.BuildUri(sbUrl), action, WebClientHelper.MessageFormat.Json,ApiConfig.Headers);
         }
 
         //================================================================================
@@ -84,7 +84,7 @@ namespace MITD.Fuel.Presentation.Logic.SL.ServiceWrapper
         {
             var url = string.Format(this.offhireManagementSystemPreparedDataAddressFormatString, referenceNumber, introducerId);
 
-            WebClientHelper.Get(ApiServiceAddressHelper.BuildUri(url), action, WebClientHelper.MessageFormat.Json);
+            WebClientHelper.Get(ApiServiceAddressHelper.BuildUri(url), action, WebClientHelper.MessageFormat.Json,ApiConfig.Headers);
         }
 
         //================================================================================
@@ -101,7 +101,7 @@ namespace MITD.Fuel.Presentation.Logic.SL.ServiceWrapper
             sbUrl.Append(string.Concat("&pageSize=", pageSize));
             sbUrl.Append(string.Concat("&pageIndex=", pageIndex));
 
-            WebClientHelper.Get(ApiServiceAddressHelper.BuildUri(sbUrl), action, WebClientHelper.MessageFormat.Json);
+            WebClientHelper.Get(ApiServiceAddressHelper.BuildUri(sbUrl), action, WebClientHelper.MessageFormat.Json,ApiConfig.Headers);
         }
 
         //================================================================================
@@ -110,7 +110,7 @@ namespace MITD.Fuel.Presentation.Logic.SL.ServiceWrapper
         {
             var url = string.Format(this.offhireAddressFormatString, string.Empty);
 
-            WebClientHelper.Post(ApiServiceAddressHelper.BuildUri(url), action, dto, WebClientHelper.MessageFormat.Json);
+            WebClientHelper.Post(ApiServiceAddressHelper.BuildUri(url), action, dto, WebClientHelper.MessageFormat.Json,ApiConfig.Headers);
         }
 
         //================================================================================
@@ -119,7 +119,7 @@ namespace MITD.Fuel.Presentation.Logic.SL.ServiceWrapper
         {
             var url = string.Format(this.offhireAddressFormatString, dto.Id);
 
-            WebClientHelper.Put(ApiServiceAddressHelper.BuildUri(url), action, dto, WebClientHelper.MessageFormat.Json);
+            WebClientHelper.Put(ApiServiceAddressHelper.BuildUri(url), action, dto, WebClientHelper.MessageFormat.Json,ApiConfig.Headers);
         }
 
         //================================================================================
@@ -141,7 +141,7 @@ namespace MITD.Fuel.Presentation.Logic.SL.ServiceWrapper
             sbUrl.Append(string.Concat("?pageSize=", pageSize));
             sbUrl.Append(string.Concat("&pageIndex=", pageIndex));
 
-            WebClientHelper.Get(ApiServiceAddressHelper.BuildUri(sbUrl), action, WebClientHelper.MessageFormat.Json);
+            WebClientHelper.Get(ApiServiceAddressHelper.BuildUri(sbUrl), action, WebClientHelper.MessageFormat.Json,ApiConfig.Headers);
         }
 
         //================================================================================
@@ -150,7 +150,7 @@ namespace MITD.Fuel.Presentation.Logic.SL.ServiceWrapper
         {
             var url = string.Format(this.offhireDetailAddressFormatString, offhireId, offhireDetailId);
 
-            WebClientHelper.Get(ApiServiceAddressHelper.BuildUri(url), action, WebClientHelper.MessageFormat.Json);
+            WebClientHelper.Get(ApiServiceAddressHelper.BuildUri(url), action, WebClientHelper.MessageFormat.Json,ApiConfig.Headers);
         }
 
         //================================================================================
@@ -162,7 +162,7 @@ namespace MITD.Fuel.Presentation.Logic.SL.ServiceWrapper
                 "&vesselId=" + vesselId +
                 "&startDateTime=" + HttpUtil.DateTimeToString(startDateTime);
 
-            WebClientHelper.Get(ApiServiceAddressHelper.BuildUri(url), action, WebClientHelper.MessageFormat.Json);
+            WebClientHelper.Get(ApiServiceAddressHelper.BuildUri(url), action, WebClientHelper.MessageFormat.Json,ApiConfig.Headers);
         }
 
         //================================================================================
@@ -171,7 +171,7 @@ namespace MITD.Fuel.Presentation.Logic.SL.ServiceWrapper
         {
             var url = string.Format(this.offhireDetailAddressFormatString, string.Empty);
 
-            WebClientHelper.Post(ApiServiceAddressHelper.BuildUri(url), action, detailDto, WebClientHelper.MessageFormat.Json);
+            WebClientHelper.Post(ApiServiceAddressHelper.BuildUri(url), action, detailDto, WebClientHelper.MessageFormat.Json,ApiConfig.Headers);
         }
 
         //================================================================================
@@ -180,7 +180,7 @@ namespace MITD.Fuel.Presentation.Logic.SL.ServiceWrapper
         {
             var url = string.Format(this.offhireDetailAddressFormatString, detailDto.Offhire.Id, detailDto.Id);
 
-            WebClientHelper.Put(ApiServiceAddressHelper.BuildUri(url), action, detailDto, WebClientHelper.MessageFormat.Json);
+            WebClientHelper.Put(ApiServiceAddressHelper.BuildUri(url), action, detailDto, WebClientHelper.MessageFormat.Json,ApiConfig.Headers);
         }
 
         //================================================================================

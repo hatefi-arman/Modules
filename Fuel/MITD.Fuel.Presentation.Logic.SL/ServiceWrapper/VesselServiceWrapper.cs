@@ -25,7 +25,7 @@ namespace MITD.Fuel.Presentation.Logic.SL.ServiceWrapper
 
             WebClientHelper.Get<List<VesselDto>>(new Uri(url, UriKind.Absolute),
                                                                     (res, exp) => action(res, exp),
-                                                                    WebClientHelper.MessageFormat.Json
+                                                                    WebClientHelper.MessageFormat.Json,ApiConfig.Headers
                 );
         }
 
@@ -36,7 +36,7 @@ namespace MITD.Fuel.Presentation.Logic.SL.ServiceWrapper
 
             WebClientHelper.Get<PageResultDto<VesselDto>>(new Uri(url, UriKind.Absolute),
                                                                     (res, exp) => action(res, exp),
-                                                                    WebClientHelper.MessageFormat.Json
+                                                                    WebClientHelper.MessageFormat.Json,ApiConfig.Headers
                 );
         }
 
@@ -49,7 +49,7 @@ namespace MITD.Fuel.Presentation.Logic.SL.ServiceWrapper
 
             WebClientHelper.Get<VesselDto>(new Uri(url, UriKind.Absolute),
                                                      action,
-                                                     WebClientHelper.MessageFormat.Json);
+                                                     WebClientHelper.MessageFormat.Json,ApiConfig.Headers);
         }
 
         public void GetPagedDataByFilter(Action<PageResultDto<VesselDto>, Exception> action, long companyId, int? pageSize, int? pageIndex)
@@ -63,7 +63,7 @@ namespace MITD.Fuel.Presentation.Logic.SL.ServiceWrapper
                 url += "&pageSize" + pageSize + "&pageIndex" + pageIndex;
             }
 
-            WebClientHelper.Get(new Uri(url, UriKind.Absolute), action, WebClientHelper.MessageFormat.Json);
+            WebClientHelper.Get(new Uri(url, UriKind.Absolute), action, WebClientHelper.MessageFormat.Json,ApiConfig.Headers);
         }
 
         //public void Add(Action<VesselDto, Exception> action, VesselDto ent)
@@ -71,7 +71,7 @@ namespace MITD.Fuel.Presentation.Logic.SL.ServiceWrapper
         //    var url = vesselAddressFormatString;// string.Concat(baseAddress, "/Post");
         //    WebClientHelper.Post<VesselDto, VesselDto>(new Uri(url, UriKind.Absolute),
         //                                                                   (res, exp) => action(res, exp), ent,
-        //                                                                   WebClientHelper.MessageFormat.Json);
+        //                                                                   WebClientHelper.MessageFormat.Json,ApiConfig.Headers);
         //}
 
         //public void Update(Action<VesselDto, Exception> action, VesselDto ent)
@@ -80,7 +80,7 @@ namespace MITD.Fuel.Presentation.Logic.SL.ServiceWrapper
         //    var url = string.Concat(vesselAddressFormatString, ent.Id);
         //    WebClientHelper.Put<VesselDto, VesselDto>(new Uri(url, UriKind.Absolute),
         //                                                                  (res, exp) => action(res, exp), ent,
-        //                                                                  WebClientHelper.MessageFormat.Json);
+        //                                                                  WebClientHelper.MessageFormat.Json,ApiConfig.Headers);
         //}
 
         //public void Delete(Action<string, Exception> action, int id)

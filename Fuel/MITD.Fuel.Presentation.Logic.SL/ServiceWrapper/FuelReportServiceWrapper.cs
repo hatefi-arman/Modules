@@ -47,7 +47,7 @@ namespace MITD.Fuel.Presentation.FuelApp.Logic.SL.ServiceWrapper
 
             WebClientHelper.Get<PageResultDto<FuelReportDto>>(new Uri(sbUrl.ToString(), UriKind.Absolute),
                                                                     (res, exp) => action(res, exp),
-                                                                    WebClientHelper.MessageFormat.Json);
+                                                                    WebClientHelper.MessageFormat.Json,ApiConfig.Headers);
         }
 
         public void GetAll(Action<PageResultDto<FuelReportDto>, Exception> action, string methodName, int pageSize,
@@ -57,7 +57,7 @@ namespace MITD.Fuel.Presentation.FuelApp.Logic.SL.ServiceWrapper
                 + "?PageSize=" + pageSize + "&PageIndex=" + pageIndex;
             WebClientHelper.Get<PageResultDto<FuelReportDto>>(new Uri(url, UriKind.Absolute),
                                                                     (res, exp) => action(res, exp),
-                                                                    WebClientHelper.MessageFormat.Json
+                                                                    WebClientHelper.MessageFormat.Json,ApiConfig.Headers
                 );
         }
 
@@ -66,7 +66,7 @@ namespace MITD.Fuel.Presentation.FuelApp.Logic.SL.ServiceWrapper
             var url = string.Format(fuelReportAddressFormatString, id);
             WebClientHelper.Get<FuelReportDto>(new Uri(url, UriKind.Absolute),
                                                      (res, exp) => action(res, exp),
-                                                     WebClientHelper.MessageFormat.Json);
+                                                     WebClientHelper.MessageFormat.Json,ApiConfig.Headers);
         }
 
         public void Add(Action<FuelReportDto, Exception> action, FuelReportDto ent)
@@ -75,7 +75,7 @@ namespace MITD.Fuel.Presentation.FuelApp.Logic.SL.ServiceWrapper
 
             WebClientHelper.Post<FuelReportDto, FuelReportDto>(new Uri(url, UriKind.Absolute),
                                                                            (res, exp) => action(res, exp), ent,
-                                                                           WebClientHelper.MessageFormat.Json);
+                                                                           WebClientHelper.MessageFormat.Json,ApiConfig.Headers);
         }
 
         public void Update(Action<FuelReportDto, Exception> action, FuelReportDto ent)
@@ -84,7 +84,7 @@ namespace MITD.Fuel.Presentation.FuelApp.Logic.SL.ServiceWrapper
          
             WebClientHelper.Put<FuelReportDto, FuelReportDto>(new Uri(url, UriKind.Absolute),
                                                                           (res, exp) => action(res, exp), ent,
-                                                                          WebClientHelper.MessageFormat.Json);
+                                                                          WebClientHelper.MessageFormat.Json,ApiConfig.Headers);
         }
 
         public void Delete(Action<string, Exception> action, long id)
@@ -99,7 +99,7 @@ namespace MITD.Fuel.Presentation.FuelApp.Logic.SL.ServiceWrapper
 
             WebClientHelper.Put<FuelReportDetailDto, FuelReportDetailDto>(new Uri(url, UriKind.Absolute),
                                                                           (res, exp) => action(res, exp), ent,
-                                                                          WebClientHelper.MessageFormat.Json);
+                                                                          WebClientHelper.MessageFormat.Json,ApiConfig.Headers);
         }
 
         public void GetAllCurrency(Action<List<CurrencyDto>, Exception> action)
@@ -107,7 +107,7 @@ namespace MITD.Fuel.Presentation.FuelApp.Logic.SL.ServiceWrapper
             var url = string.Format(currencyAddressFormatString, string.Empty);
             WebClientHelper.Get<List<CurrencyDto>>(new Uri(url, UriKind.Absolute),
                                                                     (res, exp) => action(res, exp),
-                                                                    WebClientHelper.MessageFormat.Json);
+                                                                    WebClientHelper.MessageFormat.Json,ApiConfig.Headers);
         }
 
         #endregion

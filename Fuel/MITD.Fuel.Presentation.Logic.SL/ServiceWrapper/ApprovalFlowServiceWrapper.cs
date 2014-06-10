@@ -38,7 +38,7 @@ namespace MITD.Fuel.Presentation.FuelApp.Logic.SL.ServiceWrapper
 
             WebClientHelper.Put<string, ApprovmentDto>(new Uri(url, UriKind.Absolute),
                                                        (res, exp) => action(res, exp), ent,
-                                                       WebClientHelper.MessageFormat.Json);
+                                                       WebClientHelper.MessageFormat.Json,ApiConfig.Headers);
         }
 
         public void ActRejectFlow(Action<string, Exception> action, long entityId, ActionEntityTypeEnum entityTypeId)
@@ -53,7 +53,7 @@ namespace MITD.Fuel.Presentation.FuelApp.Logic.SL.ServiceWrapper
 
             WebClientHelper.Put<string, ApprovmentDto>(new Uri(url, UriKind.Absolute),
                                                        (res, exp) => action(res, exp), ent,
-                                                       WebClientHelper.MessageFormat.Json);
+                                                       WebClientHelper.MessageFormat.Json, ApiConfig.Headers);
         }
 
         public void ActCancelFlow(Action<string, Exception> action, long entityId, ActionEntityTypeEnum entityTypeId)
@@ -68,7 +68,7 @@ namespace MITD.Fuel.Presentation.FuelApp.Logic.SL.ServiceWrapper
 
             WebClientHelper.Put<string, ApprovmentDto>(new Uri(url, UriKind.Absolute),
                                                        (res, exp) => action(res, exp), ent,
-                                                       WebClientHelper.MessageFormat.Json);
+                                                       WebClientHelper.MessageFormat.Json, ApiConfig.Headers);
         }
 
         #endregion

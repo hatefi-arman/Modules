@@ -55,7 +55,7 @@ namespace MITD.Fuel.Presentation.Logic.SL.ServiceWrapper
 
             WebClientHelper.Get(new Uri(sb.ToString(), UriKind.Absolute),
                                 action,
-                                WebClientHelper.MessageFormat.Json);
+                                WebClientHelper.MessageFormat.Json,ApiConfig.Headers);
         }
 
         public void GetAll(Action<PageResultDto<InvoiceDto>, Exception> action, string methodName, int pageSize,
@@ -66,7 +66,7 @@ namespace MITD.Fuel.Presentation.Logic.SL.ServiceWrapper
 
             WebClientHelper.Get(new Uri(url, UriKind.Absolute),
                                 action,
-                                WebClientHelper.MessageFormat.Json
+                                WebClientHelper.MessageFormat.Json,ApiConfig.Headers
                 );
         }
 
@@ -76,7 +76,7 @@ namespace MITD.Fuel.Presentation.Logic.SL.ServiceWrapper
 
             WebClientHelper.Get(new Uri(url, UriKind.Absolute),
                                 action,
-                                WebClientHelper.MessageFormat.Json);
+                                WebClientHelper.MessageFormat.Json,ApiConfig.Headers);
         }
 
         public void Add(Action<InvoiceDto, Exception> action, InvoiceDto ent)
@@ -85,7 +85,7 @@ namespace MITD.Fuel.Presentation.Logic.SL.ServiceWrapper
 
             WebClientHelper.Post<InvoiceDto, InvoiceDto>(new Uri(url, UriKind.Absolute),
                                                          action, ent,
-                                                         WebClientHelper.MessageFormat.Json);
+                                                         WebClientHelper.MessageFormat.Json,ApiConfig.Headers);
         }
 
         public void Update(Action<InvoiceDto, Exception> action, InvoiceDto ent)
@@ -94,7 +94,7 @@ namespace MITD.Fuel.Presentation.Logic.SL.ServiceWrapper
 
             WebClientHelper.Put<InvoiceDto, InvoiceDto>(new Uri(url, UriKind.Absolute),
                                                         action, ent,
-                                                        WebClientHelper.MessageFormat.Json);
+                                                        WebClientHelper.MessageFormat.Json,ApiConfig.Headers);
         }
 
         public void Delete(Action<string, Exception> action, long id)

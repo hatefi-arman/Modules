@@ -28,7 +28,7 @@ namespace MITD.Fuel.Presentation.Logic.SL.ServiceWrapper
         public void GetItem(Action<InvoiceItemDto, Exception> action, long invoiceId, long invoiceItemId)
         {
             var url = string.Format(invoiceItemAddressFormatString, invoiceId, invoiceItemId);
-            WebClientHelper.Get(new Uri(url, UriKind.Absolute), action, WebClientHelper.MessageFormat.Json);
+            WebClientHelper.Get(new Uri(url, UriKind.Absolute), action, WebClientHelper.MessageFormat.Json,ApiConfig.Headers);
         }
 
 
@@ -36,7 +36,7 @@ namespace MITD.Fuel.Presentation.Logic.SL.ServiceWrapper
         {
             var url = string.Format(invoiceItemAddressFormatString, ent.InvoiceId, ent.Id);
 
-            WebClientHelper.Put(new Uri(url, UriKind.Absolute), action, ent, WebClientHelper.MessageFormat.Json);
+            WebClientHelper.Put(new Uri(url, UriKind.Absolute), action, ent, WebClientHelper.MessageFormat.Json,ApiConfig.Headers);
         }
 
         public void DeleteItem(Action<string, Exception> action, InvoiceItemDto ent)
@@ -50,7 +50,7 @@ namespace MITD.Fuel.Presentation.Logic.SL.ServiceWrapper
         public void GetMainUnit(Action<MainUnitValueDto, Exception> action, long goodId, long goodUnitId, decimal value)
         {
             var url = string.Format(ApiConfig.HostAddress + "apiArea/Fuel/MainUnit/{0}/{1}/{2}", goodId, goodUnitId, value);
-            WebClientHelper.Get(new Uri(url, UriKind.Absolute), action, WebClientHelper.MessageFormat.Json);
+            WebClientHelper.Get(new Uri(url, UriKind.Absolute), action, WebClientHelper.MessageFormat.Json,ApiConfig.Headers);
         }
 
         public void GenerateItemByFilter(Action<IEnumerable<InvoiceItemDto>, Exception> action, List<long> orderIdList)
@@ -61,7 +61,7 @@ namespace MITD.Fuel.Presentation.Logic.SL.ServiceWrapper
             var strOrderLIst = "";
             orderIdList.Select(c => strOrderLIst = strOrderLIst + c + ",").ToList();
             sb.Append(string.Concat("?orderIdList=", strOrderLIst.Remove(strOrderLIst.Length - 1)));
-            WebClientHelper.Get(new Uri(sb.ToString(), UriKind.Absolute), action, WebClientHelper.MessageFormat.Json);
+            WebClientHelper.Get(new Uri(sb.ToString(), UriKind.Absolute), action, WebClientHelper.MessageFormat.Json,ApiConfig.Headers);
 
         }
 

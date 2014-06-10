@@ -29,13 +29,13 @@ namespace MITD.Fuel.Presentation.Logic.SL.ServiceWrapper
         {
             var url = string.Format(invoiceAdditionalPriceAddressFormatString, ent.Id, string.Empty);
 
-            WebClientHelper.Put(new Uri(url, UriKind.Absolute), action, ent, WebClientHelper.MessageFormat.Json);
+            WebClientHelper.Put(new Uri(url, UriKind.Absolute), action, ent, WebClientHelper.MessageFormat.Json,ApiConfig.Headers);
         }
 
         public void GetEffectiveFactors(Action<ObservableCollection<EffectiveFactorDto>, Exception> action)
         {
             var url = string.Format(invoiceEffectiveAddressFormatString, string.Empty);
-            WebClientHelper.Get(new Uri(url, UriKind.Absolute), action, WebClientHelper.MessageFormat.Json);
+            WebClientHelper.Get(new Uri(url, UriKind.Absolute), action, WebClientHelper.MessageFormat.Json,ApiConfig.Headers);
         }
 
         #endregion

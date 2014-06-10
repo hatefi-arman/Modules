@@ -40,14 +40,14 @@ namespace MITD.Fuel.Presentation.Logic.SL.ServiceWrapper
         {
             var url = string.Format(orderAddressFormatString, string.Empty) + "?PageSize=" + pageSize + "&PageIndex=" + pageIndex;
 
-            WebClientHelper.Get(new Uri(url, UriKind.Absolute), action, WebClientHelper.MessageFormat.Json);
+            WebClientHelper.Get(new Uri(url, UriKind.Absolute), action, WebClientHelper.MessageFormat.Json,ApiConfig.Headers);
         }
 
         public void GetById(Action<OrderDto, Exception> action, long id)
         {
             var url = string.Format(orderAddressFormatString, id);
 
-            WebClientHelper.Get<OrderDto>(new Uri(url, UriKind.Absolute), action, WebClientHelper.MessageFormat.Json);
+            WebClientHelper.Get<OrderDto>(new Uri(url, UriKind.Absolute), action, WebClientHelper.MessageFormat.Json,ApiConfig.Headers);
         }
 
         public void Add(Action<OrderDto, Exception> action, OrderDto ent)
@@ -55,7 +55,7 @@ namespace MITD.Fuel.Presentation.Logic.SL.ServiceWrapper
             var url = string.Format(orderAddressFormatString, string.Empty);
 
             WebClientHelper.Post<OrderDto, OrderDto>
-                (new Uri(url, UriKind.Absolute), action, ent, WebClientHelper.MessageFormat.Json);
+                (new Uri(url, UriKind.Absolute), action, ent, WebClientHelper.MessageFormat.Json,ApiConfig.Headers);
         }
 
         public void Update(Action<OrderDto, Exception> action, OrderDto ent)
@@ -63,7 +63,7 @@ namespace MITD.Fuel.Presentation.Logic.SL.ServiceWrapper
             var url = string.Format(orderAddressFormatString, ent.Id);
 
             WebClientHelper.Put<OrderDto, OrderDto>
-                (new Uri(url, UriKind.Absolute), action, ent, WebClientHelper.MessageFormat.Json);
+                (new Uri(url, UriKind.Absolute), action, ent, WebClientHelper.MessageFormat.Json,ApiConfig.Headers);
         }
 
         public void Delete(Action<string, Exception> action, long id)
@@ -94,7 +94,7 @@ namespace MITD.Fuel.Presentation.Logic.SL.ServiceWrapper
             sb.Append(string.Concat("&orderCode=", orderCode));
             sb.Append(string.Concat("&submitedState=", submitedState));
 
-            WebClientHelper.Get(new Uri(sb.ToString(), UriKind.Absolute), action, WebClientHelper.MessageFormat.Json);
+            WebClientHelper.Get(new Uri(sb.ToString(), UriKind.Absolute), action, WebClientHelper.MessageFormat.Json,ApiConfig.Headers);
         }
 
         #endregion
