@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Castle.Core;
 using MITD.Fuel.Domain.Model.IDomainServices;
 using MITD.Fuel.Presentation.Contracts.DTOs;
 using MITD.Fuel.Presentation.Contracts.FacadeServices;
@@ -6,6 +7,7 @@ using MITD.Fuel.Application.Facade.Contracts.Mappers;
 
 namespace MITD.Fuel.Application.Facade
 {
+    [Interceptor(typeof(SecurityInterception))]
     public class GoodFacadeService : IGoodFacadeService
     {
         IGoodDomainService GoodDomainService { get; set; }

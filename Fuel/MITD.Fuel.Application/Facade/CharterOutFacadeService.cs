@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Castle.Core;
 using MITD.Domain.Repository;
 using MITD.Fuel.Application.Facade.Contracts.Mappers;
 using MITD.Fuel.Application.Service.Contracts;
@@ -18,6 +19,7 @@ using MITD.Presentation.Contracts;
 
 namespace MITD.Fuel.Application.Facade
 {
+    [Interceptor(typeof(SecurityInterception))]
     public class CharterOutFacadeService : ICharterOutFacadeService
     {
         #region Prop

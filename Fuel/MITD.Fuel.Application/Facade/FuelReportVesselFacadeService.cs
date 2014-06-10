@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Castle.Core;
 using MITD.Fuel.Domain.Model.DomainObjects;
 using MITD.Fuel.Domain.Model.IDomainServices;
 using MITD.Fuel.Presentation.Contracts.DTOs;
@@ -12,6 +13,7 @@ using MITD.Fuel.Presentation.Contracts.FacadeServices.Fuel;
 
 namespace MITD.Fuel.Application.Facade
 {
+    [Interceptor(typeof(SecurityInterception))]
     public class FuelReportVesselFacadeService : IFuelReportVesselFacadeService
     {
         #region props

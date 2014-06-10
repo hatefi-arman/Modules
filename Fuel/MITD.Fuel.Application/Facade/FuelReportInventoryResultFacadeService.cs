@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Castle.Core;
 using MITD.Fuel.Application.Service.Contracts;
 using MITD.Fuel.Domain.Model.IDomainServices;
 
 namespace MITD.Fuel.Application.Facade
 {
+    [Interceptor(typeof(SecurityInterception))]
     public class FuelReportInventoryResultFacadeService : IFuelReportInventoryResultFacadeService
     {
         private readonly IFuelReportApplicationService fuelReportApplicationService;

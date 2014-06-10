@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Castle.Core;
 using MITD.Fuel.Application.Facade.Contracts.Mappers;
 using MITD.Fuel.Domain.Model.DomainObjects;
 using MITD.Fuel.Domain.Model.IDomainServices;
@@ -15,6 +16,7 @@ using MITD.Services.Facade;
 
 namespace MITD.Fuel.Application.Facade
 {
+    [Interceptor(typeof(SecurityInterception))]
     public class CompanyFacadeService : ICompanyFacadeService
     {
         #region props
