@@ -17,36 +17,30 @@ namespace MITD.Fuel.Application.Service.Security
     {
 
         private IUserRepository _userRepository;
-        private SecurityServiceChecker _securityServiceChecker;
+        private ISecurityServiceChecker _securityServiceChecker;
 
 
         #region  ctor
 
-        public SecurityApplicationService()
+       
+        public SecurityApplicationService(IUserRepository userRepository, ISecurityServiceChecker securityServiceChecker)
         {
-            var _userRepository = ServiceLocator.Current.GetInstance<IUserRepository>();
-           // var _securityServiceChecker = new SecurityServiceChecker(_userRepository); //ServiceLocator.Current.GetInstance<ISecurityServiceChecker>();
-        }
 
-        //public SecurityApplicationService(IUserRepository userRepository, ISecurityServiceChecker securityServiceChecker)
-        //{
-        //    var _userRepository = ServiceLocator.Current.GetInstance<IUserRepository>();
-        //    var _securityServiceChecker = new SecurityServiceChecker(_userRepository); 
-        //  //  this._userRepository = userRepository;
-        //   // this._securityServiceChecker = new SecurityServiceChecker(userRepository);
-        //}
+            this._userRepository = userRepository;
+            this._securityServiceChecker = securityServiceChecker;
+        }
 
         #endregion
 
         public bool IsAuthorize(List<ActionType> userActionTypes, List<ActionType> methodRequiredActionTypes)
         {
-            _securityServiceChecker=new SecurityServiceChecker(this._userRepository);
+           
             return _securityServiceChecker.IsAuthorize(userActionTypes, methodRequiredActionTypes);
         }
 
         public List<ActionType> GetAllAuthorizedActions(List<User> users)
         {
-            _securityServiceChecker = new SecurityServiceChecker(ServiceLocator.Current.GetInstance<IUserRepository>());
+          
             return _securityServiceChecker.GetAllAuthorizedActionTypes(users);
         }
 

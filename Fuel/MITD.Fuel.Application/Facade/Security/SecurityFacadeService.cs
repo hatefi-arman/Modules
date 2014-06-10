@@ -15,7 +15,7 @@ namespace MITD.Fuel.Application.Facade
     {
       //  private readonly IMapper<List<ActionType>, ClaimsPrincipal> _userActionMapper;
         private readonly UserActionsMapper _userActionMapper;
-        private readonly PMSUserMapper _pmsUserMapper;
+        private readonly UserSecurityMapper _pmsUserMapper;
         private readonly ISecurityApplicationService _securityApplicationService;
 
         //public SecurityFacadeService()
@@ -28,7 +28,7 @@ namespace MITD.Fuel.Application.Facade
         {
             this._userActionMapper = new UserActionsMapper();
             this._securityApplicationService = securityApplicationService;
-            this._pmsUserMapper=new PMSUserMapper();
+            this._pmsUserMapper=new UserSecurityMapper();
         }
 
 
