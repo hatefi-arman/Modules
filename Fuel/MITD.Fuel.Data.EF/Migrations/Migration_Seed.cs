@@ -53,8 +53,8 @@ namespace MITD.Fuel.Data.EF.Migrations
                 context.EffectiveFactors.AddOrUpdate(FakeDomainService.GetEffectiveFactors().ToArray());
                 context.SaveChanges();
 
-                var userId = context.Users.FirstOrDefault().Id;
-
+                var userId = context.Users.FirstOrDefault(fu => fu.CompanyId == 11).Id;   //11 is SAPID
+                
 
                 var initialToApprovedFuelReportStep = insertFuelReportWorkflowConfig(context, userId);
                 insertFuelReportsFakeData(context, userId, initialToApprovedFuelReportStep.Id);

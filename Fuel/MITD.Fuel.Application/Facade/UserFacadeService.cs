@@ -10,12 +10,13 @@ using MITD.Fuel.Presentation.Contracts.FacadeServices;
 using MITD.Fuel.Application.Facade.Mappers;
 using MITD.Presentation.Contracts;
 using MITD.Services.Facade;
+using MITD.FuelSecurity.Domain.Model.Repository;
 
 namespace MITD.Fuel.Application.Facade
 {
     public class UserFacadeService : IUserFacadeService
     {
-        private readonly IUserRepository _userRepository;
+        private readonly IFuelUserRepository _userRepository;
         private readonly IFacadeMapper<FuelUser, UserDto> _mapper;
         private readonly IFacadeMapper<Company, CompanyDto> _companyMapper;
 
@@ -25,7 +26,7 @@ namespace MITD.Fuel.Application.Facade
 
         #region ctor
 
-        public UserFacadeService(IUserRepository userRepository, IFacadeMapper<FuelUser, UserDto> mapper, IFacadeMapper<Company, CompanyDto> companyMapper)
+        public UserFacadeService(IFuelUserRepository userRepository, IFacadeMapper<FuelUser, UserDto> mapper, IFacadeMapper<Company, CompanyDto> companyMapper)
         {
             _userRepository = userRepository;
             _mapper = mapper;

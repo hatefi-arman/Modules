@@ -170,8 +170,11 @@ namespace MITD.Main.Presentation.Logic.SL.Infrastructure
             : base(viewManager, eventPublisher, deploymentManagement)
         {
 
-
+            //TODO: All the User DTO Codes must be removed. <A.H>
             CurrentUser = new UserDto();
+            CurrentUser.Id = 1101;
+            CurrentUser.CompanyDto = new CompanyDto() {Id = 11, Code = "SAPID", Name = "SAPID"};
+
             this.userService = userService;
             this.userProvider = userProvider;
 

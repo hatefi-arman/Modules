@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using MITD.Fuel.Presentation.Contracts;
-
+using MITD.Fuel.Presentation.Contracts.FacadeServices;
 using MITD.FuelSecurity.Domain;
 using MITD.FuelSecurity.Domain.Model;
 
@@ -25,7 +25,7 @@ namespace MITD.Fuel.Application.Facade
 
         private readonly List<MethodAction> mapTable = new List<MethodAction>
         {
-
+            new MethodAction(typeof(ICharterInFacadeService).Name,typeof(ICharterInFacadeService).GetMethod("Add").Name,new List<ActionType>(){ActionType.AddCharterIn})
             //new MethodAction(typeof (IPeriodServiceFacade).Name,
             //    typeof (IPeriodServiceFacade).GetMethod("AddPeriod").Name, new List<ActionType> {ActionType.AddPeriod}),
             //new MethodAction(typeof (IPeriodServiceFacade).Name,

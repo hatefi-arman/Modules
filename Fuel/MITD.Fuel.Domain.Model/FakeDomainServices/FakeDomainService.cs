@@ -49,7 +49,7 @@ namespace MITD.Fuel.Domain.Model.FakeDomainServices
 
         public static List<FuelUser> GetUsers()
         {
-            return new List<FuelUser> { new FuelUser(1, "Admin", 1, 1), };
+            return new List<FuelUser> { new FuelUser(1101, "Admin", 1), }; // User In SAPID
         }
 
         public static List<Voyage> GetVoyages()
