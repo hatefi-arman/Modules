@@ -230,9 +230,12 @@ namespace MITD.Main.Presentation.Logic.SL.Infrastructure
         {
 
 
-            var exceptionMessageDto =
-                Newtonsoft.Json.JsonConvert.DeserializeObject<ExceptionMessageDto>(exp.Data["error"].ToString());
-            viewManager.ShowMessage(exceptionMessageDto.Message, this);
+            //var exceptionMessageDto =
+            //    Newtonsoft.Json.JsonConvert.DeserializeObject<ExceptionMessageDto>(exp.Data["error"].ToString());
+            //viewManager.ShowMessage(exceptionMessageDto.Message, this);
+
+
+            viewManager.ShowMessage(exp.Data["error"].ToString(), this);
         }
 
 
