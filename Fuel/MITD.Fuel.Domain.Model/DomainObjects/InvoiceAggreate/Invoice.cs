@@ -302,9 +302,9 @@ namespace MITD.Fuel.Domain.Model.DomainObjects.InvoiceAggreate
             var c = new CalculateChangeInOrderBlance(invoiceItemDomainService, balanceDomainService);
             InvoiceItems = c.Process(this, this.InvoiceItems, this.OrderRefrences);
 
-            var inventoryResul = inventoryOperationNotifier.NotifySubmittingInvoice(this);
+            var inventoryResult = inventoryOperationNotifier.NotifySubmittingInvoice(this);
 
-            if (inventoryResul == null)
+            if (inventoryResult == null)
                 throw new InvalidOperation("SubmitInvoice", "Submit the invoice to Inventory resulted to an error.");
 
             State = States.Submitted;

@@ -64,7 +64,9 @@ namespace MITD.Fuel.Domain.Model.Factories
                 var init = workflowRepository.Single
                     (c => c.WorkflowEntity == WorkflowEntities.Invoice && c.CurrentWorkflowStage == WorkflowStages.Initial);
                 var invoiceWorkflow = new InvoiceWorkflowLog
-                    (invoice.Id, WorkflowEntities.Invoice, DateTime.Now, WorkflowActions.Init, 1, "", init.Id, true);
+                    (invoice.Id, WorkflowEntities.Invoice, DateTime.Now, WorkflowActions.Init,
+                    //TODO: Fake ActorId
+                    1101, "", init.Id, true);
                 invoice.ApproveWorkFlows.Add(invoiceWorkflow);
             }
             return invoice;

@@ -228,7 +228,9 @@ namespace MITD.Main.Presentation.Logic.SL.Infrastructure
 
         public void HandleException(Exception exp)
         {
-
+            //TODO: Fake handle exception
+            viewManager.ShowMessage(exp.ToString(), this);
+            return;
 
             var exceptionMessageDto =
                 Newtonsoft.Json.JsonConvert.DeserializeObject<ExceptionMessageDto>(exp.Data["error"].ToString());

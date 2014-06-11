@@ -54,7 +54,9 @@ namespace MITD.Fuel.Domain.Model.DomainObjects.CharterAggregate.Factories
             if (init == null)
                 throw new ObjectNotFound("CharterInitialStep");
 
-            var charterWorkflowLog = new CharterWorkflowLog(charterIn, WorkflowEntities.CharterIn, DateTime.Now, WorkflowActions.Init, 1, "", init.Id, true);
+            var charterWorkflowLog = new CharterWorkflowLog(charterIn, WorkflowEntities.CharterIn, DateTime.Now, WorkflowActions.Init,
+                //TODO: Fake ActorId
+                1101, "", init.Id, true);
 
             charterIn.ApproveWorkflows.Add(charterWorkflowLog);
 
@@ -112,7 +114,9 @@ namespace MITD.Fuel.Domain.Model.DomainObjects.CharterAggregate.Factories
             if (init == null)
                 throw new ObjectNotFound("CharterInitialStep");
 
-            var charterWorkflowLog = new CharterWorkflowLog(charterOut, WorkflowEntities.CharterOut, DateTime.Now, WorkflowActions.Init, 1, "", init.Id, true);
+            var charterWorkflowLog = new CharterWorkflowLog(charterOut, WorkflowEntities.CharterOut, DateTime.Now, WorkflowActions.Init, 
+                //TODO: Fake ActorId
+                1101, "", init.Id, true);
 
             charterOut.ApproveWorkflows.Add(charterWorkflowLog);
 

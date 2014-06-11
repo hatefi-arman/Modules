@@ -91,9 +91,7 @@
     <Compile Include="ClientHelper.cs" />
     <Compile Include="DomainServices\ActivityLocationDomainService.cs" />
     <Compile Include="DomainServices\Events\FinanceNotifier.cs" />
-    <Compile Include="DomainServices\Events\InventoryOperationNotifier.Fake.cs">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="DomainServices\Events\InventoryOperationNotifier.MiniStock.cs" />
     <Compile Include="DomainServices\Events\Inventory\DTOs\OrderItemBalanceDto.cs" />
     <Compile Include="DomainServices\Events\Inventory\Enums\AccountingTypesEnum.cs" />
     <Compile Include="DomainServices\Events\Inventory\Enums\ActionTypeEnum.cs" />
@@ -212,6 +210,10 @@
     <ProjectReference Include="..\MITD.Fuel.Infrastructure.Service\MITD.Fuel.Infrastructure.Service.csproj">
       <Project>{8f8f2f51-de0d-4085-a3eb-6d18d7e29f3b}</Project>
       <Name>MITD.Fuel.Infrastructure.Service</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MITD.Fuel.Integration.Inventory\MITD.Fuel.Integration.Inventory.csproj">
+      <Project>{5D04E907-986D-44C2-AE99-78A45C39E618}</Project>
+      <Name>MITD.Fuel.Integration.Inventory</Name>
     </ProjectReference>
     <ProjectReference Include="..\MITD.Fuel.Integration.Offhire\MITD.Fuel.Integration.Offhire\MITD.Fuel.Integration.Offhire.csproj">
       <Project>{e7a7fc73-063c-4888-9a6d-158b50be968a}</Project>

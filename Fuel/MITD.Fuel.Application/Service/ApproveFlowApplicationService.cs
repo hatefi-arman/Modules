@@ -95,7 +95,7 @@ namespace MITD.Fuel.Application.Service
         public ApprovalResult ActApprovalFlow(long entityId, WorkflowEntities workflowEntity, long approverId, string remark, WorkflowActions action)
         {
             // _orderApplicationService;
-            approverId = 1;
+            approverId = 1101;  //Defined user for SAPID
             var lastWorkflowLog = GetLastWorkflowLog(entityId, workflowEntity);
 
             lastWorkflowLog.ValidateUserAccess(approverId, action);
