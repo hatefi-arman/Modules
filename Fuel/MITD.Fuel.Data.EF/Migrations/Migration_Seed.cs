@@ -93,7 +93,7 @@ namespace MITD.Fuel.Data.EF.Migrations
 
         private void insertUser(DataContainer context)
         {
-            var user = new User(1, "FuelUser1", "f", "l", "e");
+            var user = new User(1, "FuelUser1", "f", "l", "e","fueluser");
 
             context.Parties.Add(user);
 

@@ -6,6 +6,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using System.Transactions;
+using MITD.Core;
 using MITD.FuelSecurity.Domain.Model.Repository;
 using MITD.FuelSecurity.Domain.Model.Service;
 using MITD.FuelSecurity.Domain.Model;
@@ -19,10 +20,12 @@ namespace MITD.Fuel.Application.Service.Security
         private ISecurityServiceChecker _securityServiceChecker;
 
 
-        #region
+        #region  ctor
 
+       
         public SecurityApplicationService(IUserRepository userRepository, ISecurityServiceChecker securityServiceChecker)
         {
+
             this._userRepository = userRepository;
             this._securityServiceChecker = securityServiceChecker;
         }
@@ -31,17 +34,19 @@ namespace MITD.Fuel.Application.Service.Security
 
         public bool IsAuthorize(List<ActionType> userActionTypes, List<ActionType> methodRequiredActionTypes)
         {
+           
             return _securityServiceChecker.IsAuthorize(userActionTypes, methodRequiredActionTypes);
         }
 
         public List<ActionType> GetAllAuthorizedActions(List<User> users)
         {
+          
             return _securityServiceChecker.GetAllAuthorizedActionTypes(users);
         }
 
         public User GetUser(long id)
         {
-            return _userRepository.GetUserById(id);
+            return _userRepository.GetUserById(id)as User;
         }
 
         public User GetLogonUser()
@@ -51,13 +56,13 @@ namespace MITD.Fuel.Application.Service.Security
             return GetUser(long.Parse(ClaimsPrincipal.Current.Identity.Name));
         }
 
-        public User AddUser(string firstName, string lastName, bool isActive, string email, Dictionary<int, bool> customActions, List<long> groups)
+        public User AddUser(string firstName, string lastName, bool isActive, string email, Dictionary<int, bool> customActions, List<long> groups,string userName)
         {
             try
             {
                 using (var scope = new TransactionScope())
                 {
-                    var u = new User(0, firstName, lastName, email, "");
+                    var u = new User(0, firstName, lastName, email,"", userName);
                     //assignCustomActionsToParty(u,customActions);
                     //assignUserGroupsToUser(u,groups);
                     //_userRepository.Add(u);
@@ -80,7 +85,7 @@ namespace MITD.Fuel.Application.Service.Security
                 var u = _userRepository.GetUserById(id);
                 //u.Update(firstName,lastName,email,isActive,customActions,groups);
                 //scope.Complete();
-                return u;
+                return u as User;
             }
         }
 

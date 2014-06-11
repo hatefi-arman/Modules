@@ -17,7 +17,7 @@ namespace MITD.FuelSecurity.Domain.Model.Service
 
         public SecurityServiceChecker(IUserRepository userRepository)
         {
-            userRepository = _userRepository;
+            _userRepository = userRepository;
         }
 
         public List<ActionType> GetAllAuthorizedActionTypes(List<User> users)
@@ -29,7 +29,7 @@ namespace MITD.FuelSecurity.Domain.Model.Service
             if (users.Any(c=>c.Id!=userId))
             throw new Exception("user name must same");
 
-            var user = _userRepository.GetUserById(userId);
+            var user = _userRepository.GetUserById(users[0].UserName);
             if(user==null)
                 throw new NullReferenceException("User");
 

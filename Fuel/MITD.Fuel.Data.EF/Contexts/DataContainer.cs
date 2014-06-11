@@ -76,6 +76,7 @@ namespace MITD.Fuel.Data.EF.Context
 
         public DbSet<FuelUser> Users { get; set; }
 
+
         public DbSet<GoodUnit> GoodUnits { get; set; }
         public DbSet<Unit> Units { get; set; }
 
@@ -109,6 +110,8 @@ namespace MITD.Fuel.Data.EF.Context
 
         public DbSet<PartyCustomAction> PartyCustomActions { get; set; }
 
+        //public DbSet<User> Users { get; set; }
+
         #endregion
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -139,9 +142,10 @@ namespace MITD.Fuel.Data.EF.Context
             modelBuilder.Configurations.Add(new UserConfiguration());
             modelBuilder.Configurations.Add(new GroupConfiguration());
             modelBuilder.Ignore<AdminUser>();
+            modelBuilder.Ignore<CommercialManagerUser>();
+            modelBuilder.Ignore<FinancialManagerUser>();
             modelBuilder.Ignore<CommercialUser>();
             modelBuilder.Ignore<FinancialUser>();
-
             modelBuilder.Configurations.Add(new ActionTypeConfiguration());
 
             modelBuilder.Configurations.Add(new PartyCustomActionConfiguration());

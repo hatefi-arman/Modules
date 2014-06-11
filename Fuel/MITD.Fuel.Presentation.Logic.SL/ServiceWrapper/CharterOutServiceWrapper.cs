@@ -64,27 +64,27 @@ namespace MITD.Fuel.Presentation.Logic.SL.ServiceWrapper
             stringBuilder.Append("&pageSize=" + pageSize);
             stringBuilder.Append("&charterType=" + CharterType.Out);
 
-            WebClientHelper.Get<PageResultDto<CharterDto>>(new Uri(stringBuilder.ToString(), UriKind.Absolute), action, WebClientHelper.MessageFormat.Json);
+            WebClientHelper.Get<PageResultDto<CharterDto>>(new Uri(stringBuilder.ToString(), UriKind.Absolute), action, WebClientHelper.MessageFormat.Json,ApiConfig.Headers);
         }
 
         public void GetById(Action<CharterDto, Exception> action,CharterStateTypeEnum charterStateTypeEnum, long id)
         {
             string uri = string.Format(hostCharterAddressController,id);
             uri = String.Concat(uri, "?charterType=" + CharterType.Out + "&charterStateTypeEnum=" + charterStateTypeEnum);
-            WebClientHelper.Get<CharterDto>(new Uri(uri, UriKind.Absolute), action, WebClientHelper.MessageFormat.Json);
+            WebClientHelper.Get<CharterDto>(new Uri(uri, UriKind.Absolute), action, WebClientHelper.MessageFormat.Json,ApiConfig.Headers);
         }
 
         public void Add(Action<CharterDto, Exception> action, CharterDto charterDto)
         {
             var uri = String.Concat(hostCharterAddressController, "?charterType=" + CharterType.Out);
-            WebClientHelper.Post<CharterDto, CharterDto>(new Uri(uri, UriKind.Absolute), action, charterDto, WebClientHelper.MessageFormat.Json);
+            WebClientHelper.Post<CharterDto, CharterDto>(new Uri(uri, UriKind.Absolute), action, charterDto, WebClientHelper.MessageFormat.Json,ApiConfig.Headers);
         }
 
         public void Update(Action<CharterDto, Exception> action, long id, CharterDto charterDto)
         {
 
             string uri = String.Concat(String.Format(hostCharterAddressController, id), "?charterType=" + CharterType.Out);
-            WebClientHelper.Put<CharterDto, CharterDto>(new Uri(uri, UriKind.Absolute), action, charterDto, WebClientHelper.MessageFormat.Json);
+            WebClientHelper.Put<CharterDto, CharterDto>(new Uri(uri, UriKind.Absolute), action, charterDto, WebClientHelper.MessageFormat.Json,ApiConfig.Headers);
         }
 
         public void Delete(Action<string, Exception> action, long id)
@@ -104,27 +104,27 @@ namespace MITD.Fuel.Presentation.Logic.SL.ServiceWrapper
 
             var uri  = String.Format(hostCharterVesselAddressController, string.Empty);
             uri = String.Concat(uri, "?charterType=" + CharterType.Out + "&companyId=" + companyId);
-            WebClientHelper.Get<PageResultDto<VesselDto>>(new Uri(uri, UriKind.Absolute), action, WebClientHelper.MessageFormat.Json);
+            WebClientHelper.Get<PageResultDto<VesselDto>>(new Uri(uri, UriKind.Absolute), action, WebClientHelper.MessageFormat.Json,ApiConfig.Headers);
         }
 
         public void GetByIdVessel(Action<VesselDto, Exception> action, long id)
         {
 
             string uri = String.Concat(String.Format(hostCharterVesselAddressController, id), "?flag=true&charterType=" + CharterType.Out);
-            WebClientHelper.Get<VesselDto>(new Uri(uri, UriKind.Absolute), action, WebClientHelper.MessageFormat.Json);
+            WebClientHelper.Get<VesselDto>(new Uri(uri, UriKind.Absolute), action, WebClientHelper.MessageFormat.Json,ApiConfig.Headers);
         }
 
 
         public void GetItems(Action<PageResultDto<CharterItemDto>, Exception> action, CharterStateTypeEnum stateTypeEnum, long chrterId, int pageIndex, int pageSize)
         {
             string uri = String.Concat(String.Format(hostCharterItemAddressController, chrterId, string.Empty), "?charterType=" + CharterType.Out);
-            WebClientHelper.Get<PageResultDto<CharterItemDto>>(new Uri(uri, UriKind.Absolute), action, WebClientHelper.MessageFormat.Json);
+            WebClientHelper.Get<PageResultDto<CharterItemDto>>(new Uri(uri, UriKind.Absolute), action, WebClientHelper.MessageFormat.Json,ApiConfig.Headers);
         }
 
         public void GetItemById(Action<CharterItemDto, Exception> action, CharterStateTypeEnum stateTypeEnum, long id, long charerItemId)
         {
             string uri = String.Concat(String.Format(hostCharterItemAddressController, id, charerItemId), "?charterType=" + CharterType.Out);
-            WebClientHelper.Get<CharterItemDto>(new Uri(uri, UriKind.Absolute), action, WebClientHelper.MessageFormat.Json);
+            WebClientHelper.Get<CharterItemDto>(new Uri(uri, UriKind.Absolute), action, WebClientHelper.MessageFormat.Json,ApiConfig.Headers);
         }
 
         public void AddItem(Action<CharterItemDto, Exception> action, CharterStateTypeEnum stateTypeEnum, CharterItemDto charterDto)
@@ -132,13 +132,13 @@ namespace MITD.Fuel.Presentation.Logic.SL.ServiceWrapper
 
             var uri = String.Format(hostCharterItemAddressController, charterDto.CharterId, string.Empty);
             uri = String.Concat(uri, "?charterType=" + CharterType.Out);
-            WebClientHelper.Post<CharterItemDto, CharterItemDto>(new Uri(uri, UriKind.Absolute), action, charterDto, WebClientHelper.MessageFormat.Json);
+            WebClientHelper.Post<CharterItemDto, CharterItemDto>(new Uri(uri, UriKind.Absolute), action, charterDto, WebClientHelper.MessageFormat.Json,ApiConfig.Headers);
         }
 
         public void UpdateItem(Action<CharterItemDto, Exception> action, long id, long charterItemId, CharterStateTypeEnum stateTypeEnum, CharterItemDto charterDto)
         {
             string uri = String.Concat(String.Format(hostCharterItemAddressController, id, charterItemId), "?charterType=" + CharterType.Out);
-            WebClientHelper.Put<CharterItemDto, CharterItemDto>(new Uri(uri, UriKind.Absolute), action, charterDto, WebClientHelper.MessageFormat.Json);
+            WebClientHelper.Put<CharterItemDto, CharterItemDto>(new Uri(uri, UriKind.Absolute), action, charterDto, WebClientHelper.MessageFormat.Json,ApiConfig.Headers);
 
         }
 
@@ -154,7 +154,7 @@ namespace MITD.Fuel.Presentation.Logic.SL.ServiceWrapper
         {
             var url = string.Format(goodAddressController, companyId);
 
-            WebClientHelper.Get<List<GoodDto>>(new Uri(url, UriKind.Absolute), action, WebClientHelper.MessageFormat.Json);
+            WebClientHelper.Get<List<GoodDto>>(new Uri(url, UriKind.Absolute), action, WebClientHelper.MessageFormat.Json,ApiConfig.Headers);
 
 
         }
@@ -163,7 +163,7 @@ namespace MITD.Fuel.Presentation.Logic.SL.ServiceWrapper
         public void GetAllCurrencies(Action<List<CurrencyDto>, Exception> action)
         {
 
-            WebClientHelper.Get<List<CurrencyDto>>(new Uri(string.Format(currencyAddressFormatString, string.Empty), UriKind.Absolute), action, WebClientHelper.MessageFormat.Json);
+            WebClientHelper.Get<List<CurrencyDto>>(new Uri(string.Format(currencyAddressFormatString, string.Empty), UriKind.Absolute), action, WebClientHelper.MessageFormat.Json,ApiConfig.Headers);
 
 
         }

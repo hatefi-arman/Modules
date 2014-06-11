@@ -5,6 +5,8 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Castle.Core;
+using Castle.DynamicProxy.Serialization;
 using MITD.Domain.Repository;
 using MITD.Fuel.Application.Facade.Contracts.Mappers;
 using MITD.Fuel.Application.Service.Contracts;
@@ -17,10 +19,12 @@ using MITD.Fuel.Presentation.Contracts.DTOs;
 using MITD.Fuel.Presentation.Contracts.Enums;
 using MITD.Fuel.Presentation.Contracts.FacadeServices;
 using MITD.Presentation.Contracts;
+using MITD.Services.Facade;
 
 namespace MITD.Fuel.Application.Facade
 {
-    public class CharterInFacadeService : ICharterInFacadeService
+    [Interceptor(typeof(SecurityInterception))]
+    public class CharterInFacadeService : ICharterInFacadeService,IFacadeService
     {
 
         #region Prop
@@ -133,6 +137,9 @@ namespace MITD.Fuel.Application.Facade
 
         public void Add(CharterDto data)
         {
+           
+         
+            
             if (data.CharterStateType == CharterStateTypeEnum.Start)
             {
                 _charterInApplicationService.AddStart(data.Charterer.Id, data.Owner.Id, data.Vessel.Id,

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using System.Linq;
 using MITD.DataAccess.EF;
 using MITD.Domain.Repository;
 
@@ -9,7 +9,7 @@ using MITD.FuelSecurity.Domain.Model.Repository;
 
 namespace MITD.Fuel.Data.EF.Repositories
 {
-    public class UserRepository : EFRepository<User>, IUserRepository
+    public class UserRepository : EFRepository<Party>, IUserRepository
     {
         public UserRepository(EFUnitOfWork efUnitOfWork)
             : base(efUnitOfWork)
@@ -23,19 +23,39 @@ namespace MITD.Fuel.Data.EF.Repositories
 
         }
 
-        public IList<User> GetAllUsers()
+        public IList<Party> GetAllUsers()
         {
             throw new NotImplementedException();
         }
 
-        public void FindUser(System.Linq.Expressions.Expression<Func<User, bool>> predicatExpression, ListFetchStrategy<User> fetchStrategy)
+        public void FindUser(System.Linq.Expressions.Expression<Func<Party, bool>> predicatExpression, ListFetchStrategy<Party> fetchStrategy)
         {
             throw new NotImplementedException();
         }
 
-        public User GetUserById(long id)
+        public Party GetUserById(long id)
         {
-            throw new NotImplementedException();
+            var q=this.Context.CreateObjectSet<Party>().OfType<User>()
+                .AsQueryable();
+            return q.Single(c => c.Id == id);
+
+        }
+
+        public Party GetUserById(string username)
+        {
+            try
+            {
+                var q = this.Context.CreateObjectSet<Party>().OfType<User>()
+                .AsQueryable();
+                return q.Single(c => c.UserName == username);
+            }
+            catch (Exception ex)
+            {
+                    
+                throw;
+            }
+            
+
         }
 
         public IList<Group> GetAllGroups()

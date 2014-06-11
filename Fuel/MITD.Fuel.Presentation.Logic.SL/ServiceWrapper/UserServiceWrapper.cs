@@ -27,7 +27,7 @@ namespace MITD.Fuel.Presentation.FuelApp.Logic.SL.ServiceWrapper
 
             WebClientHelper.Get<List<UserDto>>(new Uri(url, UriKind.Absolute),
                                                                     (res, exp) => action(res, exp),
-                                                                    WebClientHelper.MessageFormat.Json
+                                                                    WebClientHelper.MessageFormat.Json,ApiConfig.Headers
             );
         }
 
@@ -39,7 +39,7 @@ namespace MITD.Fuel.Presentation.FuelApp.Logic.SL.ServiceWrapper
 
             WebClientHelper.Get<PageResultDto<UserDto>>(new Uri(url, UriKind.Absolute),
                                                                     (res, exp) => action(res, exp),
-                                                                    WebClientHelper.MessageFormat.Json
+                                                                    WebClientHelper.MessageFormat.Json,ApiConfig.Headers
                 );
         }
 
@@ -49,7 +49,7 @@ namespace MITD.Fuel.Presentation.FuelApp.Logic.SL.ServiceWrapper
 
             WebClientHelper.Get<UserDto>(new Uri(url, UriKind.Absolute),
                                                      (res, exp) => action(res, exp),
-                                                     WebClientHelper.MessageFormat.Json);
+                                                     WebClientHelper.MessageFormat.Json,ApiConfig.Headers);
         }
 
         public void Add(Action<UserDto, Exception> action, UserDto ent)
@@ -58,7 +58,7 @@ namespace MITD.Fuel.Presentation.FuelApp.Logic.SL.ServiceWrapper
 
             WebClientHelper.Post<UserDto, UserDto>(new Uri(url, UriKind.Absolute),
                                                                            (res, exp) => action(res, exp), ent,
-                                                                           WebClientHelper.MessageFormat.Json);
+                                                                           WebClientHelper.MessageFormat.Json,ApiConfig.Headers);
         }
 
         public void Update(Action<UserDto, Exception> action, UserDto ent)
@@ -67,7 +67,7 @@ namespace MITD.Fuel.Presentation.FuelApp.Logic.SL.ServiceWrapper
 
             WebClientHelper.Put<UserDto, UserDto>(new Uri(url, UriKind.Absolute),
                                                                           (res, exp) => action(res, exp), ent,
-                                                                          WebClientHelper.MessageFormat.Json);
+                                                                          WebClientHelper.MessageFormat.Json,ApiConfig.Headers);
         }
 
         public void Delete(Action<string, Exception> action, int id)

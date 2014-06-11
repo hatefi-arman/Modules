@@ -28,7 +28,7 @@ namespace MITD.Fuel.Presentation.FuelApp.Logic.SL.ServiceWrapper
 
             WebClientHelper.Get<List<CompanyDto>>(new Uri(url, UriKind.Absolute),
                                                                     (res, exp) => action(res, exp),
-                                                                    WebClientHelper.MessageFormat.Json
+                                                                    WebClientHelper.MessageFormat.Json,ApiConfig.Headers
                 );
         }
 
@@ -37,7 +37,7 @@ namespace MITD.Fuel.Presentation.FuelApp.Logic.SL.ServiceWrapper
             var url = string.Format(fuelReportCompanyAddressFormatString, id);
             WebClientHelper.Get<CompanyDto>(new Uri(url, UriKind.Absolute),
                                                      (res, exp) => action(res, exp),
-                                                     WebClientHelper.MessageFormat.Json);
+                                                     WebClientHelper.MessageFormat.Json,ApiConfig.Headers);
         }
 
         //public void Add(Action<CompanyDto, Exception> action, CompanyDto ent)
@@ -45,7 +45,7 @@ namespace MITD.Fuel.Presentation.FuelApp.Logic.SL.ServiceWrapper
         //    var url = string.Concat(fuelReportCompanyAddressFormatString, HttpVerb.POST);
         //    WebClientHelper.Post<CompanyDto, CompanyDto>(new Uri(url, UriKind.Absolute),
         //                                                                   (res, exp) => action(res, exp), ent,
-        //                                                                   WebClientHelper.MessageFormat.Json);
+        //                                                                   WebClientHelper.MessageFormat.Json,ApiConfig.Headers);
         //}
 
         //public void Update(Action<CompanyDto, Exception> action, CompanyDto ent)
@@ -53,7 +53,7 @@ namespace MITD.Fuel.Presentation.FuelApp.Logic.SL.ServiceWrapper
         //    var url = string.Concat(fuelReportCompanyAddressFormatString, HttpVerb.PUT + "/" + ent.Id);
         //    WebClientHelper.Put<CompanyDto, CompanyDto>(new Uri(url, UriKind.Absolute),
         //                                                                  (res, exp) => action(res, exp), ent,
-        //                                                                  WebClientHelper.MessageFormat.Json);
+        //                                                                  WebClientHelper.MessageFormat.Json,ApiConfig.Headers);
         //}
 
         //public void Delete(Action<string, Exception> action, int id)

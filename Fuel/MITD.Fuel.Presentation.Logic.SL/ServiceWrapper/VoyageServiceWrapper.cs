@@ -26,7 +26,7 @@ namespace MITD.Fuel.Presentation.FuelApp.Logic.SL.ServiceWrapper
         {
             var url = string.Format(voyageAddressFormatString, id);
 
-            WebClientHelper.Get(new Uri(url, UriKind.Absolute), action, WebClientHelper.MessageFormat.Json);
+            WebClientHelper.Get(new Uri(url, UriKind.Absolute), action, WebClientHelper.MessageFormat.Json,ApiConfig.Headers);
         }
 
         public void GetAll(Action<PageResultDto<VoyageDto>, Exception> action, int? pageSize, int? pageIndex)
@@ -41,7 +41,7 @@ namespace MITD.Fuel.Presentation.FuelApp.Logic.SL.ServiceWrapper
                 sbUrl.Append(string.Concat("&pageIndex=", pageIndex));
             }
 
-            WebClientHelper.Get(new Uri(sbUrl.ToString(), UriKind.Absolute), action, WebClientHelper.MessageFormat.Json);
+            WebClientHelper.Get(new Uri(sbUrl.ToString(), UriKind.Absolute), action, WebClientHelper.MessageFormat.Json,ApiConfig.Headers);
         }
 
         public void GetByFilter(Action<PageResultDto<VoyageDto>, Exception> action, long companyId, long vesselId, int? pageSize, int? pageIndex)
@@ -58,7 +58,7 @@ namespace MITD.Fuel.Presentation.FuelApp.Logic.SL.ServiceWrapper
                 sbUrl.Append(string.Concat("&pageIndex=", pageIndex));
             }
 
-            WebClientHelper.Get(new Uri(sbUrl.ToString(), UriKind.Absolute), action, WebClientHelper.MessageFormat.Json);
+            WebClientHelper.Get(new Uri(sbUrl.ToString(), UriKind.Absolute), action, WebClientHelper.MessageFormat.Json,ApiConfig.Headers);
         }
 
         public void GetChenageHistory(Action<PageResultDto<VoyageLogDto>, Exception> action, long voyageId, int pageSize, int pageIndex)
@@ -70,7 +70,7 @@ namespace MITD.Fuel.Presentation.FuelApp.Logic.SL.ServiceWrapper
             sbUrl.Append(string.Concat("&pageIndex=", pageIndex));
 
 
-            WebClientHelper.Get(new Uri(sbUrl.ToString(), UriKind.Absolute), action, WebClientHelper.MessageFormat.Json);
+            WebClientHelper.Get(new Uri(sbUrl.ToString(), UriKind.Absolute), action, WebClientHelper.MessageFormat.Json,ApiConfig.Headers);
         }
     }
 }

@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace MITD.FuelSecurity.Domain.Model
 {
-    public class CommercialUser:User
+    public class CommercialManagerUser:User
     {
         public override List<ActionType> Actions {
             get {return new List<ActionType>(); }
         }
 
-        public CommercialUser(long id, string firstName, string lastName, string email, string userName)
-            : base(id, "CommercialUser", firstName, lastName, email, userName)
+        public CommercialManagerUser(long id, string firstName, string lastName, string email, string userName)
+            : base(id, "CommercialManagerUser", firstName, lastName, email, userName)
         {
 
         }

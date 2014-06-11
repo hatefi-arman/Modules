@@ -31,14 +31,14 @@ namespace MITD.Fuel.Presentation.Contracts.SL.ServiceWrapper
         {
             var url = string.Format(currencyAddressFormatString, id);
 
-            WebClientHelper.Get(new Uri(url, UriKind.Absolute), action, WebClientHelper.MessageFormat.Json);
+            WebClientHelper.Get(new Uri(url, UriKind.Absolute), action, WebClientHelper.MessageFormat.Json,ApiConfig.Headers);
         }
 
         public void GetAllCurrency(Action<List<CurrencyDto>, Exception> action)
         {
             var url = string.Format(currencyAddressFormatString, string.Empty);
 
-            WebClientHelper.Get(new Uri(url, UriKind.Absolute), action, WebClientHelper.MessageFormat.Json);
+            WebClientHelper.Get(new Uri(url, UriKind.Absolute), action, WebClientHelper.MessageFormat.Json,ApiConfig.Headers);
         }
 
         //decimal GetCurrencyValueInMainCurrency(long currencyId, decimal value);
@@ -49,7 +49,7 @@ namespace MITD.Fuel.Presentation.Contracts.SL.ServiceWrapper
             sb.Append(string.Concat("?sourceCurrencyId=", sourceCurrencyId));
             sb.Append(string.Concat("&value=", value));
 
-            WebClientHelper.Get(new Uri(sb.ToString(), UriKind.Absolute), action, WebClientHelper.MessageFormat.Json);
+            WebClientHelper.Get(new Uri(sb.ToString(), UriKind.Absolute), action, WebClientHelper.MessageFormat.Json,ApiConfig.Headers);
         }
 
         public void GetCurrencyValueInMainCurrency(Action<decimal, Exception> action, long sourceCurrencyId, decimal value, DateTime dateTime)
@@ -60,7 +60,7 @@ namespace MITD.Fuel.Presentation.Contracts.SL.ServiceWrapper
             sb.Append(string.Concat("&value=", value));
             sb.Append(string.Concat("&dateTime=", HttpUtil.DateTimeToString(dateTime)));
 
-            WebClientHelper.Get(ApiServiceAddressHelper.BuildUri(sb), action, WebClientHelper.MessageFormat.Json);
+            WebClientHelper.Get(ApiServiceAddressHelper.BuildUri(sb), action, WebClientHelper.MessageFormat.Json,ApiConfig.Headers);
         }
 
         public void ConvertPrice(Action<decimal, Exception> action, decimal value, long sourceCurrencyId, long destinationCurrencyId, DateTime dateTime)
@@ -72,7 +72,7 @@ namespace MITD.Fuel.Presentation.Contracts.SL.ServiceWrapper
             sb.Append(string.Concat("&destinationCurrencyId=", destinationCurrencyId));
             sb.Append(string.Concat("&dateTime=", HttpUtil.DateTimeToString(dateTime)));
 
-            WebClientHelper.Get(ApiServiceAddressHelper.BuildUri(sb), action, WebClientHelper.MessageFormat.Json);
+            WebClientHelper.Get(ApiServiceAddressHelper.BuildUri(sb), action, WebClientHelper.MessageFormat.Json,ApiConfig.Headers);
         }
 
         #endregion

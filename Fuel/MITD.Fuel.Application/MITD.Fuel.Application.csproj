@@ -92,7 +92,7 @@
     <Compile Include="Facade\Contracts\Mappers\IEffectiveFactorMapper.cs" />
     <Compile Include="Facade\Contracts\Mappers\IInvoiceAdditionalPriceToDtoMapper.cs" />
     <Compile Include="Facade\Contracts\Mappers\IUserToUserDto.cs" />
-    <Compile Include="Facade\MethodMapper.cs" />
+    <Compile Include="Facade\Mappers\MethodMapper.cs" />
     <Compile Include="Facade\Security\SecurityFacadeService.cs" />
     <Compile Include="Facade\Security\SecurityFacadeServiceFactory.cs" />
     <Compile Include="Facade\UnitOfMeasuresAndCurrencies.cs" />

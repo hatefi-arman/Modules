@@ -269,6 +269,7 @@ namespace MITD.Main.Presentation.Logic.SL.Infrastructure
         {
             userService.GetSessionToken((res, exp) => BeginInvokeOnDispatcher(() =>
             {
+                HideBusyIndicator();
                 if (exp == null)
                 {
                     var json = JObject.Parse(res);
@@ -277,39 +278,18 @@ namespace MITD.Main.Presentation.Logic.SL.Infrastructure
                     var expiration = DateTime.UtcNow.AddSeconds(expiresIn);
                     userProvider.Token = sessionToken;
                     ApiConfig.Headers = ApiConfig.CreateHeaderDic(userProvider.Token);
-                    getLogonUser();
+                  //  getLogonUser();
                     action();
                 }
                 else
                 {
-                    HideBusyIndicator();
+                   
                     HandleException(exp);
                 }
             }), token, newCurrentWorkListUser);
         }
 
 
-        private void getLogonUser()
-        {
-            userService.GetLogonUser((res, exp) =>
-            {
-                if (exp == null)
-                {
-                    BeginInvokeOnDispatcher(() =>
-                    {
-                        CurrentUserState = res;
-                        LoggedInUserState = res;
-                        Publish(new MainWindowUpdateArgs());
-
-                    });
-                    //createCustomFieldEntityList();
-                }
-                else
-                {
-                    HideBusyIndicator();
-                    HandleException(exp);
-                }
-            });
-        }
+      
     }
 }

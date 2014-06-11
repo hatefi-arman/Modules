@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Castle.Core;
 using MITD.Core;
 using MITD.Domain.Repository;
 using MITD.Fuel.Application.Service.Contracts;
@@ -25,6 +26,7 @@ using Omu.ValueInjecter;
 
 namespace MITD.Fuel.Application.Facade
 {
+    [Interceptor(typeof(SecurityInterception))]
     public partial class InvoiceFacadeService : IInvoiceFacadeService
     {
         private readonly IInvoiceDomainService invoiceDomainService;

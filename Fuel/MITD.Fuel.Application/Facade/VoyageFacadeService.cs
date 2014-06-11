@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using Castle.Core;
 using MITD.Domain.Repository;
 using MITD.Fuel.Application.Facade.Contracts.Mappers;
 using MITD.Fuel.Application.Service.Contracts;
@@ -17,6 +18,7 @@ using MITD.Fuel.Domain.Model.Repositories;
 
 namespace MITD.Fuel.Application.Facade
 {
+    [Interceptor(typeof(SecurityInterception))]
     public class VoyageFacadeService : IVoyageFacadeService
     {
         private readonly IVoyageDomainService voyageDomainService;

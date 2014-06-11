@@ -9,7 +9,10 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
+using MITD.Core;
+using MITD.Fuel.Presentation.Contracts.SL.Controllers;
 using MITD.Fuel.Presentation.Contracts.SL.Infrastructure;
+using MITD.Main.Presentation.Logic.SL.Infrastructure;
 using MITD.Main.Presentation.UI.SL.Infrastructure;
 
 namespace MITD.Main.Presentation.UI.SL
@@ -32,6 +35,9 @@ namespace MITD.Main.Presentation.UI.SL
             MITD.Fuel.Presentation.Contracts.SL.Infrastructure.ApiConfig.HostAddress = e.InitParams["WebApiFuel"];
             MITD.StorageSpace.Presentation.Contracts.SL.Infrastructure.ApiConfig.HostAddress = e.InitParams["WebApiStorageSpace"];
             new UIBootstrapper().Execute();
+            var controller = ServiceLocator.Current.GetInstance<IFuelController>();
+            controller.Login(() => { });
+
         }
 
         private void Application_Exit(object sender, EventArgs e)

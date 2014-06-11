@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MITD.FuelSecurity.Domain.Model;
+using MITD.Services.Application;
 
 namespace MITD.Fuel.Application.Service.Security
 {
-    public interface ISecurityApplicationService
+    public interface ISecurityApplicationService : IApplicationService
     {
         bool IsAuthorize(List<ActionType> userActionTypes, List<ActionType> methodRequiredActionTypes);
         List<ActionType> GetAllAuthorizedActions(List<User> users);
@@ -16,7 +17,7 @@ namespace MITD.Fuel.Application.Service.Security
         User GetLogonUser();
 
         User AddUser(string firstName, string lastName, bool isActive, string email,
-            Dictionary<int, bool> customActions, List<long> groups);
+            Dictionary<int, bool> customActions, List<long> groups,string userName);
 
         User UpdateUser(long id, string firstName, string lastName, bool isActive, string email,
            Dictionary<int, bool> customActions, List<long> groups);

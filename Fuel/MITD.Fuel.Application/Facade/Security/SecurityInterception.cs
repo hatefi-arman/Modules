@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Castle.DynamicProxy;
 using MITD.Fuel.Application.Facade.Security;
+using MITD.Fuel.Domain.Model.Exceptions;
 using MITD.FuelSecurity.Domain.Model.ErrorException;
 
 namespace MITD.Fuel.Application
@@ -25,7 +26,7 @@ namespace MITD.Fuel.Application
                 }
                 else
                 {
-                    throw new FuelSecurityAccessException(7001,"Access Error");
+                    throw new FuelSecurityAccessException(7001, "Access Error");
                 }
 
             }

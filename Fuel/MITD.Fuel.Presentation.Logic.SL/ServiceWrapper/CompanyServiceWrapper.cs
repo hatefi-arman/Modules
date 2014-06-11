@@ -29,7 +29,7 @@ namespace MITD.Fuel.Presentation.FuelApp.Logic.SL.ServiceWrapper
 
             WebClientHelper.Get<PageResultDto<CompanyDto>>(new Uri(url, UriKind.Absolute),
                                                                     (res, exp) => action(res, exp),
-                                                                    WebClientHelper.MessageFormat.Json);
+                                                                    WebClientHelper.MessageFormat.Json,ApiConfig.Headers);
         }
 
         public void GetById(Action<CompanyDto, Exception> action, int id)
@@ -38,14 +38,14 @@ namespace MITD.Fuel.Presentation.FuelApp.Logic.SL.ServiceWrapper
 
             WebClientHelper.Get<CompanyDto>(new Uri(url, UriKind.Absolute),
                                                      (res, exp) => action(res, exp),
-                                                     WebClientHelper.MessageFormat.Json);
+                                                     WebClientHelper.MessageFormat.Json,ApiConfig.Headers);
         }
 
         public void GetOwnedVessels(Action<PageResultDto<VesselDto>, Exception> action, long companyId)
         {
             var url = string.Format(companyOwnedVesselsAddressFormatString, companyId, string.Empty);
 
-            WebClientHelper.Get(new Uri(url, UriKind.Absolute), action, WebClientHelper.MessageFormat.Json);
+            WebClientHelper.Get(new Uri(url, UriKind.Absolute), action, WebClientHelper.MessageFormat.Json,ApiConfig.Headers);
         }
 
         #endregion

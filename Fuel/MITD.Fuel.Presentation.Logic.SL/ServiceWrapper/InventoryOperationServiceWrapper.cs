@@ -9,7 +9,7 @@ using MITD.Presentation.Contracts;
 using System.IO;
 using MITD.Fuel.Presentation.Contracts.SL.Infrastructure;
 
-namespace MITD.Fuel.Presentation.FuelApp.Logic.SL.ServiceWrapper
+namespace MITD.Fuel.Presentation.Logic.SL.ServiceWrapper
 {
     public class InventoryOperationServiceWrapper : IInventoryOperationServiceWrapper
     {
@@ -21,7 +21,7 @@ namespace MITD.Fuel.Presentation.FuelApp.Logic.SL.ServiceWrapper
             var url = string.Format(fuelReportInventoryOperationAddressFormatString,
                         fuelReportId, fuelReportDetailId, string.Empty);
 
-            WebClientHelper.Get(Contracts.SL.Infrastructure.ApiServiceAddressHelper.BuildUri(url), action, WebClientHelper.MessageFormat.Json);
+            WebClientHelper.Get(Contracts.SL.Infrastructure.ApiServiceAddressHelper.BuildUri(url), action, WebClientHelper.MessageFormat.Json,ApiConfig.Headers);
         }
 
         public void GetScrapInventoryOperations(Action<PageResultDto<FuelReportInventoryOperationDto>, Exception> action, long scrapId)
@@ -29,7 +29,7 @@ namespace MITD.Fuel.Presentation.FuelApp.Logic.SL.ServiceWrapper
             var url = string.Format(scrapInventoryOperationAddressFormatString,
                                     scrapId, string.Empty);
 
-            WebClientHelper.Get(Contracts.SL.Infrastructure.ApiServiceAddressHelper.BuildUri(url), action, WebClientHelper.MessageFormat.Json);
+            WebClientHelper.Get(Contracts.SL.Infrastructure.ApiServiceAddressHelper.BuildUri(url), action, WebClientHelper.MessageFormat.Json,ApiConfig.Headers);
         }
     }
 }

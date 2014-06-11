@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Castle.Core;
 using MITD.Domain.Repository;
 using MITD.Fuel.Application.Service.Contracts;
 using MITD.Fuel.Domain.Model.DomainObjects;
@@ -16,6 +17,7 @@ using MITD.Services.Facade;
 
 namespace MITD.Fuel.Application.Facade
 {
+    [Interceptor(typeof(SecurityInterception))]
     public partial class OrderFacadeService : IOrderFacadeService
     {
         private readonly IOrderRepository _orderRepository;

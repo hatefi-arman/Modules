@@ -24,7 +24,7 @@ namespace MITD.Fuel.Presentation.Logic.SL.ServiceWrapper
             var url = string.Format(orderItemAddressFormatString, orderId, orderItemId);
             WebClientHelper.Get<OrderItemDto>(new Uri(url, UriKind.Absolute),
                                                     action,
-                                                    WebClientHelper.MessageFormat.Json);
+                                                    WebClientHelper.MessageFormat.Json,ApiConfig.Headers);
         }
 
         public void AddItem(Action<OrderItemDto, Exception> action, OrderItemDto ent)
@@ -33,7 +33,7 @@ namespace MITD.Fuel.Presentation.Logic.SL.ServiceWrapper
 
             WebClientHelper.Post<OrderItemDto, OrderItemDto>(new Uri(url, UriKind.Absolute),
                                                                            action, ent,
-                                                                           WebClientHelper.MessageFormat.Json);
+                                                                           WebClientHelper.MessageFormat.Json,ApiConfig.Headers);
         }
 
         public void UpdateItem(Action<OrderItemDto, Exception> action, OrderItemDto ent)
@@ -42,7 +42,7 @@ namespace MITD.Fuel.Presentation.Logic.SL.ServiceWrapper
 
             WebClientHelper.Put<OrderItemDto, OrderItemDto>(new Uri(url, UriKind.Absolute),
                                                                           action, ent,
-                                                                          WebClientHelper.MessageFormat.Json);
+                                                                          WebClientHelper.MessageFormat.Json,ApiConfig.Headers);
         }
 
         public void DeleteItem(Action<string, Exception> action, OrderItemDto ent)
@@ -58,7 +58,7 @@ namespace MITD.Fuel.Presentation.Logic.SL.ServiceWrapper
 
 
             var url = string.Format(ApiConfig.HostAddress + "apiArea/Fuel/MainUnit/{0}/{1}/{2}", goodId, goodUnitId, value);
-            WebClientHelper.Get(new Uri(url, UriKind.Absolute), action, WebClientHelper.MessageFormat.Json);
+            WebClientHelper.Get(new Uri(url, UriKind.Absolute), action, WebClientHelper.MessageFormat.Json,ApiConfig.Headers);
         }
 
 

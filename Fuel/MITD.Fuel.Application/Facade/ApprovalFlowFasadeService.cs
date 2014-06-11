@@ -1,6 +1,7 @@
 ﻿#region
 
 using System;
+using Castle.Core;
 using MITD.Fuel.Application.Service.Contracts;
 using MITD.Fuel.Domain.Model.Enums;
 using MITD.Fuel.Presentation.Contracts.DTOs;
@@ -11,6 +12,7 @@ using MITD.Fuel.Presentation.Contracts.FacadeServices;
 
 namespace MITD.Fuel.Application.Facade
 {
+    [Interceptor(typeof(SecurityInterception))]
     public class ApprovalFlowFasadeService : IApprovalFlowFacadeService
     {
         private IApproveFlowApplicationService approvalFlowAppService { get; set; }

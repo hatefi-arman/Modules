@@ -128,8 +128,8 @@ namespace MITD.Main.Presentation.Logic.SL.ServiceWrapper
         {
            /// var url = string.Format(ApiConfig.HostAddress + "/token");
             var url = string.Format("http://localhost:1890/api" + "/token");
-            if (!string.IsNullOrWhiteSpace(newCurrentWorkListUser))
-                url = url + "?CurrentWorkListUserName=" + newCurrentWorkListUser;
+            //if (!string.IsNullOrWhiteSpace(newCurrentWorkListUser))
+            //    url = url + "?CurrentWorkListUserName=" + newCurrentWorkListUser;
             WebClientHelper.GetString(new Uri(url, UriKind.Absolute), action,
                 new Dictionary<string, string> { { "SilverLight", "1" }, { "Authorization", "SAML " + token } });
         }

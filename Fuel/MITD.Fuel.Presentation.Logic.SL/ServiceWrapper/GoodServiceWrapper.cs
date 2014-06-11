@@ -32,7 +32,7 @@ namespace MITD.Fuel.Presentation.Logic.SL.ServiceWrapper
                                                                   {
                                                                       action(res, exp);
                                                                   },
-                                                                  WebClientHelper.MessageFormat.Json
+                                                                  WebClientHelper.MessageFormat.Json,ApiConfig.Headers
               );
 
         }

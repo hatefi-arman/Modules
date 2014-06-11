@@ -6,8 +6,8 @@ namespace MITD.FuelSecurity.Domain.Model
     {
       
 
-        public AdminUser( string firstName, string lastName, string email)
-            : base(0, "AdminUser", firstName, lastName, email)
+        public AdminUser( string firstName, string lastName, string email,string userName)
+            : base(0, "AdminUser", firstName, lastName, email, userName)
         {
 
         }
@@ -18,12 +18,14 @@ namespace MITD.FuelSecurity.Domain.Model
             {
                 return new List<ActionType>()
                 {
+                    ActionType.QueryCharterIn,
                     ActionType.AddCharterIn,
                     ActionType.EditCharterIn,
                     ActionType.DeleteCharterIn,
                     ActionType.AddCharterInItem,
                     ActionType.EditCharterInItem,
                     ActionType.DeleteCharterInItem,
+                    ActionType.QueryCharterOut,
                     ActionType.AddCharterOut,
                     ActionType.EditCharterOut,
                     ActionType.DeleteCharterOut,

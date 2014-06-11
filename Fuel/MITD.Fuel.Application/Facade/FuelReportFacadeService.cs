@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Castle.Core;
 using MITD.Domain.Repository;
 using MITD.Fuel.Application.Facade.Contracts.Mappers;
 using MITD.Fuel.Application.Service.Contracts;
@@ -15,6 +16,7 @@ using MITD.Fuel.Domain.Model.IDomainServices;
 
 namespace MITD.Fuel.Application.Facade
 {
+   [Interceptor(typeof(SecurityInterception))]
     public class FuelReportFacadeService : IFuelReportFacadeService
     {
         private readonly IFuelReportApplicationService appService;

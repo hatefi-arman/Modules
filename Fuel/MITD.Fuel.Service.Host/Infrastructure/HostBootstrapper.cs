@@ -17,17 +17,24 @@ using MITD.DataAccess.EF;
 using MITD.Domain.Model;
 using MITD.Domain.Repository;
 using MITD.Fuel.Application;
+using MITD.Fuel.Application.Facade;
 using MITD.Fuel.Domain.Model.Factories;
 using MITD.Fuel.Domain.Model.IDomainServices;
 using MITD.Fuel.Infrastructure.Service;
 using MITD.Fuel.Presentation.Contracts.FacadeServices;
 using MITD.Fuel.Service.Host.App_Start;
+using MITD.FuelSecurity.Domain.Model.Service;
 using MITD.Services.AntiCorruption.Contracts;
 using MITD.Services.Application;
 using MITD.Fuel.Data.EF.Context;
-using MITD.Services.Facade;
 using MITD.Fuel.Domain.Model.IDomainServices.Events;
 using MITD.Fuel.Integration.Inventory;
+using TIBA.Core;
+using EventPublisher = MITD.Core.EventPublisher;
+using IEventPublisher = MITD.Core.IEventPublisher;
+using IFacadeService = MITD.Services.Facade.IFacadeService;
+using IMapper = MITD.Core.IMapper;
+using ServiceLocator = MITD.Core.ServiceLocator;
 
 namespace MITD.Fuel.Service.Host.Infrastructure
 {
@@ -177,7 +184,13 @@ namespace MITD.Fuel.Service.Host.Infrastructure
                     .WithServiceFromInterface().LifestyleTransient());
 
             container.Register(
-                Component.For<IFacadeService>().Interceptors(InterceptorReference.ForType<SecurityInterception>()).Anywhere, Component.For<SecurityInterception>());
+                Component.For<IFacadeService>().
+                Interceptors(InterceptorReference.ForType<SecurityInterception>())
+               .Anywhere, Component.For<SecurityInterception>());
+            container.Register(
+                Component.For<ISecurityServiceChecker>()
+                .ImplementedBy<SecurityServiceChecker>()
+                .LifestyleTransient());
 
             #endregion
 
@@ -245,8 +258,6 @@ namespace MITD.Fuel.Service.Host.Infrastructure
 
 
 
-            //For debugging IOC resolution.
-            container.Resolve<IFuelReportFacadeService>();
         }
 
         //private void loadUnitOfMeasuresAndCurrencies()

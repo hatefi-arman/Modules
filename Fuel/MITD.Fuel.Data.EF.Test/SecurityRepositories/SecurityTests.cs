@@ -27,7 +27,7 @@ namespace MITD.Fuel.Data.EF.Test
 
             using (var ctx = new DataContainer())
             {
-                user = new User(1, "Party", "f", "l", "e");
+                user = new User(1, "Party", "f", "l", "e","fueluser");
 
                 ctx.Parties.Add(user);
 
@@ -71,7 +71,7 @@ namespace MITD.Fuel.Data.EF.Test
         [TestMethod]
         public void TestUserGroupsInsertion()
         {
-            var user = new User(1, "User", "f", "l", "e");
+            var user = new User(1, "User", "f", "l", "e", "fueluser");
 
             using (var ctx = new DataContainer())
             {
@@ -106,7 +106,7 @@ namespace MITD.Fuel.Data.EF.Test
 
             using (var ctx = new DataContainer())
             {
-                user = new AdminUser( "f", "l", "e");
+                user = new AdminUser( "f", "l", "e","fueluser");
 
                 ctx.Parties.Add(user);
 
@@ -159,7 +159,7 @@ namespace MITD.Fuel.Data.EF.Test
                 ctx.SaveChanges();
             }
 
-            var user = new User(1, "User", Guid.NewGuid().ToString(), Guid.NewGuid().ToString(), Guid.NewGuid().ToString());
+            var user = new User(1, "User", Guid.NewGuid().ToString(), Guid.NewGuid().ToString(), Guid.NewGuid().ToString(), "fueluser");
             
             var customAction = new PartyCustomAction(1, ActionType.AddCharterIn.Id, false);
 
@@ -204,7 +204,7 @@ namespace MITD.Fuel.Data.EF.Test
                 ctx.SaveChanges();
             }
 
-            var user = new User(1, "User", Guid.NewGuid().ToString(), Guid.NewGuid().ToString(), Guid.NewGuid().ToString());
+            var user = new User(1, "User", Guid.NewGuid().ToString(), Guid.NewGuid().ToString(), Guid.NewGuid().ToString(), "fueluser");
 
             var grantState = false;
 
