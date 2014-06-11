@@ -2,6 +2,7 @@ using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Web.Http.Filters;
+using MITD.FuelSecurity.Domain.Model.ErrorException;
 
 namespace MITD.Fuel.Service.Host.Infrastructure
 {
@@ -22,11 +23,24 @@ namespace MITD.Fuel.Service.Host.Infrastructure
             if (actionExecutedContext.Exception == null) return;
 
             var exceptionMessage = _fuelApplicationExceptionAdapter.Get(actionExecutedContext.Exception);
-            actionExecutedContext.Response = new HttpResponseMessage
-                                                 {
-                                                     StatusCode = HttpStatusCode.InternalServerError,
-                                                     Content = new StringContent("ERROR")
-                                                 };
+            if (actionExecutedContext.Exception is FuelSecurityAccessException)
+            {
+                actionExecutedContext.Response = new HttpResponseMessage
+                {
+                    StatusCode = HttpStatusCode.Unauthorized,
+                    Content = new StringContent("Security Access")
+                };
+            }
+            else
+            {
+                actionExecutedContext.Response = new HttpResponseMessage
+                {
+                    StatusCode = HttpStatusCode.InternalServerError,
+                    Content = new StringContent("ERROR")
+                };  
+            }
+            
+           
             actionExecutedContext.Response.Headers.Add("exception", exceptionMessage.GetJson());
         }
     }

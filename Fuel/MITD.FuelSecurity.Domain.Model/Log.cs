@@ -20,7 +20,7 @@ namespace MITD.FuelSecurity.Domain.Model
         public Log(int id, string userName, DateTime logDate, string className,
             string methodName, string title, string message, LogLevel logLevel)
         {
-           
+             
         }
     }
 }

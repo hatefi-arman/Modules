@@ -471,8 +471,8 @@ namespace MITD.Fuel.Presentation.Logic.SL.ViewModels
                             companyDtos
                                 .Add(c));
 
-                    //todo bzcomment xxxxxx
-                  //  Entity.Charterer = companyDtos.Where(c => c.Id == _fuelController.GetCurrentUser().CompanyDto.Id).SingleOrDefault();
+                    
+                    Entity.Charterer = companyDtos.Where(c => c.Id == _fuelController.GetCurrentUser().CompanyDto.Id).SingleOrDefault();
                     if (Entity.Charterer != null)
                         CompanyName = Entity.Charterer.Name;
                 }
@@ -484,54 +484,53 @@ namespace MITD.Fuel.Presentation.Logic.SL.ViewModels
             }), "");
 
 
-            // todo bzcomment xxxxx
+           
+            if (CurrentCharterType == CharterType.In)
+            {
+                ShowBusyIndicator("درحال دریافت اطلاعات کشتی ها");
+                _charterInServiceWrapper.GetAllIdelVessels((res, exp) => _fuelController.BeginInvokeOnDispatcher(() =>
+                {
 
-            //if (CurrentCharterType == CharterType.In)
-            //{
-            //    ShowBusyIndicator("درحال دریافت اطلاعات کشتی ها");
-            //    _charterInServiceWrapper.GetAllIdelVessels((res, exp) => _fuelController.BeginInvokeOnDispatcher(() =>
-            //    {
+                    if (exp == null)
+                    {
+                        VesselDtos.Clear();
+                        res.Result.ToList()
+                            .ForEach(
+                                c =>
+                                VesselDtos.
+                                    Add(c));
 
-            //        if (exp == null)
-            //        {
-            //            VesselDtos.Clear();
-            //            res.Result.ToList()
-            //                .ForEach(
-            //                    c =>
-            //                    VesselDtos.
-            //                        Add(c));
+                    }
+                    else
+                    {
+                        _fuelController.HandleException(exp);
+                    }
+                    HideBusyIndicator();
+                }), _fuelController.GetCurrentUser().CompanyDto.Id);
+            }
+            else
+            {
+                ShowBusyIndicator("درحال دریافت اطلاعات کشتی ها");
+                _charterOutServiceWrapper.GetAllIdelVessels((res, exp) => _fuelController.BeginInvokeOnDispatcher(() =>
+                {
 
-            //        }
-            //        else
-            //        {
-            //            _fuelController.HandleException(exp);
-            //        }
-            //        HideBusyIndicator();
-            //    }), _fuelController.GetCurrentUser().CompanyDto.Id);
-            //}
-            //else
-            //{
-            //    ShowBusyIndicator("درحال دریافت اطلاعات کشتی ها");
-            //    _charterOutServiceWrapper.GetAllIdelVessels((res, exp) => _fuelController.BeginInvokeOnDispatcher(() =>
-            //    {
+                    if (exp == null)
+                    {
+                        VesselDtos.Clear();
+                        res.Result.ToList()
+                            .ForEach(
+                                c =>
+                                VesselDtos.
+                                    Add(c));
 
-            //        if (exp == null)
-            //        {
-            //            VesselDtos.Clear();
-            //            res.Result.ToList()
-            //                .ForEach(
-            //                    c =>
-            //                    VesselDtos.
-            //                        Add(c));
-
-            //        }
-            //        else
-            //        {
-            //            _fuelController.HandleException(exp);
-            //        }
-            //        HideBusyIndicator();
-            //    }), _fuelController.GetCurrentUser().CompanyDto.Id);
-            //}
+                    }
+                    else
+                    {
+                        _fuelController.HandleException(exp);
+                    }
+                    HideBusyIndicator();
+                }), _fuelController.GetCurrentUser().CompanyDto.Id);
+            }
 
         }
 

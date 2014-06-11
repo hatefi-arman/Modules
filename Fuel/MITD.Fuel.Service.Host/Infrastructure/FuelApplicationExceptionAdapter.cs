@@ -2,6 +2,7 @@ using System;
 using MITD.Fuel.Domain.Model.Exceptions;
 using MITD.Fuel.Infrastructure.Service;
 using MITD.Fuel.Presentation.Contracts.DTOs;
+using MITD.FuelSecurity.Domain.Model.ErrorException;
 
 namespace MITD.Fuel.Service.Host.Infrastructure
 {
@@ -64,6 +65,14 @@ namespace MITD.Fuel.Service.Host.Infrastructure
                         var exp = exception as WorkFlowException;
                         exceptionDto.Message = exp.Message;
                     }
+                    break;
+                case "FuelSecurityAccessException":
+                {
+                    var exp = exception as FuelSecurityAccessException;
+                    exceptionDto.Message = exp.Message;
+                    
+                   
+                }
                     break;
 
                 default:
