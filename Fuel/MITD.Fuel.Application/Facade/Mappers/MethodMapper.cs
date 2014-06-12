@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Castle.MicroKernel.ModelBuilder.Descriptors;
+using MITD.Fuel.Domain.Model.Enums;
 using MITD.Fuel.Presentation.Contracts;
+using MITD.Fuel.Presentation.Contracts.Enums;
 using MITD.Fuel.Presentation.Contracts.FacadeServices;
 using MITD.FuelSecurity.Domain;
 using MITD.FuelSecurity.Domain.Model;
@@ -68,6 +71,38 @@ namespace MITD.Fuel.Application.Facade
 
         };
 
+        private readonly List<MethodAction> MapTableWorkFlow = new List<MethodAction>
+        {
+             #region chrter in
+             new MethodAction(ActionEntityTypeEnum.CharterIn.ToString(),DecisionTypeEnum.Approved.ToString(),new List<ActionType>(){ActionType.ApproveCharterIn}),
+             new MethodAction(ActionEntityTypeEnum.CharterIn.ToString(),DecisionTypeEnum.Canceled.ToString(),new List<ActionType>(){ActionType.FinalApproveCharterIn}),
+             new MethodAction(ActionEntityTypeEnum.CharterIn.ToString(),DecisionTypeEnum.Rejected.ToString(),new List<ActionType>(){ActionType.RejectCharterIn}),
+             
+            #endregion
+      
+           #region chrter in
+             new MethodAction(ActionEntityTypeEnum.CharterOut.ToString(),DecisionTypeEnum.Approved.ToString(),new List<ActionType>(){ActionType.ApproveCharterOut}),
+             new MethodAction(ActionEntityTypeEnum.CharterOut.ToString(),DecisionTypeEnum.Canceled.ToString(),new List<ActionType>(){ActionType.FinalApproveCharterOut}),
+             new MethodAction(ActionEntityTypeEnum.CharterOut.ToString(),DecisionTypeEnum.Rejected.ToString(),new List<ActionType>(){ActionType.RejectCharterOut}),
+             
+            #endregion
+      
+       
+
+        };
+
+
+
+        public List<ActionType> MapWF(ActionEntityTypeEnum workflowEntitie, DecisionTypeEnum decisionTypeEnum)
+        {
+
+            var mapRow = MapTableWorkFlow.Where(m => m.ClassName == workflowEntitie.ToString() && m.MethodName == decisionTypeEnum.ToString());
+            if (!mapRow.Any())
+                return new List<ActionType>();
+            return mapRow.FirstOrDefault().Actions;
+            
+        }
+
         public List<ActionType> Map(string className, string methodName)
         {
 
@@ -77,6 +112,7 @@ namespace MITD.Fuel.Application.Facade
             return mapRow.FirstOrDefault().Actions;
 
         }
+
 
     }
 

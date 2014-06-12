@@ -19,7 +19,7 @@ namespace MITD.FuelSecurity.Domain.Model
                 return new List<ActionType>()
                 {
                     ActionType.QueryCharterIn,
-                  //  ActionType.AddCharterIn,
+                    ActionType.AddCharterIn,
                     ActionType.EditCharterIn,
                     ActionType.DeleteCharterIn,
                     ActionType.AddCharterInItem,
