@@ -104,7 +104,7 @@ namespace MITD.Fuel.Domain.Model.DomainObjects
             long tankId)
             : this()
         {
-            Id = id;
+            //Id = id;
             FuelReportId = fuelReportId;
             
             //No validation performed due to unavailability of such validation.

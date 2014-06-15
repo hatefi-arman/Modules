@@ -38,14 +38,14 @@ namespace MITD.Fuel.Data.EF.Migrations
                     .WithColumn("RowVersion").AsCustom("RowVersion");
 
             Create.Table("Voyage").InSchema("Fuel")
-                  .WithColumn("Id").AsInt64().NotNullable().PrimaryKey()
+                  .WithColumn("Id").AsInt64().NotNullable().Identity().PrimaryKey()
                   .WithColumn("VoyageNumber").AsString(200)
                   .WithColumn("Description").AsString(200)
                   .WithColumn("VesselInCompanyId").AsInt64().NotNullable().Indexed()
                         .ForeignKey("FK_Voyage_VesselInCompanyId_VesselInCompany_Id", "Fuel", "VesselInCompany", "Id")
                   .WithColumn("CompanyId").AsInt64().NotNullable().Indexed()
                   .WithColumn("StartDate").AsDateTime().NotNullable()
-                  .WithColumn("EndDate").AsDateTime().NotNullable()
+                  .WithColumn("EndDate").AsDateTime().Nullable()
                   .WithColumn("IsActive").AsBoolean().NotNullable();
 
 

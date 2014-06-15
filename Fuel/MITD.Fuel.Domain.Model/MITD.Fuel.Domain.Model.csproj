@@ -79,6 +79,8 @@
     <Compile Include="DomainObjects\ApproveFlow\WorkflowStep.cs" />
     <Compile Include="Commands\InvoiceItemCommand.cs" />
     <Compile Include="DomainObjects\CharterAggregate\DomainServices\InventorySubscriber.cs" />
+    <Compile Include="DomainObjects\FuelReportAggregate\Factories\IFuelReportFactory.cs" />
+    <Compile Include="DomainObjects\FuelReportAggregate\Factories\FuelReportFactory.cs" />
     <Compile Include="DomainObjects\FuelReportAggregate\FuelReportStates\SubmitRejectedState.cs" />
     <Compile Include="DomainObjects\FuelReportAggregate\Specifications\IsFuelReportSubmitted.cs" />
     <Compile Include="DomainObjects\FuelReportAggregate\Specifications\IsFuelReportSubmitRejected.cs" />
