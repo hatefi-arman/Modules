@@ -149,19 +149,21 @@ namespace MITD.Fuel.Domain.Model.DomainServices
         */
 
 
-        public void CreateBalanceRecordForInvoiceItem(InvoiceItem invoiceItem, List<Order> orderRefrences)
+        public List<OrderItemBalance> CreateBalanceRecordForInvoiceItem(InvoiceItem invoiceItem, List<Order> orderRefrences)
         {
             var relatedOrderItemsToInvoiceItem =
                 orderRefrences.SelectMany(c => c.OrderItems.Where(d => d.GoodId == invoiceItem.GoodId /*&& d.GetAvailableForInvoice() > 0*/)).ToList();
 
-            balanceInvoiceItemInMainUnit(invoiceItem, relatedOrderItemsToInvoiceItem);
+            return balanceInvoiceItemInMainUnit(invoiceItem, relatedOrderItemsToInvoiceItem);
             //if (relatedOrderItemsToInvoiceItem.GroupBy(c => c.MeasuringUnitId == invoiceItem.MeasuringUnitId).Count() > 1)
             //else
             //    balanceInvoiceItem(invoiceItem, relatedOrderItemsToInvoiceItem);
         }
 
-        private void balanceInvoiceItemInMainUnit(InvoiceItem invoiceItem, IEnumerable<OrderItem> orderItems)
+        private List<OrderItemBalance> balanceInvoiceItemInMainUnit(InvoiceItem invoiceItem, IEnumerable<OrderItem> orderItems)
         {
+            List<OrderItemBalance> generatedOrderItemBalances = new List<OrderItemBalance>();
+
             var fuelReportDetialListFetchStrategy = new ListFetchStrategy<FuelReportDetail>()
                             .OrderBy(frd => frd.FuelReport.EventDate);
 
@@ -197,7 +199,14 @@ namespace MITD.Fuel.Domain.Model.DomainServices
                             oi.OrderId == checkingFuelReportDetail.ReceiveReference.ReferenceId.Value &&
                             oi.GoodId == checkingFuelReportDetail.GoodId);
 
-                balanceRepository.Add(new OrderItemBalance(relevantOrderItem, invoiceItem.Id, checkingFuelReportDetail.Id, availableQuantityForBalancing, checkingFuelReportDetail.Good.SharedGood.MainUnit.Abbreviation));
+
+                var orderItemBalanceToAdd = new OrderItemBalance(
+                    relevantOrderItem, invoiceItem, checkingFuelReportDetail, 
+                    availableQuantityForBalancing, checkingFuelReportDetail.Good.SharedGood.MainUnit.Abbreviation);
+
+                balanceRepository.Add(orderItemBalanceToAdd);
+
+                generatedOrderItemBalances.Add(orderItemBalanceToAdd);
 
                 relevantOrderItem.UpdateInvoiced(availableQuantityForBalancing);
 
@@ -211,6 +220,8 @@ namespace MITD.Fuel.Domain.Model.DomainServices
             {
                 throw new BusinessRuleException("", string.Format("Invoiced Quantity for Good '{0}' has deficiencies with selected Orders.", invoiceItem.Good.Name));
             }
+
+            return generatedOrderItemBalances;
         }
 
         //private void balanceInvoiceItem(InvoiceItem invoiceItem, IEnumerable<OrderItem> orderItems)

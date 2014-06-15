@@ -9,6 +9,7 @@ using MITD.Fuel.Domain.Model.DomainObjects.InvoiceAggreate.Enums;
 using MITD.Fuel.Domain.Model.DomainObjects.InvoiceAggreate.InvoiceStates;
 using MITD.Fuel.Domain.Model.DomainObjects.InvoiceAggreate.InvoiceType;
 using MITD.Fuel.Domain.Model.DomainObjects.InvoiceAggreate.Specifications;
+using MITD.Fuel.Domain.Model.DomainObjects.OrderAggreate;
 using MITD.Fuel.Domain.Model.DomainServices;
 using MITD.Fuel.Domain.Model.Enums;
 using MITD.Fuel.Domain.Model.Exceptions;
@@ -299,13 +300,19 @@ namespace MITD.Fuel.Domain.Model.DomainObjects.InvoiceAggreate
 
             if (OrderRefrences == null)
                 throw new BusinessRuleException("", "Reference not Set");
+
             var c = new CalculateChangeInOrderBlance(invoiceItemDomainService, balanceDomainService);
-            InvoiceItems = c.Process(this, this.InvoiceItems, this.OrderRefrences);
+            var orderItemsBalances = c.Process(this, this.InvoiceItems, this.OrderRefrences);
 
-            var inventoryResult = inventoryOperationNotifier.NotifySubmittingInvoice(this);
+            foreach (var orderItemsBalance in orderItemsBalances)
+            {
+                var inventoryResult = inventoryOperationNotifier.NotifySubmittingOrderItemBalance(orderItemsBalance);
 
-            if (inventoryResult == null)
-                throw new InvalidOperation("SubmitInvoice", "Submit the invoice to Inventory resulted to an error.");
+                if (inventoryResult == null)
+                    throw new InvalidOperation("SubmitInvoiceOrderItemBalance", "Submit the OrderItemBalance of Invoice to Inventory resulted to an error.");
+
+                orderItemsBalance.InventoryOperation = inventoryResult;
+            }
 
             State = States.Submitted;
         }
@@ -390,13 +397,16 @@ namespace MITD.Fuel.Domain.Model.DomainObjects.InvoiceAggreate
         //    return invoiceItems;
         //}
 
-        public List<InvoiceItem> Process(Invoice invoice, List<InvoiceItem> invoiceItems, List<Order> orderRefrences)
+        public List<OrderItemBalance> Process(Invoice invoice, List<InvoiceItem> invoiceItems, List<Order> orderRefrences)
         {
+            var result = new List<OrderItemBalance>();
+
             foreach (var invoiceItem in invoiceItems)
             {
-                balanceDomainService.CreateBalanceRecordForInvoiceItem(invoiceItem, orderRefrences);
+                result.AddRange(balanceDomainService.CreateBalanceRecordForInvoiceItem(invoiceItem, orderRefrences));
             }
-            return invoiceItems;
+
+            return result;
         }
     }
 }

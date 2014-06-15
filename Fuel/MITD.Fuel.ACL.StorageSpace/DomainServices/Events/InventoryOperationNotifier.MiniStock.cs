@@ -6,6 +6,7 @@ using MITD.Fuel.ACL.StorageSpace.Mappers.Inventory.Contracts;
 using MITD.Fuel.Domain.Model.DomainObjects;
 using MITD.Fuel.Domain.Model.DomainObjects.CharterAggregate;
 using MITD.Fuel.Domain.Model.DomainObjects.InvoiceAggreate;
+using MITD.Fuel.Domain.Model.DomainObjects.OrderAggreate;
 using MITD.Fuel.Domain.Model.IDomainServices;
 using MITD.Fuel.Domain.Model.IDomainServices.Events.InventoryOperations;
 using MITD.Fuel.Domain.Model.Enums;
@@ -37,6 +38,18 @@ namespace MITD.Fuel.ACL.StorageSpace.DomainServices.Events
 
         public List<InventoryOperation> NotifySubmittingFuelReportDetail(FuelReportDetail source)
         {
+            try
+            {
+                return inventoryOperationManagement.ManageFuelReportDetail(source,
+                    //TODO: Fake ActorId
+                    1101);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
             var dto = fuelReportDetailDtoMapper.MapToModel(source);
             dto.FuelReport = fuelReportDtoMapper.MapToModel(source.FuelReport);
 
@@ -95,6 +108,21 @@ namespace MITD.Fuel.ACL.StorageSpace.DomainServices.Events
                         InventoryActionType.Issue,
                         (long? )null,
                         (long? )null)});
+        }
+
+        public InventoryOperation NotifySubmittingOrderItemBalance(OrderItemBalance orderItemBalance)
+        {
+            try
+            {
+                return inventoryOperationManagement.ManageOrderItemBalance(orderItemBalance,
+                    //TODO: Fake ActorId
+                    1101);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         public List<InventoryOperation> NotifySubmittingCharterInStart(CharterIn charterInStart)

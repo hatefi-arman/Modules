@@ -56,8 +56,8 @@ namespace MITD.Fuel.Domain.Model.FakeDomainServices
         {
             return new List<Voyage>
                        {
-                           new Voyage(1, "S4-1089", "S4-1089", 1, 11, new DateTime(2012, 1, 1, 0, 0, 0), new DateTime(2014, 1, 2, 17, 0, 0)),
-                           new Voyage(2, "S4-1092", "S4-1092", 1, 11, new DateTime(2014, 1, 2, 17, 0, 1), new DateTime(2014, 12, 12, 8, 0, 0)),
+                           new Voyage(0, "S4-1089", "S4-1089", 1, 11, new DateTime(2012, 1, 1, 0, 0, 0), new DateTime(2014, 1, 2, 17, 0, 0)),
+                           new Voyage(0, "S4-1092", "S4-1092", 1, 11, new DateTime(2014, 1, 2, 17, 0, 1), new DateTime(2014, 12, 12, 8, 0, 0)),
                            //new Voyage(3, "S3-0893", "S3-0893", 2, 1, new DateTime(2014, 3, 1, 0, 0, 0), new DateTime(2014, 4, 1, 0, 0, 0)),
                            //new Voyage(4, "S3-0905", "S3-0905", 2, 1, new DateTime(2014, 4, 1, 0, 0, 0), new DateTime(2014, 5, 1, 0, 0, 0)),
                            //new Voyage(5, "HDM0220N", "HDM0220N", 3, 2, new DateTime(2014, 5, 1, 0, 0, 0), new DateTime(2014, 6, 1, 0, 0, 0)),

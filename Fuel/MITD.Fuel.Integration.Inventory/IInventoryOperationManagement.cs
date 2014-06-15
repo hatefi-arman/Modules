@@ -5,6 +5,7 @@ using System.Text;
 using MITD.Fuel.Domain.Model.DomainObjects;
 using MITD.Fuel.Domain.Model.DomainObjects.CharterAggregate;
 using MITD.Fuel.Domain.Model.DomainObjects.InvoiceAggreate;
+using MITD.Fuel.Domain.Model.DomainObjects.OrderAggreate;
 
 namespace MITD.Fuel.Integration.Inventory
 {
@@ -14,7 +15,9 @@ namespace MITD.Fuel.Integration.Inventory
 
         List<InventoryOperation> ManageScrap(Scrap scrap, int userId);
 
-        List<InventoryOperation> ManageInvoice(MITD.Fuel.Domain.Model.DomainObjects.InvoiceAggreate.Invoice invoice, int userId);
+        //List<InventoryOperation> ManageInvoice(Invoice invoice, int userId);
+
+        InventoryOperation ManageOrderItemBalance(OrderItemBalance orderItemBalance, int userId);
 
         List<InventoryOperation> ManageCharterInStart(CharterIn charterInStart, int userId);
 
