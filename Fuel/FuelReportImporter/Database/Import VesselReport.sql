@@ -23,7 +23,7 @@ FROM
 	INNER JOIN StorageSpace.Fuel.Vessel FRV ON FRV.Code = VRSh.ShipID
 	INNER JOIN StorageSpace.Fuel.VesselInCompany FRVCo ON FRVCo.VesselId =  FRV.Id 
 	INNER JOIN StorageSpace.Fuel.Voyage FRVoy ON FRVoy.VoyageNumber = VRFR.VoyageNo
---WHERE FRVCo.Id = @VesselInCompanyId
+WHERE FRVCo.Id = @VesselInCompanyId
 ORDER BY VRFR.Year, VRFR.Month, VRFR.Day
 
 ---------------------------------------------------------------------
@@ -52,7 +52,7 @@ FROM dbo.RPMInfo VRFR
 	INNER JOIN StorageSpace.Fuel.VesselInCompany FRVCo ON FRVCo.VesselId =  FRV.Id 
 	INNER JOIN [StorageSpace].[BasicInfo].[InventoryCompanyGoodView] InvCoGood ON InvCoGood.CompanyId = FRVCo.CompanyId AND InvCoGood.Code = 'HFO'
 	INNER JOIN [StorageSpace].[BasicInfo].[InventoryCompanyGoodUnitView] InvCoGoodUnit ON InvCoGoodUnit.CompanyGoodId = InvCoGood.Id  AND UPPER(InvCoGoodUnit.Abbreviation) = 'Ton'
---WHERE VRFR.ID = @FuelReportCode
+WHERE VRFR.ID = @FuelReportCode
 
 UNION 
 
@@ -78,7 +78,7 @@ FROM dbo.RPMInfo VRFR
 	INNER JOIN StorageSpace.Fuel.VesselInCompany FRVCo ON FRVCo.VesselId =  FRV.Id 
 	INNER JOIN [StorageSpace].[BasicInfo].[InventoryCompanyGoodView] InvCoGood ON InvCoGood.CompanyId = FRVCo.CompanyId AND InvCoGood.Code = 'MDO'
 	INNER JOIN [StorageSpace].[BasicInfo].[InventoryCompanyGoodUnitView] InvCoGoodUnit ON InvCoGoodUnit.CompanyGoodId = InvCoGood.Id  AND UPPER(InvCoGoodUnit.Abbreviation) = 'Ton'
---WHERE VRFR.ID = @FuelReportCode
+WHERE VRFR.ID = @FuelReportCode
 
 UNION
 
@@ -104,74 +104,14 @@ FROM dbo.RPMInfo VRFR
 	INNER JOIN StorageSpace.Fuel.VesselInCompany FRVCo ON FRVCo.VesselId =  FRV.Id 
 	INNER JOIN [StorageSpace].[BasicInfo].[InventoryCompanyGoodView] InvCoGood ON InvCoGood.CompanyId = FRVCo.CompanyId AND InvCoGood.Code = 'MGO'
 	INNER JOIN [StorageSpace].[BasicInfo].[InventoryCompanyGoodUnitView] InvCoGoodUnit ON InvCoGoodUnit.CompanyGoodId = InvCoGood.Id  AND UPPER(InvCoGoodUnit.Abbreviation) = 'Ton'
---WHERE VRFR.ID = @FuelReportCode
+WHERE VRFR.ID = @FuelReportCode
 ---------------------------------------------------------------------
 
 
 
-
-
-
 ---------------------------------------------------------------------
-SELECT 
-VRFR.ID AS FuelReportCode, 
-'HFO' AS GoodCode,
-'Ton' AS UnitCode,
-ConsInPortHO + ConsAtSeaHO AS Consumption,
-TransferHo AS Transfer,
-ROBHO AS ROB,
-ReceivedHO AS Recieve,
-CorrectionHo AS Correction,
-CASE 
-	WHEN CorrectionTypeHo IS NULL THEN NULL 
-	WHEN CorrectionTypeHo = 1 THEN 1 --Plus
-	ELSE 0 -- Minus 
-	END AS CorrectionType
-FROM dbo.RPMInfo VRFR
-
-UNION 
-
-SELECT 
-VRFR.ID AS FuelReportCode, 
-'MDO' AS GoodCode,
-'Ton' AS UnitCode,
-ConsInPortDO + ConsAtSeaDO AS Consumption,
-TransferDO AS Transfer,
-ROBDO AS ROB,
-ReceivedDO AS Recieve,
-CorrectionDO AS Correction,
-CASE 
-	WHEN CorrectionTypeDO IS NULL THEN NULL 
-	WHEN CorrectionTypeDO = 1 THEN 1 --Plus
-	ELSE 0 -- Minus 
-	END AS CorrectionType
-FROM dbo.RPMInfo VRFR
-
-UNION
-
-SELECT 
-VRFR.ID AS FuelReportCode, 
-'MGO' AS GoodCode,
-'Ton' AS UnitCode,
-ConsInPortMGO + ConsAtSeaMGO AS Consumption,
-TransferMGOLS AS Transfer,
-ROBMGO AS ROB,
-ReceivedMGO AS Recieve,
-CorrectionMGOLS AS Correction,
-CASE 
-	WHEN CorrectionTypeMGOLS IS NULL THEN NULL 
-	WHEN CorrectionTypeMGOLS = 1 THEN 1 --Plus
-	ELSE 0 -- Minus 
-	END AS CorrectionType
-FROM dbo.RPMInfo VRFR
+-----------------Preparation Scripts---------------------------------
 ---------------------------------------------------------------------
-
-
-
-
-
-
-
 
 --select * from StorageSpace.Fuel.Voyage FRVoy
 
