@@ -372,6 +372,8 @@ namespace MITD.Fuel.Data.EF.Migrations
                     .ForeignKey("FK_WorkflowLog_ScrapId_Scrap_Id", "Fuel", "Scrap", "Id").OnDeleteOrUpdate(Rule.Cascade)
                   .WithColumn("Discriminator").AsString(128).NotNullable()
                   .WithColumn("RowVersion").AsCustom("RowVersion");
+            
+            CreateLog();
 
         }
 
@@ -399,7 +401,11 @@ namespace MITD.Fuel.Data.EF.Migrations
             Delete.Table("EffectiveFactor").InSchema("Fuel");
             Delete.Table("Invoice").InSchema("Fuel");
             Delete.Table("ApproveFlowConfig").InSchema("Fuel");
+            Delete.Table("ExceptionLogs").InSchema("Fuel");
+            Delete.Table("EventLogs").InSchema("Fuel");
 
+            Delete.Table("Logs").InSchema("Fuel");
+            
             Execute.Script(@"Fuel\MITD.Fuel.Data.EF\DBQueries\DropVoyagesView.sql");
             Delete.Table("Voyage").InSchema("Fuel");
             Delete.Table("VesselInCompany").InSchema("Fuel");
@@ -413,6 +419,7 @@ namespace MITD.Fuel.Data.EF.Migrations
             Delete.Table("Groups");
             Delete.Table("Parties");
             Delete.Table("ActionTypes");
+            
 
             Execute.Script(@"Fuel\MITD.Fuel.Data.EF\DBQueries\Drop Inventory BasicInfo Views.sql");
 
@@ -471,7 +478,38 @@ namespace MITD.Fuel.Data.EF.Migrations
                 .WithColumn("Name").AsString(512).Unique().NotNullable()
                 .WithColumn("Description").AsString(2000).Unique().NotNullable();
         }
-    }
+
+        private void CreateLog()
+        {
+
+            Create.Table("Logs").InSchema("Fuel")
+                  .WithColumn("Id").AsInt64().PrimaryKey().Identity()
+                  //.WithColumn("Guid").AsGuid().Unique()
+                  .WithColumn("RowVersion").AsCustom("rowversion")
+                  .WithColumn("Code").AsString(100).NotNullable()
+                  .WithColumn("LogLevelId").AsInt32().NotNullable()
+                  .WithColumn("PartyId").AsInt64()
+                  .WithColumn("UserName").AsString(100).Nullable()
+                  .WithColumn("ClassName").AsString(200).Nullable()
+                  .WithColumn("MethodName").AsString(200).Nullable()
+                  .WithColumn("LogDate").AsDateTime().NotNullable()
+                  .WithColumn("Title").AsString(200).NotNullable()
+                  .WithColumn("Messages").AsString(4000).Nullable();
+
+
+            Create.Table("ExceptionLogs").InSchema("Fuel")
+                .WithColumn("Id").AsInt64().NotNullable().Indexed()
+                .ForeignKey("FK_ExceptionLogs_Id_Logs_Id", "Fuel", "Logs", "Id");
+                
+            Create.Table("EventLogs").InSchema("Fuel")
+                .WithColumn("Id").AsInt64().NotNullable().Indexed()
+                .ForeignKey("FK_EventLogs_Id_Logs_Id", "Fuel", "Logs", "Id");
+           
+            
+        }
+
+        }
+    
 
     /*
      * #set projectPath = Fuel\MITD.Fuel.Data.EF\MITD.Fuel.Data.EF.csproj

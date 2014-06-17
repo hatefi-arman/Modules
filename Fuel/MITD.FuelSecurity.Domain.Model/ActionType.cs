@@ -20,6 +20,10 @@ namespace MITD.FuelSecurity.Domain.Model
             AddCharterInItem,
             EditCharterInItem,
             DeleteCharterInItem,
+            ApproveCharterIn,
+            FinalApproveCharterIn,
+            RejectCharterIn,
+            CancelCharterIn,
             QueryCharterOut,
             AddCharterOut,
             EditCharterOut,
@@ -27,6 +31,10 @@ namespace MITD.FuelSecurity.Domain.Model
             AddCharterOutItem,
             EditCharterOutItem,
             DeleteCharterOutItem,
+            ApproveCharterOut,
+            FinalApproveCharterOut,
+            RejectCharterOut,
+            CancelCharterOut,
             ViewFuelReports,
             EditFuelReport,
             ImportFuelReports,
@@ -74,6 +82,13 @@ namespace MITD.FuelSecurity.Domain.Model
         public static readonly ActionType EditCharterInItem = new ActionType((int)ActionTypes.EditCharterInItem, "EditCharterInItem", "ویرایش ردیف چارتر In");
         public static readonly ActionType DeleteCharterInItem = new ActionType((int)ActionTypes.DeleteCharterInItem, "DeleteCharterInItem", "حذف ردیف چارتر In");
 
+        public static readonly ActionType ApproveCharterIn = new ActionType((int)ActionTypes.ApproveCharterIn, "ApproveCharterIn", "ApproveCharterIn");
+        public static readonly ActionType FinalApproveCharterIn = new ActionType((int)ActionTypes.FinalApproveCharterIn, "FinalApproveCharterIn", "FinalApproveCharterIn");
+        public static readonly ActionType RejectCharterIn = new ActionType((int)ActionTypes.RejectCharterIn, "RejectCharterIn", "RejectCharterIn");
+        public static readonly ActionType CancelCharterIn = new ActionType((int)ActionTypes.CancelCharterIn, "CancelCharterIn", "CancelCharterIn");
+
+
+
         public static readonly ActionType QueryCharterOut = new ActionType((int)ActionTypes.QueryCharterOut, "QueryCharterOut", "QueryCharterOut");
         public static readonly ActionType AddCharterOut = new ActionType((int)ActionTypes.AddCharterOut, "AddCharterOut", "افزودن چارتر Out");
         public static readonly ActionType EditCharterOut = new ActionType((int)ActionTypes.EditCharterOut, "EditCharterOut", "ویرایش چارتر Out");
@@ -81,6 +96,12 @@ namespace MITD.FuelSecurity.Domain.Model
         public static readonly ActionType AddCharterOutItem = new ActionType((int)ActionTypes.AddCharterOutItem, "AddCharterOutItem", "افزودن ردیف چارتر Out");
         public static readonly ActionType EditCharterOutItem = new ActionType((int)ActionTypes.EditCharterOutItem, "EditCharterOutItem", "ویرایش ردیف چارتر Out");
         public static readonly ActionType DeleteCharterOutItem = new ActionType((int)ActionTypes.DeleteCharterOutItem, "DeleteCharterOutItem", "حذف ردیف چارتر Out");
+
+
+        public static readonly ActionType ApproveCharterOut = new ActionType((int)ActionTypes.ApproveCharterOut, "ApproveCharterOut", "ApproveCharterOut");
+        public static readonly ActionType FinalApproveCharterOut = new ActionType((int)ActionTypes.FinalApproveCharterOut, "FinalApproveCharterOut", "FinalApproveCharterOut");
+        public static readonly ActionType RejectCharterOut = new ActionType((int)ActionTypes.RejectCharterOut, "RejectCharterOut", "RejectCharterOut");
+        public static readonly ActionType CancelCharterOut = new ActionType((int)ActionTypes.CancelCharterOut, "CancelCharterOut", "CancelCharterOut");
         #endregion
 
         #region FuelReport Actions

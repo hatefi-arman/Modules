@@ -126,7 +126,10 @@
     <Compile Include="Configurations\ScrapDetailConfiguration.cs" />
     <Compile Include="Configurations\ScrapWorkflowLogConfiguration.cs" />
     <Compile Include="Configurations\Security\ActionTypeConfiguration.cs" />
+    <Compile Include="Configurations\Security\EventLogConfiguration .cs" />
+    <Compile Include="Configurations\Security\ExceptionLogConfiguration.cs" />
     <Compile Include="Configurations\Security\GroupConfiguration.cs" />
+    <Compile Include="Configurations\Security\LogConfiguration.cs" />
     <Compile Include="Configurations\Security\PartyConfiguration.cs" />
     <Compile Include="Configurations\Security\PartyCustomActionConfiguration.cs" />
     <Compile Include="Configurations\Security\UserConfiguration.cs" />
@@ -164,6 +167,7 @@
     <Compile Include="Repositories\CharterInRepository.cs" />
     <Compile Include="Repositories\CharterOutRepository.cs" />
     <Compile Include="Repositories\CharterRepository.cs" />
+    <Compile Include="Repositories\LogRepository.cs" />
     <Compile Include="Repositories\OffhireRepository.cs" />
     <Compile Include="Repositories\ScrapRepository.cs" />
     <Compile Include="Repositories\VesselInInventoryRepository.cs" />
