@@ -102,6 +102,11 @@ namespace MITD.Fuel.Data.EF.Context
 
         public DbSet<ActivityLocation> ActivityLocations { get; set; }
 
+
+        public DbSet<Log> Logs { get; set; }
+        public DbSet<EventLog> EventLogs { get; set; }
+        public DbSet<ExceptionLog> ExceptionLogs { get; set; }
+
         #region Security
 
         public DbSet<Party> Parties { get; set; }
@@ -141,6 +146,11 @@ namespace MITD.Fuel.Data.EF.Context
             modelBuilder.Configurations.Add(new PartyConfiguration());
             modelBuilder.Configurations.Add(new UserConfiguration());
             modelBuilder.Configurations.Add(new GroupConfiguration());
+
+            modelBuilder.Configurations.Add(new LogConfiguration());
+            modelBuilder.Configurations.Add(new EventLogConfiguration());
+            modelBuilder.Configurations.Add(new ExceptionLogConfiguration());
+
             modelBuilder.Ignore<AdminUser>();
             modelBuilder.Ignore<CommercialManagerUser>();
             modelBuilder.Ignore<FinancialManagerUser>();

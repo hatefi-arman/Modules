@@ -21,13 +21,58 @@ namespace MITD.FuelSecurity.Domain.Model
 
         #endregion
 
+        public LogLevel()
+        {
+
+        }
         public LogLevel(string name, string value)
         {
             this.Name = name;
             this.Value = value;
         }
 
-        
+
+        public static LogLevel FromName(string name)
+        {
+            string nam = name.ToLower();
+            var res =new LogLevel();
+            switch (nam)
+            {
+                case "none":
+                {
+                    res = None;
+
+                }
+                    break;
+                case "information":
+                {
+                    res = Information;
+
+                }
+                    break;
+                case "warning":
+                {
+                    res = Warning;
+
+                }
+                    break;
+                case "error":
+                {
+                    res = Error;
+
+                }
+                    break;
+                case "accesscontrol":
+                {
+                    res = AccessControl;
+
+                }
+                    break;
+
+            }
+            return res;
+        }
+
         public static implicit operator LogLevel(int i)
         {
             return GetLogLevel(i);
