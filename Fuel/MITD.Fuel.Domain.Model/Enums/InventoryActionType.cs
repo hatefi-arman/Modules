@@ -8,6 +8,7 @@ namespace MITD.Fuel.Domain.Model.Enums
     public enum InventoryActionType : int
     {
         Issue = 1,
-        Receipt = 2
+        Receipt = 2,
+        Pricing = 3,
     }
 }

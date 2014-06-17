@@ -35,8 +35,17 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework">
+      <HintPath>..\..\packages\EntityFramework.6.1.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\..\packages\EntityFramework.6.1.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="Iesi.Collections">
       <HintPath>..\..\packages\Iesi.Collections.3.2.0.1001\lib\Net35\Iesi.Collections.dll</HintPath>
+    </Reference>
+    <Reference Include="MITD.Core">
+      <HintPath>..\..\Dependencies\MITD.Core.dll</HintPath>
     </Reference>
     <Reference Include="MITD.CurrencyAndMeasurement.Core">
       <HintPath>..\..\Dependencies\MITD.CurrencyAndMeasurement.Core.dll</HintPath>
@@ -50,11 +59,19 @@
     <Reference Include="MITD.CurrencyAndMeasurement.Persistance.NH">
       <HintPath>..\..\Dependencies\MITD.CurrencyAndMeasurement.Persistance.NH.dll</HintPath>
     </Reference>
+    <Reference Include="MITD.Domain.Model">
+      <HintPath>..\..\Dependencies\MITD.Domain.Model.dll</HintPath>
+    </Reference>
     <Reference Include="NHibernate">
       <HintPath>..\..\packages\NHibernate.3.3.3.4001\lib\Net35\NHibernate.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Transactions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -74,12 +91,142 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Data\ReversePOCO\Company.cs">
+      <DependentUpon>InventoryDatabaseTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\ReversePOCO\CompanyConfiguration.cs">
+      <DependentUpon>InventoryDatabaseTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\ReversePOCO\ErrorMessage.cs">
+      <DependentUpon>InventoryDatabaseTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\ReversePOCO\ErrorMessageConfiguration.cs">
+      <DependentUpon>InventoryDatabaseTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\ReversePOCO\FinancialYear.cs">
+      <DependentUpon>InventoryDatabaseTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\ReversePOCO\FinancialYearConfiguration.cs">
+      <DependentUpon>InventoryDatabaseTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\ReversePOCO\Good.cs">
+      <DependentUpon>InventoryDatabaseTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\ReversePOCO\GoodConfiguration.cs">
+      <DependentUpon>InventoryDatabaseTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\ReversePOCO\IInventoryDbContext.cs">
+      <DependentUpon>InventoryDatabaseTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\ReversePOCO\InventoryDatabaseTemplate.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>InventoryDatabaseTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\ReversePOCO\InventoryDbContext.cs">
+      <DependentUpon>InventoryDatabaseTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\ReversePOCO\OperationReference.cs">
+      <DependentUpon>InventoryDatabaseTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\ReversePOCO\OperationReferenceConfiguration.cs">
+      <DependentUpon>InventoryDatabaseTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\ReversePOCO\StoreType.cs">
+      <DependentUpon>InventoryDatabaseTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\ReversePOCO\StoreTypeConfiguration.cs">
+      <DependentUpon>InventoryDatabaseTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\ReversePOCO\TimeBucket.cs">
+      <DependentUpon>InventoryDatabaseTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\ReversePOCO\TimeBucketConfiguration.cs">
+      <DependentUpon>InventoryDatabaseTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\ReversePOCO\Transaction.cs">
+      <DependentUpon>InventoryDatabaseTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\ReversePOCO\TransactionConfiguration.cs">
+      <DependentUpon>InventoryDatabaseTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\ReversePOCO\TransactionItem.cs">
+      <DependentUpon>InventoryDatabaseTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\ReversePOCO\TransactionItemConfiguration.cs">
+      <DependentUpon>InventoryDatabaseTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\ReversePOCO\TransactionItemPrice.cs">
+      <DependentUpon>InventoryDatabaseTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\ReversePOCO\TransactionItemPriceConfiguration.cs">
+      <DependentUpon>InventoryDatabaseTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\ReversePOCO\Unit.cs">
+      <DependentUpon>InventoryDatabaseTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\ReversePOCO\UnitConfiguration.cs">
+      <DependentUpon>InventoryDatabaseTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\ReversePOCO\UnitConvert.cs">
+      <DependentUpon>InventoryDatabaseTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\ReversePOCO\UnitConvertConfiguration.cs">
+      <DependentUpon>InventoryDatabaseTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\ReversePOCO\User.cs">
+      <DependentUpon>InventoryDatabaseTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\ReversePOCO\UserConfiguration.cs">
+      <DependentUpon>InventoryDatabaseTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\ReversePOCO\Warehouse.cs">
+      <DependentUpon>InventoryDatabaseTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\ReversePOCO\WarehouseConfiguration.cs">
+      <DependentUpon>InventoryDatabaseTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="IInventoryOperationManagement.cs" />
+    <Compile Include="InventoryOperationManagement.cs" />
+    <Compile Include="InventoryTransactionType.cs" />
     <Compile Include="UnitOfMeasuresAndCurrenciesRegsitrar.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="App.config" />
+    <None Include="Data\ReversePOCO\InventoryDatabaseTemplate.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>InventoryDatabaseTemplate.cs</LastGenOutput>
+    </None>
+    <None Include="Data\ReversePOCO\EF.Reverse.POCO.Core.ttinclude" />
+    <None Include="Data\ReversePOCO\EF.Reverse.POCO.ttinclude" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Data\Stock Scripts\000-Drop DB.sql" />
+    <Content Include="Data\Stock Scripts\001-DB.sql" />
+    <Content Include="Data\Stock Scripts\002-Check Constraint Functions.sql" />
+    <Content Include="Data\Stock Scripts\003-Tables.sql" />
+    <Content Include="Data\Stock Scripts\004-Types.sql" />
+    <Content Include="Data\Stock Scripts\005-Functions.sql" />
+    <Content Include="Data\Stock Scripts\007-Error Messages.sql" />
+    <Content Include="Data\Stock Scripts\008-Indexes.sql" />
+    <Content Include="Data\Stock Scripts\009-Stored Procedures.sql" />
+    <Content Include="Data\Stock Scripts\010-Triggers.sql" />
+    <Content Include="Data\Stock Scripts\011-Initial Values.sql" />
+    <Content Include="Data\Stock Scripts\999-Create dbo.OperationReference.sql" />
+    <Content Include="Data\Stock Scripts\Inventory Quantity Query.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MITD.Fuel.Domain.Model\MITD.Fuel.Domain.Model.csproj">
+      <Project>{F75008B5-5BFE-4570-B583-9C3E0468ED68}</Project>
+      <Name>MITD.Fuel.Domain.Model</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

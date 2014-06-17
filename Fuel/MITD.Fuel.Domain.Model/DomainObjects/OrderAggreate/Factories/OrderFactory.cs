@@ -55,7 +55,9 @@ namespace MITD.Fuel.Domain.Model.Factories
                 );
 
             var init = _workflowRepository.Single(c => c.WorkflowEntity == WorkflowEntities.Order && c.CurrentWorkflowStage == WorkflowStages.Initial);
-            var orderWorkflow = new OrderWorkflowLog(order.Id, WorkflowEntities.Order, DateTime.Now, WorkflowActions.Init, 1, "", init.Id, true);
+            var orderWorkflow = new OrderWorkflowLog(order.Id, WorkflowEntities.Order, DateTime.Now, WorkflowActions.Init,
+                //TODO: Fake ActorId
+                    1101, "", init.Id, true);
 
             order.ApproveWorkFlows.Add(orderWorkflow);
 

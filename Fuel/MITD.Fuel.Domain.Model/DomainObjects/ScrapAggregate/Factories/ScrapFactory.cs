@@ -61,7 +61,9 @@ namespace MITD.Fuel.Domain.Model.DomainObjects.Factories
             if (init == null)
                 throw new ObjectNotFound("ScrapInitialStep");
 
-            var scrapWorkflow = new ScrapWorkflowLog(scrap, WorkflowEntities.Scrap, DateTime.Now, WorkflowActions.Init, 1, "", init.Id, true);
+            var scrapWorkflow = new ScrapWorkflowLog(scrap, WorkflowEntities.Scrap, DateTime.Now, WorkflowActions.Init,
+                //TODO: Fake ActorId
+                    1101, "", init.Id, true);
 
             scrap.ApproveWorkflows.Add(scrapWorkflow);
 

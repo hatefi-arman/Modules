@@ -228,14 +228,12 @@ namespace MITD.Main.Presentation.Logic.SL.Infrastructure
 
         public void HandleException(Exception exp)
         {
+            var exceptionMessageDto =
+                Newtonsoft.Json.JsonConvert.DeserializeObject<ExceptionMessageDto>(exp.Data["error"].ToString());
+            viewManager.ShowMessage(exceptionMessageDto.Message, this);
 
 
-            //var exceptionMessageDto =
-            //    Newtonsoft.Json.JsonConvert.DeserializeObject<ExceptionMessageDto>(exp.Data["error"].ToString());
-            //viewManager.ShowMessage(exceptionMessageDto.Message, this);
-
-
-            viewManager.ShowMessage(exp.Data["error"].ToString(), this);
+            //viewManager.ShowMessage(exp.Data["error"].ToString(), this);
         }
 
 

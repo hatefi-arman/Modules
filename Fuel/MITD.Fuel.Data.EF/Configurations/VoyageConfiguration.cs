@@ -17,7 +17,7 @@ namespace MITD.Fuel.Data.EF.Configurations
             HasKey(p => p.Id)
                 .ToTable("VoyagesView", "BasicInfo");
 
-            Property(p => p.Id).IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
+            Property(p => p.Id).IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
 
             Property(p => p.VoyageNumber);
 

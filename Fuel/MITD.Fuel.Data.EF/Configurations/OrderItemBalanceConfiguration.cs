@@ -34,6 +34,11 @@ namespace MITD.Fuel.Data.EF.Configurations
                 .HasForeignKey(c => c.InvoiceItemId)
                 .WillCascadeOnDelete(false);
 
+            HasOptional(p => p.InventoryOperation)
+                .WithMany()
+                .HasForeignKey(p=>p.InventoryOperationId)
+                .WillCascadeOnDelete(false);
+
         }
     }
 }

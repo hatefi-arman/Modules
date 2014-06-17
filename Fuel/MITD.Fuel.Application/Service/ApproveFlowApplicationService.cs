@@ -95,7 +95,8 @@ namespace MITD.Fuel.Application.Service
         public ApprovalResult ActApprovalFlow(long entityId, WorkflowEntities workflowEntity, long approverId, string remark, WorkflowActions action)
         {
             // _orderApplicationService;
-            approverId = 1;
+            //TODO: Fake User Id
+            approverId = 1101;  //Defined user for SAPID
             var lastWorkflowLog = GetLastWorkflowLog(entityId, workflowEntity);
 
             lastWorkflowLog.ValidateUserAccess(approverId, action);
@@ -113,7 +114,8 @@ namespace MITD.Fuel.Application.Service
                 lastWorkflowLog.UpdatedState(step);
 
                 var newApprovalWorkFlow = lastWorkflowLog.CreateNextStep(step.ActorUserId,
-                                                                         step.NextWorkflowStepId.Value, step.NextWorkflowStep.State, step.NextWorkflowStep.CurrentWorkflowStage);
+                    step.NextWorkflowStepId.Value, step.NextWorkflowStep.State, step.NextWorkflowStep.CurrentWorkflowStage);
+
                 _workflowLogRepository.Add(newApprovalWorkFlow);
             }
             else
@@ -145,9 +147,8 @@ namespace MITD.Fuel.Application.Service
         private ApprovalResult UpdateApproveState(long entityId, WorkflowEntities actionEntity, long approverId, string remark,
                                               WorkflowActions currentAction, WorkflowLog currentApprovalWorkFlowLog)
         {
-
-
             currentApprovalWorkFlowLog.UpdateInfo(currentAction, approverId, remark);
+
             _unitOfWorkScope.Commit();
 
             var result = new ApprovalResult

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Runtime.InteropServices;
 using MITD.CurrencyAndMeasurement.Domain.Contracts;
@@ -80,6 +81,7 @@ namespace MITD.Fuel.Domain.Model.DomainObjects
             this.isFuelReportSubmitted = new IsFuelReportSubmitted();
 
             this.ApproveWorkFlows = new List<FuelReportWorkflowLog>();
+            this.FuelReportDetails = new Collection<FuelReportDetail>();
         }
 
         internal FuelReport(
@@ -94,7 +96,7 @@ namespace MITD.Fuel.Domain.Model.DomainObjects
             States state)
             : this()
         {
-            Id = id;
+            //Id = id;
 
             Code = code;
 
@@ -105,6 +107,38 @@ namespace MITD.Fuel.Domain.Model.DomainObjects
             ReportDate = reportDate;
 
             VesselInCompanyId = vesselInCompanyId;
+
+            VoyageId = voyageId;
+
+            FuelReportType = fuelReportType;
+
+            State = state;
+        }
+
+        internal FuelReport(
+            long id,
+            string code,
+            string description,
+            DateTime eventDate,
+            DateTime reportDate,
+            VesselInCompany vesselInCompany,
+            long? voyageId,
+            FuelReportTypes fuelReportType,
+            States state)
+            : this()
+        {
+            //Id = id;
+
+            Code = code;
+
+            Description = description;
+
+            EventDate = eventDate;
+
+            ReportDate = reportDate;
+
+            VesselInCompanyId = vesselInCompany.Id;
+            VesselInCompany = vesselInCompany;
 
             VoyageId = voyageId;
 
@@ -416,11 +450,15 @@ namespace MITD.Fuel.Domain.Model.DomainObjects
             {
                 var givenVoyage = voyageDomainService.Get(voyageId.Value);
 
+                if (!givenVoyage.EndDate.HasValue)
+                    throw new BusinessRuleException("", "Voyage has not ended or its EndDate is not reported yet.");
+
                 if (!(
                         givenVoyage.VesselInCompany.Id == this.VesselInCompanyId && //This is already checked in BR_FR2, but implemented due to Analysis indication.
                         (//Compare found voyage End Date with current fuel Report Date with the resolution of hour.
-                            EventDate.Date == givenVoyage.EndDate.Date &&
-                            EventDate.Hour == givenVoyage.EndDate.Hour
+                        //TODO: value
+                            EventDate.Date == givenVoyage.EndDate.Value.Date &&
+                            EventDate.Hour == givenVoyage.EndDate.Value.Hour
                         )
                     )
                 )

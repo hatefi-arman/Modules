@@ -19,6 +19,10 @@ namespace MITD.Fuel.Domain.Model.DomainObjects.OrderAggreate
         public long OrderItemId { get; private set; }
         public virtual OrderItem OrderItem { get; private set; }
         public decimal QuantityAmountInMainUnit { get; private set; }
+
+        /// <summary>
+        /// Main Unit Code
+        /// </summary>
         public string UnitCode { get; private set; }
 
         public Quantity Quantity { get; set; }
@@ -30,33 +34,36 @@ namespace MITD.Fuel.Domain.Model.DomainObjects.OrderAggreate
 
         public virtual InvoiceItem InvoiceItem { get; private set; }
 
+        //This will be used for retrieving current registered operations.
+        public long? InventoryOperationId { get; private set; }
+        public virtual InventoryOperation InventoryOperation { get; set; }
+
         public byte[] TimeStamp { get; private set; }
 
         //public long Sequence { get; set; }
 
+        //public OrderItemBalance(FuelReportDetail fuelReportDetail)
+        //{
+        //    FuelReportDetail = fuelReportDetail;
+        //    FuelReportCount += decimal.Parse(fuelReportDetail.Transfer.Value.ToString());
+        //}
         //
-        //        public OrderItemBalance(FuelReportDetail fuelReportDetail)
-        //        {
-        //            FuelReportDetail = fuelReportDetail;
-        //            FuelReportCount += decimal.Parse(fuelReportDetail.Transfer.Value.ToString());
-        //        }
+        //public OrderItemBalance(decimal fuelReportCount, decimal invoiceItemCount)
+        //{
+        //    FuelReportCount = fuelReportCount;
+        //    InvoiceItemCount = invoiceItemCount;
+        //} 
+        //public void UpdateOrderItemBalance(decimal fuelReportCount, decimal invoiceItemCount)
+        //{
+        //    FuelReportCount += fuelReportCount;
+        //    InvoiceItemCount += invoiceItemCount;
+        //}
         //
-        //        public OrderItemBalance(decimal fuelReportCount, decimal invoiceItemCount)
-        //        {
-        //            FuelReportCount = fuelReportCount;
-        //            InvoiceItemCount = invoiceItemCount;
-        //        } 
-        //        public void UpdateOrderItemBalance(decimal fuelReportCount, decimal invoiceItemCount)
-        //        {
-        //            FuelReportCount += fuelReportCount;
-        //            InvoiceItemCount += invoiceItemCount;
-        //        }
-        //
-        //        public OrderItemBalance(InvoiceItem invoiceItem)
-        //        {
-        //            InvoiceItem = invoiceItem;
-        //            InvoiceItemCount += invoiceItem.Quantity;
-        //        }
+        //public OrderItemBalance(InvoiceItem invoiceItem)
+        //{
+        //    InvoiceItem = invoiceItem;
+        //    InvoiceItemCount += invoiceItem.Quantity;
+        //}
 
         private void setQuantity(Quantity quantity)
         {
@@ -72,14 +79,27 @@ namespace MITD.Fuel.Domain.Model.DomainObjects.OrderAggreate
             setQuantity(quantity);
         }
 
-        public OrderItemBalance(OrderItem orderItem, long invoiceItemId, long fuelReportDetailId, decimal amount, string unitCode)
+        //public OrderItemBalance(OrderItem orderItem, long invoiceItemId, long fuelReportDetailId, decimal amount, string unitCode)
+        //{
+        //    OrderItemId = orderItem.Id;
+        //    OrderId = orderItem.OrderId;
+        //    InvoiceItemId = invoiceItemId;
+        //    FuelReportDetailId = fuelReportDetailId;
+        //    this.setQuantity(amount, unitCode);
+        //}
+
+        public OrderItemBalance(OrderItem orderItem, InvoiceItem invoiceItem, FuelReportDetail fuelReportDetail, decimal amount, string unitCode)
         {
-            OrderItemId = orderItem.Id;
+            OrderItem = orderItem;
             OrderId = orderItem.OrderId;
-            InvoiceItemId = invoiceItemId;
-            FuelReportDetailId = fuelReportDetailId;
+            InvoiceItem = invoiceItem;
+            FuelReportDetail = fuelReportDetail;
+            InvoiceItemId = invoiceItem.Id;
+            FuelReportDetailId = fuelReportDetail.Id;
+
             this.setQuantity(amount, unitCode);
         }
+
         //public OrderItemBalance(OrderItem orderItem, long fuelReportDetailId, decimal amount, string unitCode)
         //{
         //    OrderItemId = orderItem.Id;

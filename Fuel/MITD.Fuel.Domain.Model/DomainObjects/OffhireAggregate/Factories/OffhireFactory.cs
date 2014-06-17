@@ -83,7 +83,9 @@ namespace MITD.Fuel.Domain.Model.DomainObjects.Factories
             if (init == null)
                 throw new ObjectNotFound("OffhireInitialStep");
 
-            var offhireWorkflow = new OffhireWorkflowLog(offhire, WorkflowEntities.Offhire, DateTime.Now, WorkflowActions.Init, 1, "", init.Id, true);
+            var offhireWorkflow = new OffhireWorkflowLog(offhire, WorkflowEntities.Offhire, DateTime.Now, WorkflowActions.Init,
+                //TODO: Fake ActorId
+                    1101, "", init.Id, true);
 
             offhire.ApproveWorkflows.Add(offhireWorkflow);
 

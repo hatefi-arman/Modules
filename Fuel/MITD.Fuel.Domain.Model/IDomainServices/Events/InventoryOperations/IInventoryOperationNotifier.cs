@@ -3,6 +3,7 @@ using MITD.Fuel.Domain.Model.DomainObjects;
 using MITD.Fuel.Domain.Model.DomainObjects.CharterAggregate;
 using MITD.Fuel.Domain.Model.DomainObjects.InvoiceAggreate;
 using System.Threading.Tasks;
+using MITD.Fuel.Domain.Model.DomainObjects.OrderAggreate;
 
 namespace MITD.Fuel.Domain.Model.IDomainServices.Events.InventoryOperations
 {
@@ -13,6 +14,8 @@ namespace MITD.Fuel.Domain.Model.IDomainServices.Events.InventoryOperations
         List<InventoryOperation> NotifySubmittingScrap(Scrap source);
 
         List<InventoryOperation> NotifySubmittingInvoice(Invoice source);
+        
+        InventoryOperation NotifySubmittingOrderItemBalance(OrderItemBalance orderItemBalance);
 
         List<InventoryOperation> NotifySubmittingCharterInStart(CharterIn charterInStart);
         
