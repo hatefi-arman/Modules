@@ -356,12 +356,14 @@ namespace MITD.Fuel.Data.EF.Migrations
                 scrap.InventoryOperations.AddRange(new InventoryOperation[]
                     {
                      new InventoryOperation(
+                         111,
                      "INV#" + i + " - " +scrap.ScrapDate,
                         DateTime.Now,
                         InventoryActionType.Issue,
                         (long? )null,
                         (long? )null),
                      new InventoryOperation(
+                         112,
                         "INV#" + i++ + " - " +scrap.ScrapDate,
                         DateTime.Now,
                         InventoryActionType.Receipt,
@@ -447,7 +449,7 @@ namespace MITD.Fuel.Data.EF.Migrations
 
             context.SaveChanges();
 
-            context.InventoryOperations.Add(new InventoryOperation("INV" + DateTime.Now.ToString("yyyyMMddHHmmss"), DateTime.Now, InventoryActionType.Receipt, null, 1));
+            context.InventoryOperations.Add(new InventoryOperation(211,"INV" + DateTime.Now.ToString("yyyyMMddHHmmss"), DateTime.Now, InventoryActionType.Receipt, null, 1));
 
             context.SaveChanges();
 

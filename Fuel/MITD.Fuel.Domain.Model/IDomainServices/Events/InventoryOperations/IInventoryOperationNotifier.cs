@@ -9,6 +9,8 @@ namespace MITD.Fuel.Domain.Model.IDomainServices.Events.InventoryOperations
 {
     public interface IInventoryOperationNotifier : IEventNotifier
     {
+        InventoryOperation NotifySubmittingFuelReportConsumption(FuelReport fuelReport);
+
         List<InventoryOperation> NotifySubmittingFuelReportDetail(FuelReportDetail source);
 
         List<InventoryOperation> NotifySubmittingScrap(Scrap source);

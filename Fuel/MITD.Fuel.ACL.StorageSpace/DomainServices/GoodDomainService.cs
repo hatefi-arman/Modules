@@ -79,6 +79,7 @@ namespace MITD.Fuel.ACL.StorageSpace.DomainServices
 
         public GoodFullInfo GetGoodInfoes(long companyId, long goodId)
         {
+            //TODO: Must be implemented properly.
             return new GoodFullInfo
         {
             Good = goodRepository.Single(
@@ -99,12 +100,19 @@ namespace MITD.Fuel.ACL.StorageSpace.DomainServices
 
         public List<Good> GetMandatoryVesselGoods(long vesselInCompanyId, System.DateTime date)
         {
+            //TODO: Must be implemented properly.
             return goodRepository.GetAll().ToList();
         }
 
         public Good GetGoodWithUnitAndMainUnit(long goodId, long goodUnitId)
         {
             var good = goodRepository.FindByKey(goodId);
+            return good;
+        }
+
+        public Good FindGood(long companyId, long sharedGoodId)
+        {
+            var good = goodRepository.Single(g => g.SharedGoodId == sharedGoodId && g.CompanyId == companyId);
             return good;
         }
 

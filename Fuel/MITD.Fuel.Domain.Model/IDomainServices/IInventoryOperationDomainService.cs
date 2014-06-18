@@ -11,6 +11,9 @@ namespace MITD.Fuel.Domain.Model.IDomainServices
 {
     public interface IInventoryOperationDomainService : IDomainService
     {
+        InventoryOperation GetEndOfVoyageFuelReportConsumptionInventoryOperation(FuelReport fuelReport);
+        InventoryOperation GetEndOfMonthFuelReportConsumptionInventoryOperation(FuelReport fuelReport);
+        InventoryOperation GetEndOfYearFuelReportConsumptionInventoryOperation(FuelReport fuelReport);
         List<InventoryOperation> GetFuelReportInventoryOperations(FuelReport fuelReport);
         List<InventoryOperation> GetFuelReportDetailInventoryOperations(long fuelReportId, long fuelReportDetailId);
 

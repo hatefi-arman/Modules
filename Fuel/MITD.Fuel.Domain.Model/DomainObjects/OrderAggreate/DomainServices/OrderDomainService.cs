@@ -17,7 +17,6 @@ namespace MITD.Fuel.Domain.Model.DomainServices
     {
         private readonly IOrderRepository orderRepository;
 
-
         //TODO: A.H Huge Review
 
         public OrderDomainService(IOrderRepository orderRepository)
@@ -72,17 +71,11 @@ namespace MITD.Fuel.Domain.Model.DomainServices
 
         }
 
-       
-
-
         public void CancelOrder(long orderId)
         {
             var order = orderRepository.FindByKey(orderId);
             order.OrderState.CancelOrder(order);
         }
-
-
-
 
         public void DeleteInvoiceItemRefrencesFormBalance(long id)
         {

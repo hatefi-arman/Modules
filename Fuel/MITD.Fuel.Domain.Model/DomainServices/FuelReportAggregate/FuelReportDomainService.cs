@@ -452,7 +452,7 @@ namespace MITD.Fuel.Domain.Model.DomainServices
                     throw new ObjectNotFound("resultBag.Item.DetailId");
                 }
 
-                var inventoryOperationToPersist = inventoryOperationFactory.Create(fuelReportDetail, item.ActionNumber, item.ActionType, item.ActionDate);
+                var inventoryOperationToPersist = inventoryOperationFactory.Create(fuelReportDetail, item.OperationId, item.ActionNumber, item.ActionType, item.ActionDate);
 
                 inventoryOperationRepository.Add(inventoryOperationToPersist);
 
@@ -508,18 +508,16 @@ namespace MITD.Fuel.Domain.Model.DomainServices
 
         //================================================================================
 
-        public string[] GetVoyageConsumptionIssueNumber(long voyageId)
+        public InventoryOperation GetVoyageConsumptionIssueOperation(long voyageId)
         {
             var endOfVoyageFuelReport = this.GetVoyageValidEndOfVoyageFuelReport(voyageId);
 
-            var endOfVoyageInventoryOperations = inventoryOperationDomainService.GetFuelReportInventoryOperations(endOfVoyageFuelReport);
+            var endOfVoyageInventoryOperation = inventoryOperationDomainService.GetEndOfVoyageFuelReportConsumptionInventoryOperation(endOfVoyageFuelReport);
 
-            var firstInventoryOperation = endOfVoyageInventoryOperations.FirstOrDefault();
-
-            if (firstInventoryOperation == null)
+            if (endOfVoyageInventoryOperation == null)
                 throw new ObjectNotFound("VoyageConsumptionIssueNumber");
 
-            return new string[] { firstInventoryOperation.ActionNumber };
+            return endOfVoyageInventoryOperation;
         }
 
         //================================================================================

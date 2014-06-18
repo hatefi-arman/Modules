@@ -452,7 +452,7 @@ namespace MITD.Fuel.Data.EF.Migrations
 
             context.SaveChanges();
 
-            context.InventoryOperations.Add(new InventoryOperation("INV" + DateTime.Now.ToString("yyyyMMddHHmmss"), DateTime.Now, InventoryActionType.Receipt, null, 1));
+            context.InventoryOperations.Add(new InventoryOperation(212,"INV" + DateTime.Now.ToString("yyyyMMddHHmmss"), DateTime.Now, InventoryActionType.Receipt, null, 1));
 
             context.SaveChanges();
 

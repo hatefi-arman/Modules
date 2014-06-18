@@ -24,6 +24,36 @@ namespace MITD.Fuel.Domain.Model.DomainServices
             this.scrapDomainService = scrapDomainService;
         }
 
+        public InventoryOperation GetEndOfVoyageFuelReportConsumptionInventoryOperation(FuelReport fuelReport)
+        {
+            fuelReport.CheckToBeNotCancelled();
+
+            if(fuelReport.FuelReportType != FuelReportTypes.EndOfVoyage)
+                throw new InvalidArgument("The FuelReport is not of type End Of Voyage to find Consumption Invenroty.", "fuelReport");
+
+            return fuelReport.ConsumptionInventoryOperations.Last();
+        }
+
+        public InventoryOperation GetEndOfMonthFuelReportConsumptionInventoryOperation(FuelReport fuelReport)
+        {
+            fuelReport.CheckToBeNotCancelled();
+
+            if (fuelReport.FuelReportType != FuelReportTypes.EndOfMonth)
+                throw new InvalidArgument("The FuelReport is not of type End Of Month to find Consumption Invenroty.", "fuelReport");
+
+            return fuelReport.ConsumptionInventoryOperations.Last();
+        }
+
+        public InventoryOperation GetEndOfYearFuelReportConsumptionInventoryOperation(FuelReport fuelReport)
+        {
+            fuelReport.CheckToBeNotCancelled();
+
+            if (fuelReport.FuelReportType != FuelReportTypes.EndOfYear)
+                throw new InvalidArgument("The FuelReport is not of type End Of Year to find Consumption Invenroty.", "fuelReport");
+
+            return fuelReport.ConsumptionInventoryOperations.Last();
+        }
+
         public List<InventoryOperation> GetFuelReportInventoryOperations(FuelReport fuelReport)
         {
             fuelReport.CheckToBeNotCancelled();

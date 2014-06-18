@@ -6,11 +6,14 @@ using MITD.Fuel.Domain.Model.DomainObjects;
 using MITD.Fuel.Domain.Model.DomainObjects.CharterAggregate;
 using MITD.Fuel.Domain.Model.DomainObjects.InvoiceAggreate;
 using MITD.Fuel.Domain.Model.DomainObjects.OrderAggreate;
+using MITD.Fuel.Integration.Inventory.Data.ReversePOCO;
 
 namespace MITD.Fuel.Integration.Inventory
 {
-    public interface IInventoryOperationManagement
+    public interface IInventoryOperationManager
     {
+        InventoryOperation ManageFuelReportConsumption(FuelReport fuelReport, int userId);
+
         List<InventoryOperation> ManageFuelReportDetail(FuelReportDetail fuelReportDetail, int userId);
 
         List<InventoryOperation> ManageScrap(Scrap scrap, int userId);
@@ -26,5 +29,9 @@ namespace MITD.Fuel.Integration.Inventory
         List<InventoryOperation> ManageCharterOutStart(CharterOut charterOutStart, int userId);
 
         List<InventoryOperation> ManageCharterOutEnd(CharterOut charterOutEnd, int userId);
+
+        Transaction GetTransaction(long transactionId, InventoryOperationType operationType);
+
+        decimal GetAveragePrice(long transactionId, MITD.Fuel.Integration.Inventory.InventoryOperationManager.TransactionActionType actionType, long goodId, long unitId);
     }
 }

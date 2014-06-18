@@ -260,11 +260,11 @@ namespace MITD.Fuel.Domain.Model.DomainServices
 
         //================================================================================
 
-        public InventoryResult GetPricedIssueResult(long voyageId)
+        public InventoryResult GetVoyagePricedConsumptionIssue(long companyId, long voyageId)
         {
-            string[] voyageConsumptionIssueNumber = fuelReportDomainService.GetVoyageConsumptionIssueNumber(voyageId);
+            var voyageConsumptionIssueId = this.GetVoyageConsumptionIssueOperation(voyageId).InventoryOperationId;
 
-            var pricedIssueResult = inventoryManagementDomainService.GetPricedIssueResult(voyageConsumptionIssueNumber[0]);
+            var pricedIssueResult = inventoryManagementDomainService.GetPricedIssueResult(companyId, voyageConsumptionIssueId);
 
             return pricedIssueResult;
         }
@@ -319,9 +319,9 @@ namespace MITD.Fuel.Domain.Model.DomainServices
 
         //================================================================================
 
-        public string GetVoyageConsumptionIssueNumber(long voyageId)
+        public InventoryOperation GetVoyageConsumptionIssueOperation(long voyageId)
         {
-            return fuelReportDomainService.GetVoyageConsumptionIssueNumber(voyageId)[0];
+            return fuelReportDomainService.GetVoyageConsumptionIssueOperation(voyageId);
         }
 
         //================================================================================
@@ -522,9 +522,7 @@ namespace MITD.Fuel.Domain.Model.DomainServices
             if (voyage == null)
                 throw new BusinessRuleException("", "No Voyage is selected for vessel to fetch Consumption Issue Prices.");
 
-            string voyageConsumptionIssueNumber = fuelReportDomainService.GetVoyageConsumptionIssueNumber(voyage.Id)[0];
-
-            var pricedIssueResult = inventoryManagementDomainService.GetPricedIssueResult(voyageConsumptionIssueNumber);
+            var pricedIssueResult = this.GetVoyagePricedConsumptionIssue(voyage.CompanyId, voyage.Id);
 
             return pricedIssueResult.InventoryResultItems.Select(invi => new PricingValue() { Good = invi.Good, Currency = invi.Currency, Fee = invi.Price }).ToList();
         }

@@ -43,7 +43,7 @@ namespace MITD.Fuel.Domain.Model.IDomainServices
 
         List<FuelReport> GetVoyageAllEndOfVoyageFuelReport(Voyage voyage);
 
-        string[] GetVoyageConsumptionIssueNumber(long voyageId);
+        InventoryOperation GetVoyageConsumptionIssueOperation(long voyageId);
 
         ChangingFuelReportDateData GetChangingFuelReportDateData(long fuelReportId, DateTime newDateTime);
         List<Reference> GetFuelReportDetailRejectedTransferReferences(FuelReportDetail fuelReportDetail);
@@ -60,6 +60,7 @@ namespace MITD.Fuel.Domain.Model.IDomainServices
     public class InventoryResultCommandItem
     {
         public long FuelReportDetailId;
+        public long OperationId;
         public string ActionNumber;
         public InventoryActionType ActionType;
         public DateTime ActionDate;

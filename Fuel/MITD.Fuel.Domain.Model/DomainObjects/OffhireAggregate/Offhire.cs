@@ -305,7 +305,7 @@ namespace MITD.Fuel.Domain.Model.DomainObjects
         private void validateVoyagePricedIssueExistanceForCharterInIssueBasedPricingVessel(
             Voyage voyage, IOffhireDomainService offhireDomainService)
         {
-            var pricedIssueResult = offhireDomainService.GetPricedIssueResult(this.Voyage.Id);
+            var pricedIssueResult = offhireDomainService.GetVoyagePricedConsumptionIssue(voyage.CompanyId, voyage.Id);
 
             if (pricedIssueResult == null || pricedIssueResult.InventoryResultItems.Count == 0)
                 throw new BusinessRuleException("", "The Consumption Issue is not priced yet in Inventory.");
@@ -754,7 +754,7 @@ namespace MITD.Fuel.Domain.Model.DomainObjects
 
                 case OffHirePricingType.IssueBase:
 
-                    var issueReferenceNumber = offhireDomainService.GetVoyageConsumptionIssueNumber(voyage.Id);
+                    var issueReferenceNumber = offhireDomainService.GetVoyageConsumptionIssueOperation(voyage.Id).ActionNumber;
 
                     return new OffhirePricingReference() { Number = issueReferenceNumber, Type = OffHirePricingType.IssueBase };
 

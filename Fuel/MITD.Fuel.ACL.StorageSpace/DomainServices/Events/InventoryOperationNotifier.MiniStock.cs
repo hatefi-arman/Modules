@@ -21,7 +21,7 @@ namespace MITD.Fuel.ACL.StorageSpace.DomainServices.Events
         private IFuelReportDetailToFuelReportDetailDtoMapper fuelReportDetailDtoMapper;
         private readonly IInvoiceToDtoMapper invoiceToDtoMapper;
 
-        private readonly IInventoryOperationManagement inventoryOperationManagement;
+        private readonly IInventoryOperationManager inventoryOperationManager;
 
         public InventoryOperationNotifier(
             //IFuelReportFuelReportDtoMapper fuelReportDtoMapper,
@@ -29,18 +29,33 @@ namespace MITD.Fuel.ACL.StorageSpace.DomainServices.Events
             //IFuelReportDetailToFuelReportDetailDtoMapper fuelReportDetailDtoMapper
             )
         {
-            inventoryOperationManagement = new InventoryOperationManagement();
+            this.inventoryOperationManager = new InventoryOperationManager();
 
             //this.fuelReportDtoMapper = fuelReportDtoMapper;
             //this.invoiceToDtoMapper = invoiceToDtoMapper;
             //this.fuelReportDetailDtoMapper = fuelReportDetailDtoMapper;
         }
 
+        public InventoryOperation NotifySubmittingFuelReportConsumption(FuelReport fuelReport)
+        {
+            try
+            {
+                return this.inventoryOperationManager.ManageFuelReportConsumption(fuelReport,
+                    //TODO: Fake ActorId
+                    1101);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
         public List<InventoryOperation> NotifySubmittingFuelReportDetail(FuelReportDetail source)
         {
             try
             {
-                return inventoryOperationManagement.ManageFuelReportDetail(source,
+                return this.inventoryOperationManager.ManageFuelReportDetail(source,
                     //TODO: Fake ActorId
                     1101);
             }
@@ -58,6 +73,7 @@ namespace MITD.Fuel.ACL.StorageSpace.DomainServices.Events
             return new List<InventoryOperation>(new InventoryOperation[]
                     {
                      new InventoryOperation(
+                         312,
                         "INV# - " +DateTime.Now.Ticks,
                         DateTime.Now,
                         InventoryActionType.Issue,
@@ -89,6 +105,7 @@ namespace MITD.Fuel.ACL.StorageSpace.DomainServices.Events
             return new List<InventoryOperation>(new InventoryOperation[]
                     {
                      new InventoryOperation(
+                         312,
                      "INV# - " +DateTime.Now.Ticks,
                         DateTime.Now,
                         InventoryActionType.Issue,
@@ -103,6 +120,7 @@ namespace MITD.Fuel.ACL.StorageSpace.DomainServices.Events
             return new List<InventoryOperation>(new InventoryOperation[]
                     {
                      new InventoryOperation(
+                         312,
                      "INV# - " +DateTime.Now.Ticks,
                         DateTime.Now,
                         InventoryActionType.Issue,
@@ -114,7 +132,7 @@ namespace MITD.Fuel.ACL.StorageSpace.DomainServices.Events
         {
             try
             {
-                return inventoryOperationManagement.ManageOrderItemBalance(orderItemBalance,
+                return this.inventoryOperationManager.ManageOrderItemBalance(orderItemBalance,
                     //TODO: Fake ActorId
                     1101);
             }
@@ -129,7 +147,7 @@ namespace MITD.Fuel.ACL.StorageSpace.DomainServices.Events
         {
             try
             {
-                return inventoryOperationManagement.ManageCharterInStart(charterInStart,
+                return this.inventoryOperationManager.ManageCharterInStart(charterInStart,
                     //TODO: Fake ActorId
                     1101);
             }
@@ -143,6 +161,7 @@ namespace MITD.Fuel.ACL.StorageSpace.DomainServices.Events
             return new List<InventoryOperation>(new InventoryOperation[]
                     {
                      new InventoryOperation(
+                         312,
                      "INV# - " +DateTime.Now.Ticks,
                         DateTime.Now,
                         InventoryActionType.Issue,
@@ -155,6 +174,7 @@ namespace MITD.Fuel.ACL.StorageSpace.DomainServices.Events
             return new List<InventoryOperation>(new InventoryOperation[]
                     {
                      new InventoryOperation(
+                         312,
                      "INV# - " +DateTime.Now.Ticks,
                         DateTime.Now,
                         InventoryActionType.Issue,
@@ -167,6 +187,7 @@ namespace MITD.Fuel.ACL.StorageSpace.DomainServices.Events
             return new List<InventoryOperation>(new InventoryOperation[]
                     {
                      new InventoryOperation(
+                         312,
                      "INV# - " +DateTime.Now.Ticks,
                         DateTime.Now,
                         InventoryActionType.Issue,
@@ -179,6 +200,7 @@ namespace MITD.Fuel.ACL.StorageSpace.DomainServices.Events
             return new List<InventoryOperation>(new InventoryOperation[]
                     {
                      new InventoryOperation(
+                         312,
                      "INV# - " +DateTime.Now.Ticks,
                         DateTime.Now,
                         InventoryActionType.Issue,
