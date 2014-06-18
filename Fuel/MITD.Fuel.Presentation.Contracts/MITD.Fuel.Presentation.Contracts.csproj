@@ -70,6 +70,10 @@
     <Compile Include="DTOs\FuelReportCommandDto.cs" />
     <Compile Include="DTOs\Security\ActionTypeDto.cs" />
     <Compile Include="DTOs\Security\ActionTypeDto_Server.cs" />
+    <Compile Include="DTOs\Security\EventLogDto.cs" />
+    <Compile Include="DTOs\Security\ExceptionLogDto.cs" />
+    <Compile Include="DTOs\Security\LogDto.cs" />
+    <Compile Include="DTOs\Security\LogDto_Server.cs" />
     <Compile Include="DTOs\Security\PartyDto.cs" />
     <Compile Include="DTOs\Security\PartyDTOwithActions.cs" />
     <Compile Include="DTOs\Security\PartyDto_Server.cs" />
@@ -87,6 +91,7 @@
     <Compile Include="Enums\ReferenceTypeEnum.cs" />
     <Compile Include="Enums\ResultType.cs" />
     <Compile Include="Enums\WorkflowStageEnum.cs" />
+    <Compile Include="FacadeServices\ILogFacadeService.cs" />
     <Compile Include="FacadeServices\ISecurityFacadeService.cs" />
     <Compile Include="FacadeServices\IUnitOfMeasuresAndCurrenciesFacadeService.cs" />
     <Compile Include="Infrastructure\EnumDescriptor.cs" />

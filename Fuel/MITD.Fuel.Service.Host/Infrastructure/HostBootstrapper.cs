@@ -18,6 +18,7 @@ using MITD.Domain.Model;
 using MITD.Domain.Repository;
 using MITD.Fuel.Application;
 using MITD.Fuel.Application.Facade;
+using MITD.Fuel.Application.Service.Security;
 using MITD.Fuel.Domain.Model.Factories;
 using MITD.Fuel.Domain.Model.IDomainServices;
 using MITD.Fuel.Infrastructure.Service;
@@ -193,6 +194,16 @@ namespace MITD.Fuel.Service.Host.Infrastructure
                 .LifestyleTransient());
 
             #endregion
+
+
+            // Log
+            container.Register(
+               Component.For<ILoggerService>().ImplementedBy<DbLoggerService>().Named("DB").LifeStyle.Transient,
+               Component.For<ILoggerService>().ImplementedBy<FileLoggerService>().Named("File").LifeStyle.Transient
+              
+               );
+
+
 
             //externalHostAddressHelper
             container.Register(Component.For<ExternalHostAddressHelper>()

@@ -72,6 +72,7 @@
       <HintPath>..\..\Dependencies\Omu.ValueInjecter.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.Entity" />
     <Reference Include="System.Transactions" />
@@ -82,6 +83,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Facade\Contracts\Mappers\ILogToDtoMapper.cs" />
     <Compile Include="Facade\Contracts\Mappers\IOffhireToOffhireDtoMapper.cs" />
     <Compile Include="Facade\Contracts\Mappers\IOffhireManagementSystemEntityToOffhireManagementSystemDtoMapper.cs" />
     <Compile Include="Facade\Contracts\Mappers\IActivityLocationToActivityLocationDtoMapper.cs" />
@@ -92,7 +94,10 @@
     <Compile Include="Facade\Contracts\Mappers\IEffectiveFactorMapper.cs" />
     <Compile Include="Facade\Contracts\Mappers\IInvoiceAdditionalPriceToDtoMapper.cs" />
     <Compile Include="Facade\Contracts\Mappers\IUserToUserDto.cs" />
+    <Compile Include="Facade\Mappers\LogToDtoMapper.cs" />
     <Compile Include="Facade\Mappers\MethodMapper.cs" />
+    <Compile Include="Facade\Security\LogFacadeService.cs" />
+    <Compile Include="Facade\Security\LogFacadeServiceFactory.cs" />
     <Compile Include="Facade\Security\SecurityFacadeService.cs" />
     <Compile Include="Facade\Security\SecurityFacadeServiceFactory.cs" />
     <Compile Include="Facade\UnitOfMeasuresAndCurrencies.cs" />
@@ -187,7 +192,11 @@
     <Compile Include="Service\FuelReportApplicationService.cs" />
     <Compile Include="Service\OrderApplicationService.cs" />
     <Compile Include="Service\ScrapApplicationService.cs" />
+    <Compile Include="Service\Security\DbLoggerService.cs" />
+    <Compile Include="Service\Security\FileLoggerService.cs" />
+    <Compile Include="Service\Security\ILogService.cs" />
     <Compile Include="Service\Security\ISecurityApplicationService.cs" />
+    <Compile Include="Service\Security\LogService.cs" />
     <Compile Include="Service\Security\SecurityApplicationService.cs" />
   </ItemGroup>
   <ItemGroup>
