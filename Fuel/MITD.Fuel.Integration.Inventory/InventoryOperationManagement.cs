@@ -93,7 +93,7 @@ namespace MITD.Fuel.Integration.Inventory
 
         //================================================================================
 
-        private OperationReference findInvenotryOperationReference(InventoryDbContext dbContext, InventoryOperationType transactionType, string referenceType, string referenceNumber)
+        private OperationReference findInventoryOperationReference(InventoryDbContext dbContext, InventoryOperationType transactionType, string referenceType, string referenceNumber)
         {
             var foundOperationReference = dbContext.OperationReferences.FirstOrDefault(tr => tr.OperationType == (int)transactionType &&
                 tr.ReferenceType == referenceType &&
@@ -484,7 +484,7 @@ namespace MITD.Fuel.Integration.Inventory
         private static int getMeasurementUnitId(InventoryDbContext dbContext, string abbreviation)
         {
             return dbContext.Units.Single(u =>
-                (u.IsCurrency == null || u.IsCurrency.Value == false) && 
+                (u.IsCurrency == null || u.IsCurrency.Value == false) &&
                 u.Code.ToUpper() == abbreviation.ToUpper()).Id;
         }
 
@@ -512,89 +512,89 @@ namespace MITD.Fuel.Integration.Inventory
                     //    fuelReport.FuelReportType == FuelReportTypes.EndOfYear ||
                     //    fuelReport.FuelReportType == FuelReportTypes.EndOfMonth)
                     //{
-                        //TODO: EOV-EOM-EOY
+                    //TODO: EOV-EOM-EOY
 
-                        #region EOV-EOM-EOY
+                    #region EOV-EOM-EOY
 
-                        var goodsConsumption = new Dictionary<long, decimal>();
+                    var goodsConsumption = new Dictionary<long, decimal>();
 
-                        foreach (var detail in fuelReport.FuelReportDetails)
+                    foreach (var detail in fuelReport.FuelReportDetails)
+                    {
+                        var consumption = calculateConsumption(detail);
+
+                        goodsConsumption.Add(detail.GoodId, consumption);
+                    }
+
+
+                    var reference = findInventoryOperationReference(dbContext, InventoryOperationType.Issue, EOV_EOM_EOY_FUEL_REPORT_CONSUMPTION, fuelReport.Id.ToString());
+
+                    //if (reference.OperationId == INVALID_ID)
+                    if (reference == null)
+                    {
+                        string transactionCode, transactionMessage;
+
+                        var operationReference =
+                            issue(
+                                  dbContext,
+                                  (int)fuelReport.VesselInCompany.CompanyId,
+                                  (int)fuelReport.VesselInCompany.VesselInInventory.Id,
+                                  1,
+                                  convertFuelReportConsumptionTypeToStoreType(fuelReport),
+                                  EOV_EOM_EOY_FUEL_REPORT_CONSUMPTION,
+                                  fuelReport.Id.ToString(),
+                                  userId,
+                                  out transactionCode,
+                                  out transactionMessage);
+
+                        string transactionItemMessage;
+
+                        var transactionItems = new List<TransactionItem>();
+
+                        foreach (var fuelReportDetail in fuelReport.FuelReportDetails)
                         {
-                            var consumption = calculateConsumption(detail);
-
-                            goodsConsumption.Add(detail.GoodId, consumption);
+                            transactionItems.Add(new TransactionItem()
+                                                 {
+                                                     GoodId = (int)fuelReportDetail.Good.SharedGoodId,
+                                                     CreateDate = DateTime.Now,
+                                                     Description = fuelReportDetail.FuelReport.FuelReportType.ToString(),
+                                                     QuantityAmount = goodsConsumption[fuelReportDetail.GoodId],
+                                                     QuantityUnitId = getMeasurementUnitId(dbContext, fuelReportDetail.MeasuringUnit.Abbreviation),
+                                                     TransactionId = (int)operationReference.OperationId,
+                                                     UserCreatorId = userId
+                                                 });
                         }
 
+                        var registeredTransactionIds = addTransactionItems(dbContext, (int)operationReference.OperationId, transactionItems, userId, out transactionItemMessage);
 
-                        var reference = findInvenotryOperationReference(dbContext, InventoryOperationType.Issue, EOV_EOM_EOY_FUEL_REPORT_CONSUMPTION, fuelReport.Id.ToString());
+                        string issuedItemsPricingMessage;
+                        //TODO: Items Automatic Pricing
+                        //Automatic Pricing
 
-                        //if (reference.OperationId == INVALID_ID)
-                        if (reference == null)
+                        try
                         {
-                            string transactionCode, transactionMessage;
-
-                            var operationReference =
-                                issue(
-                                      dbContext,
-                                      (int)fuelReport.VesselInCompany.CompanyId,
-                                      (int)fuelReport.VesselInCompany.VesselInInventory.Id,
-                                      1,
-                                      convertFuelReportConsumptionTypeToStoreType(fuelReport),
-                                      EOV_EOM_EOY_FUEL_REPORT_CONSUMPTION,
-                                      fuelReport.Id.ToString(),
-                                      userId,
-                                      out transactionCode,
-                                      out transactionMessage);
-
-                            string transactionItemMessage;
-
-                            var transactionItems = new List<TransactionItem>();
-
-                            foreach (var fuelReportDetail in fuelReport.FuelReportDetails)
-                            {
-                                transactionItems.Add(new TransactionItem()
-                                                     {
-                                                         GoodId = (int)fuelReportDetail.Good.SharedGoodId,
-                                                         CreateDate = DateTime.Now,
-                                                         Description = fuelReportDetail.FuelReport.FuelReportType.ToString(),
-                                                         QuantityAmount = goodsConsumption[fuelReportDetail.GoodId],
-                                                         QuantityUnitId = getMeasurementUnitId(dbContext, fuelReportDetail.MeasuringUnit.Abbreviation),
-                                                         TransactionId = (int)operationReference.OperationId,
-                                                         UserCreatorId = userId
-                                                     });
-                            }
-
-                            var registeredTransactionIds = addTransactionItems(dbContext, (int)operationReference.OperationId, transactionItems, userId, out transactionItemMessage);
-
-                            string issuedItemsPricingMessage;
-                            //TODO: Items Automatic Pricing
-                            //Automatic Pricing
-
-                            try
-                            {
-                                priceIssuedItemsAutomatically(dbContext, registeredTransactionIds, userId, out issuedItemsPricingMessage, EOV_EOM_EOY_FUEL_REPORT_CONSUMPTION_PRICING, fuelReport.Id.ToString());  //FuelReportDetail ID
-                            }
-                            catch
-                            {
-                            }
-
-                            result = new InventoryOperation(
-                                           inventoryOperationId: operationReference.OperationId,
-                                           actionNumber: string.Format("{0}/{1}", (InventoryOperationType)operationReference.OperationType, operationReference.OperationId),
-                                           actionDate: DateTime.Now,
-                                           actionType: InventoryActionType.Issue,
-                                           fuelReportDetailId: null,
-                                           charterId: null);
+                            priceIssuedItemsAutomatically(dbContext, registeredTransactionIds, userId, out issuedItemsPricingMessage, EOV_EOM_EOY_FUEL_REPORT_CONSUMPTION_PRICING, fuelReport.Id.ToString());  //FuelReportDetail ID
                         }
-                        else
+                        catch
                         {
-                            throw new InvalidOperation("EndOfVoyage/Month/Year inventory edit", "EndOfVoyage/Month/Year inventory edit is invalid");
-                            var transactionItems = dbContext.TransactionItems.Where(ti => ti.TransactionId == reference.OperationId);
                         }
 
-                        #endregion
+                        result = new InventoryOperation(
+                                       inventoryOperationId: operationReference.OperationId,
+                                       actionNumber: string.Format("{0}/{1}", (InventoryOperationType)operationReference.OperationType, operationReference.OperationId),
+                                       actionDate: DateTime.Now,
+                                       actionType: InventoryActionType.Issue,
+                                       fuelReportDetailId: null,
+                                       charterId: null);
+                    }
+                    else
+                    {
+                        throw new InvalidOperation("EndOfVoyage/Month/Year inventory edit", "EndOfVoyage/Month/Year inventory edit is invalid");
+                        var transactionItems = dbContext.TransactionItems.Where(ti => ti.TransactionId == reference.OperationId);
+                    }
+
+                    #endregion
                     //}
-                    
+
                     transaction.Commit();
 
                     return result;
@@ -608,20 +608,137 @@ namespace MITD.Fuel.Integration.Inventory
             {
                 using (var transaction = dbContext.Database.BeginTransaction(System.Data.IsolationLevel.ReadCommitted))
                 {
-                    try
+                    var result = new List<Domain.Model.DomainObjects.InventoryOperation>();
+
+                    if (fuelReportDetail.Receive.HasValue)
                     {
-                        var result = new List<Domain.Model.DomainObjects.InventoryOperation>();
+                        //TODO: Receive OK Except for Trust
+                        #region Receive
+                        var reference = findInventoryOperationReference(dbContext, InventoryOperationType.Receipt, FUEL_REPORT_DETAIL_RECEIVE, fuelReportDetail.Id.ToString());
 
-                        /*if (fuelReportDetail.FuelReport.FuelReportType == FuelReportTypes.EndOfVoyage ||
-                            fuelReportDetail.FuelReport.FuelReportType == FuelReportTypes.EndOfYear ||
-                            fuelReportDetail.FuelReport.FuelReportType == FuelReportTypes.EndOfMonth)
+                        //if (reference.OperationId == INVALID_ID)
+                        if (reference == null)
                         {
-                            //TODO: EOV-EOM-EOY
-                            #region EOV-EOM-EOY
+                            string transactionCode, transactionMessage;
 
-                            var consumption = calculateConsumption(fuelReportDetail);
+                            var operationReference =
+                                receipt(
+                                    dbContext,
+                                    (int)fuelReportDetail.FuelReport.VesselInCompany.CompanyId,
+                                    (int)fuelReportDetail.FuelReport.VesselInCompany.VesselInInventory.Id,
+                                    1,
+                                    convertFuelReportReceiveTypeToStoreType(fuelReportDetail),
+                                    FUEL_REPORT_DETAIL_RECEIVE,
+                                    fuelReportDetail.Id.ToString(),
+                                    userId,
+                                    out transactionCode,
+                                    out transactionMessage);
 
-                            var reference = findInvenotryOperationReference(dbContext, InventoryOperationType.Issue, EOV_EOM_EOY_FUEL_REPORT_DETAIL_CONSUMPTION, fuelReportDetail.Id.ToString());
+                            string transactionItemMessage;
+
+                            var transactionItems = new List<TransactionItem>();
+                            transactionItems.Add(new TransactionItem()
+                            {
+                                GoodId = (int)fuelReportDetail.Good.SharedGoodId,
+                                CreateDate = DateTime.Now,
+                                Description = fuelReportDetail.FuelReport.FuelReportType.ToString(),
+                                QuantityAmount = (decimal?)fuelReportDetail.Receive.Value,
+                                QuantityUnitId = getMeasurementUnitId(dbContext, fuelReportDetail.MeasuringUnit.Abbreviation),
+                                TransactionId = (int)operationReference.OperationId,
+                                UserCreatorId = userId
+                            });
+
+                            addTransactionItems(dbContext, (int)operationReference.OperationId, transactionItems, userId, out transactionItemMessage);
+
+                            result.Add(new InventoryOperation(
+                                        inventoryOperationId: operationReference.OperationId,
+                                        actionNumber: string.Format("{0}/{1}", (InventoryOperationType)operationReference.OperationType, transactionCode),
+                                        actionDate: DateTime.Now,
+                                        actionType: InventoryActionType.Receipt,
+                                        fuelReportDetailId: fuelReportDetail.Id,
+                                        charterId: null));
+                        }
+                        else
+                        {
+                            throw new InvalidOperation("FR Receive Receipt Edit", "FueReport Receive edit is invalid");
+
+                            var transactionItems = dbContext.TransactionItems.Where(ti => ti.TransactionId == reference.OperationId);
+
+
+                        }
+                        #endregion
+                    }
+
+                    if (fuelReportDetail.Transfer.HasValue)
+                    {
+                        //TODO: Transfer
+                        #region Transfer
+
+                        var reference = findInventoryOperationReference(dbContext, InventoryOperationType.Issue, FUEL_REPORT_DETAIL_TRANSFER, fuelReportDetail.Id.ToString());
+
+                        //if (reference.OperationId == INVALID_ID)
+                        if (reference == null)
+                        {
+                            string transactionCode, transactionMessage;
+
+                            var operationReference =
+                                issue(
+                                    dbContext,
+                                    (int)fuelReportDetail.FuelReport.VesselInCompany.CompanyId,
+                                    (int)fuelReportDetail.FuelReport.VesselInCompany.VesselInInventory.Id,
+                                    1,
+                                    convertFuelReportTransferTypeToStoreType(fuelReportDetail),
+                                    FUEL_REPORT_DETAIL_TRANSFER,
+                                    fuelReportDetail.Id.ToString(),
+                                    userId,
+                                    out transactionCode,
+                                    out transactionMessage);
+
+                            string transactionItemMessage;
+
+                            var transactionItems = new List<TransactionItem>();
+                            transactionItems.Add(new TransactionItem()
+                            {
+                                GoodId = (int)fuelReportDetail.Good.SharedGoodId,
+                                CreateDate = DateTime.Now,
+                                Description = fuelReportDetail.FuelReport.FuelReportType.ToString(),
+                                QuantityAmount = (decimal?)fuelReportDetail.Transfer.Value,
+                                QuantityUnitId = getMeasurementUnitId(dbContext, fuelReportDetail.MeasuringUnit.Abbreviation),
+                                TransactionId = (int)operationReference.OperationId,
+                                UserCreatorId = userId
+                            });
+
+                            addTransactionItems(dbContext, (int)operationReference.OperationId, transactionItems, userId, out transactionItemMessage);
+
+                            result.Add(new InventoryOperation(
+                                        inventoryOperationId: operationReference.OperationId,
+                                        actionNumber: string.Format("{0}/{1}", (InventoryOperationType)operationReference.OperationType, transactionCode),
+                                        actionDate: DateTime.Now,
+                                        actionType: InventoryActionType.Issue,
+                                        fuelReportDetailId: fuelReportDetail.Id,
+                                        charterId: null));
+                        }
+                        else
+                        {
+                            throw new InvalidOperation("FR Transfer Issue Edit", "FueReport Transfer edit is invalid");
+
+                            var transactionItems = dbContext.TransactionItems.Where(ti => ti.TransactionId == reference.OperationId);
+
+
+                        }
+                        #endregion
+                    }
+
+                    if (fuelReportDetail.Correction.HasValue && fuelReportDetail.CorrectionType.HasValue &&
+                        fuelReportDetail.CorrectionPrice.HasValue &&
+                        !string.IsNullOrWhiteSpace(fuelReportDetail.CorrectionPriceCurrencyISOCode))
+                    {
+                        if (fuelReportDetail.CorrectionType.Value == CorrectionTypes.Minus)
+                        {
+                            //TODO: Decremental Correction
+                            #region Decremental Correction
+
+                            var reference = findInventoryOperationReference(dbContext, InventoryOperationType.Issue, FUEL_REPORT_DETAIL_DECREMENTAL_CORRECTION, fuelReportDetail.Id.ToString());
 
                             //if (reference.OperationId == INVALID_ID)
                             if (reference == null)
@@ -634,8 +751,8 @@ namespace MITD.Fuel.Integration.Inventory
                                         (int)fuelReportDetail.FuelReport.VesselInCompany.CompanyId,
                                         (int)fuelReportDetail.FuelReport.VesselInCompany.VesselInInventory.Id,
                                         1,
-                                        convertFuelReportConsumptionTypeToStoreType(fuelReportDetail),
-                                        EOV_EOM_EOY_FUEL_REPORT_DETAIL_CONSUMPTION,
+                                        convertFuelReportCorrectionTypeToStoreType(fuelReportDetail),
+                                        FUEL_REPORT_DETAIL_DECREMENTAL_CORRECTION,
                                         fuelReportDetail.Id.ToString(),
                                         userId,
                                         out transactionCode,
@@ -645,33 +762,43 @@ namespace MITD.Fuel.Integration.Inventory
 
                                 var transactionItems = new List<TransactionItem>();
                                 transactionItems.Add(new TransactionItem()
-                                                     {
-                                                         GoodId = (int)fuelReportDetail.Good.SharedGoodId,
-                                                         CreateDate = DateTime.Now,
-                                                         Description = fuelReportDetail.FuelReport.FuelReportType.ToString(),
-                                                         QuantityAmount = consumption,
-                                                         QuantityUnitId = getMeasurementUnitId(dbContext, fuelReportDetail.MeasuringUnit.Abbreviation),
-                                                         TransactionId = (int)operationReference.OperationId,
-                                                         UserCreatorId = userId
-                                                     });
-
-                                var registeredTransactionIds = addTransactionItems(dbContext, (int)operationReference.OperationId, transactionItems, userId, out transactionItemMessage);
-
-                                string issuedItemsPricingMessage;
-                                //TODO: Items Automatic Pricing
-                                //Automatic Pricing
-
-                                try
                                 {
-                                    priceIssuedItemsAutomatically(dbContext, registeredTransactionIds, userId, out issuedItemsPricingMessage, EOV_EOM_EOY_FUEL_REPORT_DETAIL_CONSUMPTION_PRICING, fuelReportDetail.Id.ToString());
-                                }
-                                catch
+                                    GoodId = (int)fuelReportDetail.Good.SharedGoodId,
+                                    CreateDate = DateTime.Now,
+                                    Description = fuelReportDetail.FuelReport.FuelReportType.ToString(),
+                                    QuantityAmount = calculateCorrectionAmount(fuelReportDetail),
+                                    QuantityUnitId = getMeasurementUnitId(dbContext, fuelReportDetail.MeasuringUnit.Abbreviation),
+                                    TransactionId = (int)operationReference.OperationId,
+                                    UserCreatorId = userId
+                                });
+
+                                var transactionItemIds = addTransactionItems(dbContext, (int)operationReference.OperationId, transactionItems, userId, out transactionItemMessage);
+
+                                //TODO: Items Pricing.
+
+
+                                var transactionItemPrice = new TransactionItemPrice()
                                 {
-                                }
+                                    TransactionItemId = transactionItemIds[0],
+                                    QuantityUnitId = getMeasurementUnitId(dbContext, fuelReportDetail.MeasuringUnit.Abbreviation),
+                                    QuantityAmount = (decimal?)fuelReportDetail.Correction,
+                                    PriceUnitId = getCurrencyId(dbContext, fuelReportDetail.CorrectionPriceCurrency.Abbreviation),
+                                    Fee = fuelReportDetail.CorrectionPrice,
+                                    RegistrationDate = DateTime.Now,
+                                    Description = "Deceremental Correction Pricing > " + fuelReportDetail.Good.Code,
+                                    UserCreatorId = userId
+                                };
+
+                                string pricingMessage;
+                                //int? notPricedTransactionId;
+
+                                priceIssuedItemAutomatically(dbContext, transactionItemIds[0], userId,
+                                    out pricingMessage, FUEL_REPORT_DETAIL_DECREMENTAL_CORRECTION_PRICING,
+                                    fuelReportDetail.Id.ToString());
 
                                 result.Add(new InventoryOperation(
                                             inventoryOperationId: operationReference.OperationId,
-                                            actionNumber: string.Format("{0}/{1}", operationReference.OperationType, operationReference.OperationId),
+                                            actionNumber: string.Format("{0}/{1}", (InventoryOperationType)operationReference.OperationType, transactionCode),
                                             actionDate: DateTime.Now,
                                             actionType: InventoryActionType.Issue,
                                             fuelReportDetailId: fuelReportDetail.Id,
@@ -679,305 +806,95 @@ namespace MITD.Fuel.Integration.Inventory
                             }
                             else
                             {
-                                throw new InvalidOperation("EndOfVoyage/Month/Year inventory edit", "EndOfVoyage/Month/Year inventory edit is invalid");
+                                throw new InvalidOperation("FR Decremental Correction Edit", "FueReport  Decremental Correction edit is invalid");
                                 var transactionItems = dbContext.TransactionItems.Where(ti => ti.TransactionId == reference.OperationId);
                             }
+
                             #endregion
                         }
-                        else*/
+                        else
                         {
-                            if (fuelReportDetail.Receive.HasValue)
+                            //TODO: Incremental Correction
+                            #region Incremental Correction
+
+                            var reference = findInventoryOperationReference(dbContext, InventoryOperationType.Receipt, FUEL_REPORT_DETAIL_INCREMENTAL_CORRECTION, fuelReportDetail.Id.ToString());
+
+                            //if (reference.OperationId == INVALID_ID)
+                            if (reference == null)
                             {
-                                //TODO: Receive OK Except for Trust
-                                #region Receive
-                                var reference = findInvenotryOperationReference(dbContext, InventoryOperationType.Receipt, FUEL_REPORT_DETAIL_RECEIVE, fuelReportDetail.Id.ToString());
+                                string transactionCode, transactionMessage;
 
-                                //if (reference.OperationId == INVALID_ID)
-                                if (reference == null)
+                                var operationReference =
+                                    issue(
+                                        dbContext,
+                                        (int)fuelReportDetail.FuelReport.VesselInCompany.CompanyId,
+                                        (int)fuelReportDetail.FuelReport.VesselInCompany.VesselInInventory.Id,
+                                        1,
+                                        convertFuelReportCorrectionTypeToStoreType(fuelReportDetail),
+                                        FUEL_REPORT_DETAIL_INCREMENTAL_CORRECTION,
+                                        fuelReportDetail.Id.ToString(),
+                                        userId,
+                                        out transactionCode,
+                                        out transactionMessage);
+
+                                string transactionItemMessage;
+
+                                var transactionItems = new List<TransactionItem>();
+                                transactionItems.Add(new TransactionItem()
                                 {
-                                    string transactionCode, transactionMessage;
+                                    GoodId = (int)fuelReportDetail.Good.SharedGoodId,
+                                    CreateDate = DateTime.Now,
+                                    Description = fuelReportDetail.FuelReport.FuelReportType.ToString(),
+                                    QuantityAmount = calculateCorrectionAmount(fuelReportDetail),
+                                    QuantityUnitId = getMeasurementUnitId(dbContext, fuelReportDetail.MeasuringUnit.Abbreviation),
+                                    TransactionId = (int)operationReference.OperationId,
+                                    UserCreatorId = userId
+                                });
 
-                                    var operationReference =
-                                        receipt(
-                                            dbContext,
-                                            (int)fuelReportDetail.FuelReport.VesselInCompany.CompanyId,
-                                            (int)fuelReportDetail.FuelReport.VesselInCompany.VesselInInventory.Id,
-                                            1,
-                                            convertFuelReportReceiveTypeToStoreType(fuelReportDetail),
-                                            FUEL_REPORT_DETAIL_RECEIVE,
-                                            fuelReportDetail.Id.ToString(),
-                                            userId,
-                                            out transactionCode,
-                                            out transactionMessage);
+                                var transactionItemIds = addTransactionItems(dbContext, (int)operationReference.OperationId, transactionItems, userId, out transactionItemMessage);
 
-                                    string transactionItemMessage;
-
-                                    var transactionItems = new List<TransactionItem>();
-                                    transactionItems.Add(new TransactionItem()
-                                    {
-                                        GoodId = (int)fuelReportDetail.Good.SharedGoodId,
-                                        CreateDate = DateTime.Now,
-                                        Description = fuelReportDetail.FuelReport.FuelReportType.ToString(),
-                                        QuantityAmount = (decimal?)fuelReportDetail.Receive.Value,
-                                        QuantityUnitId = getMeasurementUnitId(dbContext, fuelReportDetail.MeasuringUnit.Abbreviation),
-                                        TransactionId = (int)operationReference.OperationId,
-                                        UserCreatorId = userId
-                                    });
-
-                                    addTransactionItems(dbContext, (int)operationReference.OperationId, transactionItems, userId, out transactionItemMessage);
-
-                                    result.Add(new InventoryOperation(
-                                                inventoryOperationId: operationReference.OperationId,
-                                                actionNumber: string.Format("{0}/{1}", (InventoryOperationType)operationReference.OperationType, transactionCode),
-                                                actionDate: DateTime.Now,
-                                                actionType: InventoryActionType.Receipt,
-                                                fuelReportDetailId: fuelReportDetail.Id,
-                                                charterId: null));
-                                }
-                                else
-                                {
-                                    throw new InvalidOperation("FR Receive Receipt Edit", "FueReport Receive edit is invalid");
-
-                                    var transactionItems = dbContext.TransactionItems.Where(ti => ti.TransactionId == reference.OperationId);
+                                //TODO: Items Pricing.
 
 
-                                }
-                                #endregion
+                                //var transactionItemPrice = new TransactionItemPrice()
+                                //{
+                                //    TransactionItemId = transactionItemIds[0],
+                                //    QuantityUnitId = getMeasurementUnitId(dbContext, fuelReportDetail.MeasuringUnit.Abbreviation),
+                                //    QuantityAmount = (decimal?)fuelReportDetail.Correction,
+                                //    PriceUnitId = getCurrencyId(dbContext, fuelReportDetail.CorrectionPriceCurrency.Abbreviation),
+                                //    Fee = fuelReportDetail.CorrectionPrice,
+                                //    RegistrationDate = DateTime.Now,
+                                //    Description = "Inceremental Correction Pricing > " + fuelReportDetail.Good.Code,
+                                //    UserCreatorId = userId
+                                //};
+
+                                //string pricingMessage;
+
+                                //priceTransactionItemManually(dbContext, transactionItemPrice, userId, out pricingMessage, FUEL_REPORT_DETAIL_INCREMENTAL_CORRECTION_PRICING, fuelReportDetail.Id.ToString());
+
+
+                                result.Add(new InventoryOperation(
+                                            inventoryOperationId: operationReference.OperationId,
+                                            actionNumber: string.Format("{0}/{1}", (InventoryOperationType)operationReference.OperationType, transactionCode),
+                                            actionDate: DateTime.Now,
+                                            actionType: InventoryActionType.Receipt,
+                                            fuelReportDetailId: fuelReportDetail.Id,
+                                            charterId: null));
+
+                            }
+                            else
+                            {
+                                throw new InvalidOperation("FR Incremental Correction Edit", "FueReport  Incremental Correction edit is invalid");
+                                var transactionItems = dbContext.TransactionItems.Where(ti => ti.TransactionId == reference.OperationId);
                             }
 
-                            if (fuelReportDetail.Transfer.HasValue)
-                            {
-                                //TODO: Transfer
-                                #region Transfer
-
-                                var reference = findInvenotryOperationReference(dbContext, InventoryOperationType.Issue, FUEL_REPORT_DETAIL_TRANSFER, fuelReportDetail.Id.ToString());
-
-                                //if (reference.OperationId == INVALID_ID)
-                                if (reference == null)
-                                {
-                                    string transactionCode, transactionMessage;
-
-                                    var operationReference =
-                                        issue(
-                                            dbContext,
-                                            (int)fuelReportDetail.FuelReport.VesselInCompany.CompanyId,
-                                            (int)fuelReportDetail.FuelReport.VesselInCompany.VesselInInventory.Id,
-                                            1,
-                                            convertFuelReportTransferTypeToStoreType(fuelReportDetail),
-                                            FUEL_REPORT_DETAIL_TRANSFER,
-                                            fuelReportDetail.Id.ToString(),
-                                            userId,
-                                            out transactionCode,
-                                            out transactionMessage);
-
-                                    string transactionItemMessage;
-
-                                    var transactionItems = new List<TransactionItem>();
-                                    transactionItems.Add(new TransactionItem()
-                                    {
-                                        GoodId = (int)fuelReportDetail.Good.SharedGoodId,
-                                        CreateDate = DateTime.Now,
-                                        Description = fuelReportDetail.FuelReport.FuelReportType.ToString(),
-                                        QuantityAmount = (decimal?)fuelReportDetail.Transfer.Value,
-                                        QuantityUnitId = getMeasurementUnitId(dbContext, fuelReportDetail.MeasuringUnit.Abbreviation),
-                                        TransactionId = (int)operationReference.OperationId,
-                                        UserCreatorId = userId
-                                    });
-
-                                    addTransactionItems(dbContext, (int)operationReference.OperationId, transactionItems, userId, out transactionItemMessage);
-
-                                    result.Add(new InventoryOperation(
-                                                inventoryOperationId: operationReference.OperationId,
-                                                actionNumber: string.Format("{0}/{1}", (InventoryOperationType)operationReference.OperationType, transactionCode),
-                                                actionDate: DateTime.Now,
-                                                actionType: InventoryActionType.Issue,
-                                                fuelReportDetailId: fuelReportDetail.Id,
-                                                charterId: null));
-                                }
-                                else
-                                {
-                                    throw new InvalidOperation("FR Transfer Issue Edit", "FueReport Transfer edit is invalid");
-
-                                    var transactionItems = dbContext.TransactionItems.Where(ti => ti.TransactionId == reference.OperationId);
-
-
-                                }
-                                #endregion
-                            }
-
-                            if (fuelReportDetail.Correction.HasValue && fuelReportDetail.CorrectionType.HasValue &&
-                                fuelReportDetail.CorrectionPrice.HasValue &&
-                                !string.IsNullOrWhiteSpace(fuelReportDetail.CorrectionPriceCurrencyISOCode))
-                            {
-                                if (fuelReportDetail.CorrectionType.Value == CorrectionTypes.Minus)
-                                {
-                                    //TODO: Decremental Correction
-                                    #region Decremental Correction
-
-                                    var reference = findInvenotryOperationReference(dbContext, InventoryOperationType.Issue, FUEL_REPORT_DETAIL_DECREMENTAL_CORRECTION, fuelReportDetail.Id.ToString());
-
-                                    //if (reference.OperationId == INVALID_ID)
-                                    if (reference == null)
-                                    {
-                                        string transactionCode, transactionMessage;
-
-                                        var operationReference =
-                                            issue(
-                                                dbContext,
-                                                (int)fuelReportDetail.FuelReport.VesselInCompany.CompanyId,
-                                                (int)fuelReportDetail.FuelReport.VesselInCompany.VesselInInventory.Id,
-                                                1,
-                                                convertFuelReportCorrectionTypeToStoreType(fuelReportDetail),
-                                                FUEL_REPORT_DETAIL_DECREMENTAL_CORRECTION,
-                                                fuelReportDetail.Id.ToString(),
-                                                userId,
-                                                out transactionCode,
-                                                out transactionMessage);
-
-                                        string transactionItemMessage;
-
-                                        var transactionItems = new List<TransactionItem>();
-                                        transactionItems.Add(new TransactionItem()
-                                        {
-                                            GoodId = (int)fuelReportDetail.Good.SharedGoodId,
-                                            CreateDate = DateTime.Now,
-                                            Description = fuelReportDetail.FuelReport.FuelReportType.ToString(),
-                                            QuantityAmount = calculateCorrectionAmount(fuelReportDetail),
-                                            QuantityUnitId = getMeasurementUnitId(dbContext, fuelReportDetail.MeasuringUnit.Abbreviation),
-                                            TransactionId = (int)operationReference.OperationId,
-                                            UserCreatorId = userId
-                                        });
-
-                                        var transactionItemIds = addTransactionItems(dbContext, (int)operationReference.OperationId, transactionItems, userId, out transactionItemMessage);
-
-                                        //TODO: Items Pricing.
-
-
-                                        var transactionItemPrice = new TransactionItemPrice()
-                                        {
-                                            TransactionItemId = transactionItemIds[0],
-                                            QuantityUnitId = getMeasurementUnitId(dbContext, fuelReportDetail.MeasuringUnit.Abbreviation),
-                                            QuantityAmount = (decimal?)fuelReportDetail.Correction,
-                                            PriceUnitId = getCurrencyId(dbContext, fuelReportDetail.CorrectionPriceCurrency.Abbreviation),
-                                            Fee = fuelReportDetail.CorrectionPrice,
-                                            RegistrationDate = DateTime.Now,
-                                            Description = "Deceremental Correction Pricing > " + fuelReportDetail.Good.Name,
-                                            UserCreatorId = userId
-                                        };
-
-                                        string pricingMessage;
-                                        //int? notPricedTransactionId;
-
-                                        priceIssuedItemAutomatically(dbContext, transactionItemIds[0], userId,
-                                            out pricingMessage, FUEL_REPORT_DETAIL_DECREMENTAL_CORRECTION_PRICING,
-                                            fuelReportDetail.Id.ToString());
-
-                                        result.Add(new InventoryOperation(
-                                                    inventoryOperationId: operationReference.OperationId,
-                                                    actionNumber: string.Format("{0}/{1}", (InventoryOperationType)operationReference.OperationType, transactionCode),
-                                                    actionDate: DateTime.Now,
-                                                    actionType: InventoryActionType.Issue,
-                                                    fuelReportDetailId: fuelReportDetail.Id,
-                                                    charterId: null));
-                                    }
-                                    else
-                                    {
-                                        throw new InvalidOperation("FR Decremental Correction Edit", "FueReport  Decremental Correction edit is invalid");
-                                        var transactionItems = dbContext.TransactionItems.Where(ti => ti.TransactionId == reference.OperationId);
-                                    }
-
-                                    #endregion
-                                }
-                                else
-                                {
-                                    //TODO: Incremental Correction
-                                    #region Incremental Correction
-
-                                    var reference = findInvenotryOperationReference(dbContext, InventoryOperationType.Receipt, FUEL_REPORT_DETAIL_INCREMENTAL_CORRECTION, fuelReportDetail.Id.ToString());
-
-                                    //if (reference.OperationId == INVALID_ID)
-                                    if (reference == null)
-                                    {
-                                        string transactionCode, transactionMessage;
-
-                                        var operationReference =
-                                            issue(
-                                                dbContext,
-                                                (int)fuelReportDetail.FuelReport.VesselInCompany.CompanyId,
-                                                (int)fuelReportDetail.FuelReport.VesselInCompany.VesselInInventory.Id,
-                                                1,
-                                                convertFuelReportCorrectionTypeToStoreType(fuelReportDetail),
-                                                FUEL_REPORT_DETAIL_INCREMENTAL_CORRECTION,
-                                                fuelReportDetail.Id.ToString(),
-                                                userId,
-                                                out transactionCode,
-                                                out transactionMessage);
-
-                                        string transactionItemMessage;
-
-                                        var transactionItems = new List<TransactionItem>();
-                                        transactionItems.Add(new TransactionItem()
-                                        {
-                                            GoodId = (int)fuelReportDetail.Good.SharedGoodId,
-                                            CreateDate = DateTime.Now,
-                                            Description = fuelReportDetail.FuelReport.FuelReportType.ToString(),
-                                            QuantityAmount = calculateCorrectionAmount(fuelReportDetail),
-                                            QuantityUnitId = getMeasurementUnitId(dbContext, fuelReportDetail.MeasuringUnit.Abbreviation),
-                                            TransactionId = (int)operationReference.OperationId,
-                                            UserCreatorId = userId
-                                        });
-
-                                        var transactionItemIds = addTransactionItems(dbContext, (int)operationReference.OperationId, transactionItems, userId, out transactionItemMessage);
-
-                                        //TODO: Items Pricing.
-
-
-                                        //var transactionItemPrice = new TransactionItemPrice()
-                                        //{
-                                        //    TransactionItemId = transactionItemIds[0],
-                                        //    QuantityUnitId = getMeasurementUnitId(dbContext, fuelReportDetail.MeasuringUnit.Abbreviation),
-                                        //    QuantityAmount = (decimal?)fuelReportDetail.Correction,
-                                        //    PriceUnitId = getCurrencyId(dbContext, fuelReportDetail.CorrectionPriceCurrency.Abbreviation),
-                                        //    Fee = fuelReportDetail.CorrectionPrice,
-                                        //    RegistrationDate = DateTime.Now,
-                                        //    Description = "Inceremental Correction Pricing > " + fuelReportDetail.Good.Name,
-                                        //    UserCreatorId = userId
-                                        //};
-
-                                        //string pricingMessage;
-
-                                        //priceTransactionItemManually(dbContext, transactionItemPrice, userId, out pricingMessage, FUEL_REPORT_DETAIL_INCREMENTAL_CORRECTION_PRICING, fuelReportDetail.Id.ToString());
-
-
-                                        result.Add(new InventoryOperation(
-                                                    inventoryOperationId: operationReference.OperationId,
-                                                    actionNumber: string.Format("{0}/{1}", (InventoryOperationType)operationReference.OperationType, transactionCode),
-                                                    actionDate: DateTime.Now,
-                                                    actionType: InventoryActionType.Receipt,
-                                                    fuelReportDetailId: fuelReportDetail.Id,
-                                                    charterId: null));
-
-                                    }
-                                    else
-                                    {
-                                        throw new InvalidOperation("FR Incremental Correction Edit", "FueReport  Incremental Correction edit is invalid");
-                                        var transactionItems = dbContext.TransactionItems.Where(ti => ti.TransactionId == reference.OperationId);
-                                    }
-
-                                    #endregion
-                                }
-                            }
+                            #endregion
                         }
-
-                        transaction.Commit();
-
-                        return result;
                     }
-                    catch (Exception)
-                    {
-                        //transaction.Rollback();
-                        throw;
-                    }
+
+                    transaction.Commit();
+
+                    return result;
                 }
             }
             return null;
@@ -1080,7 +997,7 @@ namespace MITD.Fuel.Integration.Inventory
             {
                 using (var transaction = new TransactionScope())
                 {
-                    var reference = findInvenotryOperationReference(dbContext, InventoryOperationType.Issue, CHARTER_IN_START_RECEIPT, scrap.Id.ToString());
+                    var reference = findInventoryOperationReference(dbContext, InventoryOperationType.Issue, CHARTER_IN_START_RECEIPT, scrap.Id.ToString());
 
                     //if (reference.OperationId == INVALID_ID)
                     if (reference == null)
@@ -1114,7 +1031,7 @@ namespace MITD.Fuel.Integration.Inventory
                     foreach (var orderItemBalance in invoice.OrderRefrences.SelectMany(o => o.OrderItems.SelectMany(oi => oi.OrderItemBalances)))
                     {
                         //Finding relevant Receipt Item
-                        var receiptReference = findInvenotryOperationReference(
+                        var receiptReference = findInventoryOperationReference(
                             dbContext, InventoryOperationType.Receipt, FUEL_REPORT_DETAIL_RECEIVE,
                             orderItemBalance.FuelReportDetailId.ToString());
 
@@ -1135,7 +1052,7 @@ namespace MITD.Fuel.Integration.Inventory
 
                         var receiptPriceReferenceNumber = generateOrderItemBalancePricingReferenceNumber(orderItemBalance);
 
-                        var receiptRegisteredPriceReference = findInvenotryOperationReference(dbContext, InventoryOperationType.Receipt, FUEL_REPORT_DETAIL_RECEIPT_INVOICE, receiptPriceReferenceNumber);
+                        var receiptRegisteredPriceReference = findInventoryOperationReference(dbContext, InventoryOperationType.Receipt, FUEL_REPORT_DETAIL_RECEIPT_INVOICE, receiptPriceReferenceNumber);
 
 
 
@@ -1147,7 +1064,7 @@ namespace MITD.Fuel.Integration.Inventory
                         var referenceNumber = orderItemBalance.FuelReportDetailId;
                     }
 
-                    var reference = findInvenotryOperationReference(dbContext, InventoryOperationType.Issue, FUEL_REPORT_DETAIL_RECEIPT_INVOICE, invoice.Id.ToString());
+                    var reference = findInventoryOperationReference(dbContext, InventoryOperationType.Issue, FUEL_REPORT_DETAIL_RECEIPT_INVOICE, invoice.Id.ToString());
 
                     //if (reference.OperationId == INVALID_ID)
                     if (reference == null)
@@ -1172,67 +1089,56 @@ namespace MITD.Fuel.Integration.Inventory
             {
                 using (var transaction = dbContext.Database.BeginTransaction(System.Data.IsolationLevel.ReadCommitted))
                 {
-                    try
+                    //Finding relevant Receipt Item
+                    var receiptReferenceNumber = orderItemBalance.FuelReportDetailId.ToString();
+
+                    var receiptReference = findInventoryOperationReference(
+                        dbContext, InventoryOperationType.Receipt,
+                        FUEL_REPORT_DETAIL_RECEIVE, receiptReferenceNumber);
+
+
+                    var receiptReferenceTransactionItem = dbContext.TransactionItems.Single(
+                        tip =>
+                            tip.TransactionId == (int)receiptReference.OperationId &&
+                            tip.GoodId == (int)orderItemBalance.FuelReportDetail.Good.SharedGoodId);
+
+                    var receiptPriceReferenceNumber = generateOrderItemBalancePricingReferenceNumber(orderItemBalance);
+
+                    var receiptRegisteredPriceReference = findInventoryOperationReference(dbContext, InventoryOperationType.Pricing, FUEL_REPORT_DETAIL_RECEIPT_INVOICE, receiptPriceReferenceNumber);
+                    //There is no mechanism for editing the price of priced receipts portions.
+
+
+                    var transactionItemPrice = new TransactionItemPrice()
                     {
-                        //TODO: Pricing Receipts by Invoice tested and is OK, but Cardex Reports the whole received amount.
+                        TransactionItemId = receiptReferenceTransactionItem.Id,
+                        QuantityUnitId = getMeasurementUnitId(dbContext, orderItemBalance.UnitCode),
+                        QuantityAmount = orderItemBalance.QuantityAmountInMainUnit,
+                        PriceUnitId = getCurrencyId(dbContext, orderItemBalance.InvoiceItem.Invoice.Currency.Abbreviation),
+                        Fee = orderItemBalance.InvoiceItem.Fee,
+                        RegistrationDate = DateTime.Now,
+                        Description = "Received Good Pricing > " + orderItemBalance.FuelReportDetail.Good.Code,
+                        UserCreatorId = userId
+                    };
 
-                        //Finding relevant Receipt Item
-                        var receiptReferenceNumber = orderItemBalance.FuelReportDetailId.ToString();
+                    string pricingMessage;
 
-                        var receiptReference = findInvenotryOperationReference(
-                            dbContext, InventoryOperationType.Receipt,
-                            FUEL_REPORT_DETAIL_RECEIVE, receiptReferenceNumber);
+                    priceTransactionItemManually(dbContext, transactionItemPrice, userId, out pricingMessage, FUEL_REPORT_DETAIL_RECEIPT_INVOICE, receiptPriceReferenceNumber);
 
+                    var pricingOperationReference = findInventoryOperationReference(dbContext, InventoryOperationType.Pricing, FUEL_REPORT_DETAIL_RECEIPT_INVOICE, receiptPriceReferenceNumber);
 
-                        var receiptReferenceTransactionItem = dbContext.TransactionItems.Single(
-                            tip =>
-                                tip.TransactionId == (int)receiptReference.OperationId &&
-                                tip.GoodId == (int)orderItemBalance.FuelReportDetail.Good.SharedGoodId);
+                    var result = new InventoryOperation(
+                        pricingOperationReference.OperationId,
+                           actionNumber: string.Format("{0}/{1}", (InventoryOperationType)pricingOperationReference.OperationType, pricingOperationReference.OperationId),
+                           actionDate: DateTime.Now,
+                           actionType: InventoryActionType.Pricing,
+                           fuelReportDetailId: null,
+                           charterId: null);
 
-                        var receiptPriceReferenceNumber = generateOrderItemBalancePricingReferenceNumber(orderItemBalance);
+                    transaction.Commit();
 
-                        var receiptRegisteredPriceReference = findInvenotryOperationReference(dbContext, InventoryOperationType.Pricing, FUEL_REPORT_DETAIL_RECEIPT_INVOICE, receiptPriceReferenceNumber);
-                        //There is no mechanism for editing the price of priced receipts portions.
-
-
-                        var transactionItemPrice = new TransactionItemPrice()
-                        {
-                            TransactionItemId = receiptReferenceTransactionItem.Id,
-                            QuantityUnitId = getMeasurementUnitId(dbContext, orderItemBalance.UnitCode),
-                            QuantityAmount = orderItemBalance.QuantityAmountInMainUnit,
-                            PriceUnitId = getCurrencyId(dbContext, orderItemBalance.InvoiceItem.Invoice.Currency.Abbreviation),
-                            Fee = orderItemBalance.InvoiceItem.Fee,
-                            RegistrationDate = DateTime.Now,
-                            Description = "Received Good Pricing > " + orderItemBalance.FuelReportDetail.Good.Name,
-                            UserCreatorId = userId
-                        };
-
-                        string pricingMessage;
-
-                        priceTransactionItemManually(dbContext, transactionItemPrice, userId, out pricingMessage, FUEL_REPORT_DETAIL_RECEIPT_INVOICE, receiptPriceReferenceNumber);
-
-                        var pricingOperationReference = findInvenotryOperationReference(dbContext, InventoryOperationType.Pricing, FUEL_REPORT_DETAIL_RECEIPT_INVOICE, receiptPriceReferenceNumber);
-
-                        var result = new InventoryOperation(
-                            pricingOperationReference.OperationId,
-                               actionNumber: string.Format("{0}/{1}", (InventoryOperationType)pricingOperationReference.OperationType, pricingOperationReference.OperationId),
-                               actionDate: DateTime.Now,
-                               actionType: InventoryActionType.Pricing,
-                               fuelReportDetailId: null,
-                               charterId: null);
-
-                        transaction.Commit();
-
-                        return result;
-                    }
-                    catch (Exception)
-                    {
-                        throw;
-                    }
+                    return result;
                 }
             }
-
-            return null;
         }
 
         //================================================================================
@@ -1281,115 +1187,105 @@ namespace MITD.Fuel.Integration.Inventory
             {
                 using (var transaction = dbContext.Database.BeginTransaction(System.Data.IsolationLevel.ReadCommitted))
                 {
-                    try
+                    var result = new List<Domain.Model.DomainObjects.InventoryOperation>();
+
+                    var reference = findInventoryOperationReference(dbContext, InventoryOperationType.Receipt, CHARTER_IN_START_RECEIPT, charterInStart.Id.ToString());
+
+
+                    //if (reference.OperationId == INVALID_ID)
+                    if (reference == null)
                     {
-                        var result = new List<Domain.Model.DomainObjects.InventoryOperation>();
+                        activateWarehouse(dbContext, (int)charterInStart.VesselInCompany.VesselInInventory.Id, userId);
 
-                        var reference = findInvenotryOperationReference(dbContext, InventoryOperationType.Receipt, CHARTER_IN_START_RECEIPT, charterInStart.Id.ToString());
+                        string transactionCode, transactionMessage;
 
 
-                        //if (reference.OperationId == INVALID_ID)
-                        if (reference == null)
+                        var operationReference = receipt(
+                                  dbContext,
+                                  (int)charterInStart.VesselInCompany.CompanyId,
+                                  (int)charterInStart.VesselInCompany.VesselInInventory.Id,
+                                  1,
+                                  1,
+                                  CHARTER_IN_START_RECEIPT,
+                                  charterInStart.Id.ToString(),
+                                  userId,
+                                  out transactionCode,
+                                  out transactionMessage);
+
+                        //TODO: Items
+                        string transactionItemMessage;
+
+                        var transactionItems = new List<TransactionItem>();
+
+                        foreach (var charterItem in charterInStart.CharterItems)
                         {
-                            activateWarehouse(dbContext, (int)charterInStart.VesselInCompany.VesselInInventory.Id, userId);
 
-                            string transactionCode, transactionMessage;
-
-
-                            var operationReference = receipt(
-                                      dbContext,
-                                      (int)charterInStart.VesselInCompany.CompanyId,
-                                      (int)charterInStart.VesselInCompany.VesselInInventory.Id,
-                                      1,
-                                      1,
-                                      CHARTER_IN_START_RECEIPT,
-                                      charterInStart.Id.ToString(),
-                                      userId,
-                                      out transactionCode,
-                                      out transactionMessage);
-
-                            //TODO: Items
-                            string transactionItemMessage;
-
-                            var transactionItems = new List<TransactionItem>();
-
-                            foreach (var charterItem in charterInStart.CharterItems)
-                            {
-
-                                transactionItems.Add(new TransactionItem()
-                                                     {
-                                                         GoodId = (int)charterItem.Good.SharedGoodId,
-                                                         CreateDate = DateTime.Now,
-                                                         Description = "Charter In Start > " + charterItem.Good.Name,
-                                                         QuantityAmount = charterItem.Rob,
-                                                         QuantityUnitId = getMeasurementUnitId(dbContext, charterItem.GoodUnit.Abbreviation),
-                                                         TransactionId = (int)operationReference.OperationId,
-                                                         UserCreatorId = userId
-                                                     });
-                            }
-
-                            addTransactionItems(dbContext, (int)operationReference.OperationId, transactionItems, userId, out transactionItemMessage);
-
-
-                            //Manual Items Pricing
-                            var registeredTransaction = dbContext.Transactions.Single(t => t.Id == (int)operationReference.OperationId);
-
-
-                            var transactionItemPrices = new List<TransactionItemPrice>();
-
-                            foreach (var charterItem in charterInStart.CharterItems)
-                            {
-                                var registeredTransactionItem = registeredTransaction.TransactionItems.Single(ti => ti.GoodId == charterItem.Good.SharedGoodId);
-
-                                var transactionItemPrice = new TransactionItemPrice()
-                                    {
-                                        TransactionItemId = registeredTransactionItem.Id,
-                                        QuantityUnitId = getMeasurementUnitId(dbContext, charterItem.GoodUnit.Abbreviation),
-                                        QuantityAmount = charterItem.Rob,
-                                        PriceUnitId = getCurrencyId(dbContext, charterInStart.Currency.Abbreviation),
-                                        Fee = charterItem.Fee,
-                                        RegistrationDate = DateTime.Now,
-                                        Description = "Charter In Start Pricing > " + charterItem.Good.Name,
-                                        UserCreatorId = userId
-                                    };
-
-                                transactionItemPrices.Add(transactionItemPrice);
-                                //priceTransactionItemsManually(dbContext, transactionItemPrice, userId, out pricingMessage, CHARTER_IN_START_RECEIPT_PRICING, charterItem.Id.ToString());
-                            }
-
-                            string pricingMessage;
-                            priceTransactionItemsManually(dbContext, transactionItemPrices, userId, out pricingMessage, CHARTER_IN_START_RECEIPT_PRICING, charterInStart.Id.ToString());
-
-                            result.Add(new InventoryOperation(
-                                inventoryOperationId: operationReference.OperationId,
-                                actionNumber: string.Format("{0}/{1}", (InventoryOperationType)operationReference.OperationType, transactionCode),
-                                actionDate: DateTime.Now,
-                                actionType: InventoryActionType.Receipt,
-                                fuelReportDetailId: null,
-                                charterId: charterInStart.Id));
-                        }
-                        else
-                        {
-                            throw new InvalidOperation("CharterInStart disapprovement", "CharterInStart disapprovement is invalid.");
-
-                            var transactionItems = dbContext.TransactionItems.Where(ti => ti.TransactionId == reference.OperationId);
-
-
+                            transactionItems.Add(new TransactionItem()
+                                                 {
+                                                     GoodId = (int)charterItem.Good.SharedGoodId,
+                                                     CreateDate = DateTime.Now,
+                                                     Description = "Charter In Start > " + charterItem.Good.Code,
+                                                     QuantityAmount = charterItem.Rob,
+                                                     QuantityUnitId = getMeasurementUnitId(dbContext, charterItem.GoodUnit.Abbreviation),
+                                                     TransactionId = (int)operationReference.OperationId,
+                                                     UserCreatorId = userId
+                                                 });
                         }
 
-                        transaction.Commit();
+                        addTransactionItems(dbContext, (int)operationReference.OperationId, transactionItems, userId, out transactionItemMessage);
 
-                        return result;
+
+                        //Manual Items Pricing
+                        var registeredTransaction = dbContext.Transactions.Single(t => t.Id == (int)operationReference.OperationId);
+
+
+                        var transactionItemPrices = new List<TransactionItemPrice>();
+
+                        foreach (var charterItem in charterInStart.CharterItems)
+                        {
+                            var registeredTransactionItem = registeredTransaction.TransactionItems.Single(ti => ti.GoodId == charterItem.Good.SharedGoodId);
+
+                            var transactionItemPrice = new TransactionItemPrice()
+                                {
+                                    TransactionItemId = registeredTransactionItem.Id,
+                                    QuantityUnitId = getMeasurementUnitId(dbContext, charterItem.GoodUnit.Abbreviation),
+                                    QuantityAmount = charterItem.Rob,
+                                    PriceUnitId = getCurrencyId(dbContext, charterInStart.Currency.Abbreviation),
+                                    Fee = charterItem.Fee,
+                                    RegistrationDate = DateTime.Now,
+                                    Description = "Charter In Start Pricing > " + charterItem.Good.Code,
+                                    UserCreatorId = userId
+                                };
+
+                            transactionItemPrices.Add(transactionItemPrice);
+                            //priceTransactionItemsManually(dbContext, transactionItemPrice, userId, out pricingMessage, CHARTER_IN_START_RECEIPT_PRICING, charterItem.Id.ToString());
+                        }
+
+                        string pricingMessage;
+                        priceTransactionItemsManually(dbContext, transactionItemPrices, userId, out pricingMessage, CHARTER_IN_START_RECEIPT_PRICING, charterInStart.Id.ToString());
+
+                        result.Add(new InventoryOperation(
+                            inventoryOperationId: operationReference.OperationId,
+                            actionNumber: string.Format("{0}/{1}", (InventoryOperationType)operationReference.OperationType, transactionCode),
+                            actionDate: DateTime.Now,
+                            actionType: InventoryActionType.Receipt,
+                            fuelReportDetailId: null,
+                            charterId: charterInStart.Id));
                     }
-                    catch (Exception)
+                    else
                     {
-                        //transaction.Rollback();
-                        throw;
+                        throw new InvalidOperation("CharterInStart disapprovement", "CharterInStart disapprovement is invalid.");
+
+                        var transactionItems = dbContext.TransactionItems.Where(ti => ti.TransactionId == reference.OperationId);
+
+
                     }
+
+                    transaction.Commit();
+
+                    return result;
                 }
             }
-
-            return null;
         }
 
         //================================================================================
@@ -1403,7 +1299,7 @@ namespace MITD.Fuel.Integration.Inventory
             {
                 using (var transaction = new TransactionScope())
                 {
-                    var reference = findInvenotryOperationReference(dbContext, InventoryOperationType.Receipt, CHARTER_IN_START_RECEIPT, charterInEnd.Id.ToString());
+                    var reference = findInventoryOperationReference(dbContext, InventoryOperationType.Receipt, CHARTER_IN_START_RECEIPT, charterInEnd.Id.ToString());
 
                     //if (reference.OperationId == INVALID_ID)
                     if (reference == null)
@@ -1423,31 +1319,203 @@ namespace MITD.Fuel.Integration.Inventory
 
         //================================================================================
 
-        public List<InventoryOperation> ManageCharterOutStart(CharterOut charterOutStart, int userId)
+        public InventoryOperation ManageCharterOutStart(CharterOut charterOutStart, int userId)
         {
             if (charterOutStart.CharterType != CharterType.Start)
                 throw new InvalidArgument("The given entity is not Charter Out Start", "charterOutStart");
 
             using (var dbContext = new InventoryDbContext())
             {
-                using (var transaction = new TransactionScope())
+                using (var transaction = dbContext.Database.BeginTransaction(System.Data.IsolationLevel.ReadCommitted))
                 {
-                    var reference = findInvenotryOperationReference(dbContext, InventoryOperationType.Receipt, CHARTER_IN_START_RECEIPT, charterOutStart.Id.ToString());
+                    InventoryOperation result = null;
+
+                    var reference = findInventoryOperationReference(dbContext, InventoryOperationType.Issue, CHARTER_OUT_START_ISSUE, charterOutStart.Id.ToString());
 
                     //if (reference.OperationId == INVALID_ID)
                     if (reference == null)
                     {
+                        string transactionCode, transactionMessage;
 
+                        var operationReference = issue(
+                                  dbContext,
+                                  (int)charterOutStart.VesselInCompany.CompanyId,
+                                  (int)charterOutStart.VesselInCompany.VesselInInventory.Id,
+                                  1,
+                                  convertCharterOutTypeToStoreType(charterOutStart),
+                                  CHARTER_OUT_START_ISSUE,
+                                  charterOutStart.Id.ToString(),
+                                  userId,
+                                  out transactionCode,
+                                  out transactionMessage);
+
+                        string transactionItemMessage;
+
+                        var transactionItems = new List<TransactionItem>();
+
+                        foreach (var charterItem in charterOutStart.CharterItems)
+                        {
+
+                            transactionItems.Add(new TransactionItem()
+                            {
+                                GoodId = (int)charterItem.Good.SharedGoodId,
+                                CreateDate = DateTime.Now,
+                                Description = "Charter Out Start > " + charterItem.Good.Code,
+                                QuantityAmount = charterItem.Rob,
+                                QuantityUnitId = getMeasurementUnitId(dbContext, charterItem.GoodUnit.Abbreviation),
+                                TransactionId = (int)operationReference.OperationId,
+                                UserCreatorId = userId
+                            });
+                        }
+
+                        var registeredTransactionIds = addTransactionItems(dbContext, (int)operationReference.OperationId, transactionItems, userId, out transactionItemMessage);
+
+                        string issuedItemsPricingMessage;
+                        //TODO: Items Automatic Pricing
+                        //Automatic Pricing
+                        try
+                        {
+                            priceIssuedItemsAutomatically(dbContext, registeredTransactionIds, userId, out issuedItemsPricingMessage, CHARTER_OUT_START_ISSUE_PRICING, charterOutStart.Id.ToString());
+                        }
+                        catch
+                        {
+                        }
+
+                        deactivateWarehouse(dbContext, (int)charterOutStart.VesselInCompany.VesselInInventory.Id, userId);
+
+                        result = new InventoryOperation(
+                                       inventoryOperationId: operationReference.OperationId,
+                                       actionNumber: string.Format("{0}/{1}", (InventoryOperationType)operationReference.OperationType, operationReference.OperationId),
+                                       actionDate: DateTime.Now,
+                                       actionType: InventoryActionType.Issue,
+                                       fuelReportDetailId: null,
+                                       charterId: null);
                     }
                     else
                     {
+                        throw new InvalidOperation("CharterOutStart disapprovement", "CharterOutStart disapprovement is invalid.");
+
                         var transactionItems = dbContext.TransactionItems.Where(ti => ti.TransactionId == reference.OperationId);
 
 
                     }
+
+                    transaction.Commit();
+
+                    return result;
                 }
             }
+           /* return null;
+            try
+            {
+                var result = new List<Domain.Model.DomainObjects.InventoryOperation>();
+
+                var reference = findInventoryOperationReference(dbContext, InventoryOperationType.Receipt, CHARTER_IN_START_RECEIPT, charterInStart.Id.ToString());
+
+
+                //if (reference.OperationId == INVALID_ID)
+                if (reference == null)
+                {
+                    activateWarehouse(dbContext, (int)charterInStart.VesselInCompany.VesselInInventory.Id, userId);
+
+                    string transactionCode, transactionMessage;
+
+
+                    var operationReference = receipt(
+                              dbContext,
+                              (int)charterInStart.VesselInCompany.CompanyId,
+                              (int)charterInStart.VesselInCompany.VesselInInventory.Id,
+                              1,
+                              1,
+                              CHARTER_IN_START_RECEIPT,
+                              charterInStart.Id.ToString(),
+                              userId,
+                              out transactionCode,
+                              out transactionMessage);
+
+                    //TODO: Items
+                    string transactionItemMessage;
+
+                    var transactionItems = new List<TransactionItem>();
+
+                    foreach (var charterItem in charterInStart.CharterItems)
+                    {
+
+                        transactionItems.Add(new TransactionItem()
+                        {
+                            GoodId = (int)charterItem.Good.SharedGoodId,
+                            CreateDate = DateTime.Now,
+                            Description = "Charter In Start > " + charterItem.Good.Code,
+                            QuantityAmount = charterItem.Rob,
+                            QuantityUnitId = getMeasurementUnitId(dbContext, charterItem.GoodUnit.Abbreviation),
+                            TransactionId = (int)operationReference.OperationId,
+                            UserCreatorId = userId
+                        });
+                    }
+
+                    addTransactionItems(dbContext, (int)operationReference.OperationId, transactionItems, userId, out transactionItemMessage);
+
+
+                    //Manual Items Pricing
+                    var registeredTransaction = dbContext.Transactions.Single(t => t.Id == (int)operationReference.OperationId);
+
+
+                    var transactionItemPrices = new List<TransactionItemPrice>();
+
+                    foreach (var charterItem in charterInStart.CharterItems)
+                    {
+                        var registeredTransactionItem = registeredTransaction.TransactionItems.Single(ti => ti.GoodId == charterItem.Good.SharedGoodId);
+
+                        var transactionItemPrice = new TransactionItemPrice()
+                        {
+                            TransactionItemId = registeredTransactionItem.Id,
+                            QuantityUnitId = getMeasurementUnitId(dbContext, charterItem.GoodUnit.Abbreviation),
+                            QuantityAmount = charterItem.Rob,
+                            PriceUnitId = getCurrencyId(dbContext, charterInStart.Currency.Abbreviation),
+                            Fee = charterItem.Fee,
+                            RegistrationDate = DateTime.Now,
+                            Description = "Charter In Start Pricing > " + charterItem.Good.Code,
+                            UserCreatorId = userId
+                        };
+
+                        transactionItemPrices.Add(transactionItemPrice);
+                        //priceTransactionItemsManually(dbContext, transactionItemPrice, userId, out pricingMessage, CHARTER_IN_START_RECEIPT_PRICING, charterItem.Id.ToString());
+                    }
+
+                    string pricingMessage;
+                    priceTransactionItemsManually(dbContext, transactionItemPrices, userId, out pricingMessage, CHARTER_IN_START_RECEIPT_PRICING, charterInStart.Id.ToString());
+
+                    result.Add(new InventoryOperation(
+                        inventoryOperationId: operationReference.OperationId,
+                        actionNumber: string.Format("{0}/{1}", (InventoryOperationType)operationReference.OperationType, transactionCode),
+                        actionDate: DateTime.Now,
+                        actionType: InventoryActionType.Receipt,
+                        fuelReportDetailId: null,
+                        charterId: charterInStart.Id));
+                }
+                else
+                {
+                    throw new InvalidOperation("CharterInStart disapprovement", "CharterInStart disapprovement is invalid.");
+
+                    var transactionItems = dbContext.TransactionItems.Where(ti => ti.TransactionId == reference.OperationId);
+
+
+                }
+
+                transaction.Commit();
+
+                return result;
+            }
+            catch (Exception)
+            {
+                //transaction.Rollback();
+                throw;
+            }
+
+
+
             return null;
+            */
         }
 
         //================================================================================
@@ -1461,7 +1529,7 @@ namespace MITD.Fuel.Integration.Inventory
             {
                 using (var transaction = new TransactionScope())
                 {
-                    var reference = findInvenotryOperationReference(dbContext, InventoryOperationType.Receipt, CHARTER_IN_START_RECEIPT, charterOutEnd.Id.ToString());
+                    var reference = findInventoryOperationReference(dbContext, InventoryOperationType.Receipt, CHARTER_IN_START_RECEIPT, charterOutEnd.Id.ToString());
 
                     //if (reference.OperationId == INVALID_ID)
                     if (reference == null)

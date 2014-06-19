@@ -50,8 +50,10 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E2EC2BAA-D4E6-4CC8-B05B-DDC319B1EB67}"
 	ProjectSection(SolutionItems) = preProject
 		Enable IIS Express Remote Brwosing.txt = Enable IIS Express Remote Brwosing.txt
+		..\..\..\Documents\Enable Stored Procedure Debugging.docx = ..\..\..\Documents\Enable Stored Procedure Debugging.docx
 		Migrate.exe.config = Migrate.exe.config
 		Migration.bat = Migration.bat
+		..\..\..\Documents\Set Execution Policy in Powershell.txt = ..\..\..\Documents\Set Execution Policy in Powershell.txt
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MITD.Fuel.Integration.Inventory", "Fuel\MITD.Fuel.Integration.Inventory\MITD.Fuel.Integration.Inventory.csproj", "{5D04E907-986D-44C2-AE99-78A45C39E618}"

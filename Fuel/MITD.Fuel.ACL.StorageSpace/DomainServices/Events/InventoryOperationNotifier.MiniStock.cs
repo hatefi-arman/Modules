@@ -184,15 +184,20 @@ namespace MITD.Fuel.ACL.StorageSpace.DomainServices.Events
 
         public List<InventoryOperation> NotifySubmittingCharterOutStart(CharterOut charterOutStart)
         {
-            return new List<InventoryOperation>(new InventoryOperation[]
-                    {
-                     new InventoryOperation(
-                         312,
-                     "INV# - " +DateTime.Now.Ticks,
-                        DateTime.Now,
-                        InventoryActionType.Issue,
-                        (long? )null,
-                        (long? )null)});
+            try
+            {
+                return new List<InventoryOperation>()
+                       {
+                           this.inventoryOperationManager.ManageCharterOutStart(charterOutStart,
+                                        //TODO: Fake ActorId
+                                        1101)
+                       };
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         public List<InventoryOperation> NotifySubmittingCharterOutEnd(CharterOut charterOutEnd)
