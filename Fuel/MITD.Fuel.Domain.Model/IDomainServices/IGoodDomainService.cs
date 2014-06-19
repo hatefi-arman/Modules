@@ -30,5 +30,7 @@ namespace MITD.Fuel.Domain.Model.IDomainServices
 
         List<Good> GetMandatoryVesselGoods(long vesselInCompanyId, DateTime date);
         Good GetGoodWithUnitAndMainUnit(long goodId, long goodUnitId);
+
+        Good FindGood(long companyId, long sharedGoodId);
     }
 }

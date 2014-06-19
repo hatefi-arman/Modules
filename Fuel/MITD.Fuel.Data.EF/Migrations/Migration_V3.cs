@@ -21,6 +21,8 @@ namespace MITD.Fuel.Data.EF.Migrations
 
         public override void Down()
         {
+            Delete.ForeignKey("FK_OrderItemBalances_InventoryOperationId_InventoryOperation_Id").OnTable("OrderItemBalances").InSchema("Fuel");
+            Delete.Index().OnTable("OrderItemBalances").InSchema("Fuel").OnColumn("InventoryOperationId");
             Delete.Column("InventoryOperationId").FromTable("OrderItemBalances").InSchema("Fuel");
         }
     }

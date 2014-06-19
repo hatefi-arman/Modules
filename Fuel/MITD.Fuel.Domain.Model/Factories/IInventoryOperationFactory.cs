@@ -10,6 +10,6 @@ namespace MITD.Fuel.Domain.Model.Factories
 {
     public interface IInventoryOperationFactory : IFactory
     {
-        InventoryOperation Create(FuelReportDetail fuelReportDetail, string actionNumber, InventoryActionType actionType, DateTime actionDate);
+        InventoryOperation Create(FuelReportDetail fuelReportDetail, long inventoryOperationId, string actionNumber, InventoryActionType actionType, DateTime actionDate);
     }
 }

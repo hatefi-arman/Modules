@@ -2,14 +2,11 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Runtime.InteropServices;
 using MITD.CurrencyAndMeasurement.Domain.Contracts;
-using MITD.Fuel.Domain.Model.DomainObjects.OrderAggreate;
 using MITD.Fuel.Domain.Model.Enums;
 using MITD.Fuel.Domain.Model.Exceptions;
 using MITD.Fuel.Domain.Model.IDomainServices;
 using MITD.Fuel.Domain.Model.Specifications;
-using MITD.Domain.Model;
 using MITD.Fuel.Domain.Model.IDomainServices.Events.InventoryOperations;
 using MITD.Fuel.Domain.Model.DomainObjects.FuelReportAggregate.FuelReportStates;
 
@@ -49,6 +46,8 @@ namespace MITD.Fuel.Domain.Model.DomainObjects
 
         public FuelReportState EntityState { get; private set; }
 
+        public virtual List<InventoryOperation> ConsumptionInventoryOperations { get; set; }
+
         private readonly IsFuelReportClosed isFuelReportClosed;
 
         private readonly IsFuelReportOpen isFuelReportOpen;
@@ -62,6 +61,7 @@ namespace MITD.Fuel.Domain.Model.DomainObjects
         private readonly IsFuelReportSubmitRejected isFuelReportSubmitRejected;
 
         private readonly IsFuelReportSubmitted isFuelReportSubmitted;
+
 
         #endregion
 
@@ -82,6 +82,7 @@ namespace MITD.Fuel.Domain.Model.DomainObjects
 
             this.ApproveWorkFlows = new List<FuelReportWorkflowLog>();
             this.FuelReportDetails = new Collection<FuelReportDetail>();
+            ConsumptionInventoryOperations = new List<InventoryOperation>();
         }
 
         internal FuelReport(
@@ -362,7 +363,7 @@ namespace MITD.Fuel.Domain.Model.DomainObjects
         /// </summary>
         private void validateVoyageValue(long? voyageId, IVoyageDomainService voyageDomainService)
         {
-            if (voyageId.HasValue &&
+            if (!voyageId.HasValue ||
                 !(
                     voyageDomainService.IsVoyageAvailable(voyageId.Value) &&
                     isVoyageDurationAndVesselValid(voyageId, voyageDomainService)
@@ -637,22 +638,34 @@ namespace MITD.Fuel.Domain.Model.DomainObjects
             this.CheckToBeOperational();
 
             validateSubmittingState(
-                        voyageDomainService,
-                        fuelReportDomainService,
-                        inventoryOperationDomainService,
-                        goodDomainService,
-                        orderDomainService,
-                        currencyDomainService,
-                        inventoryManagementDomainService);
+                    voyageDomainService,
+                    fuelReportDomainService,
+                    inventoryOperationDomainService,
+                    goodDomainService,
+                    orderDomainService,
+                    currencyDomainService,
+                    inventoryManagementDomainService);
 
             sendDataToOrderDomainService(balanceDomainService);
 
-            foreach (var fuelReportDetail in this.FuelReportDetails)
+            if (this.FuelReportType == FuelReportTypes.EndOfVoyage ||
+                this.FuelReportType == FuelReportTypes.EndOfYear ||
+                this.FuelReportType == FuelReportTypes.EndOfMonth)
             {
-                var inventoryResult = inventoryOperationNotifier.NotifySubmittingFuelReportDetail(fuelReportDetail);
+                var inventoryResult = inventoryOperationNotifier.NotifySubmittingFuelReportConsumption(this);
 
-                if (inventoryResult != null)
-                    fuelReportDetail.InventoryOperations.AddRange(inventoryResult);
+                this.ConsumptionInventoryOperations.Add(inventoryResult);
+            }
+            else
+            {
+                foreach (var fuelReportDetail in this.FuelReportDetails)
+                {
+                    var inventoryResult = inventoryOperationNotifier.NotifySubmittingFuelReportDetail(fuelReportDetail);
+
+                    if (inventoryResult != null)
+                        fuelReportDetail.InventoryOperations.AddRange(inventoryResult);
+                }
+                
             }
 
             //var notificationData = buildNotificationData(fuelReportDomainService);
@@ -952,5 +965,6 @@ namespace MITD.Fuel.Domain.Model.DomainObjects
         }
 
         //===================================================================================
+
     }
 }

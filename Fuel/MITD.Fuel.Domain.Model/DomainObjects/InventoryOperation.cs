@@ -12,6 +12,8 @@ namespace MITD.Fuel.Domain.Model.DomainObjects
     {
         public long Id { get; private set; }
 
+        public long InventoryOperationId { get; private set; }
+
         public string ActionNumber { get; private set; }
 
         public DateTime ActionDate { get; private set; }
@@ -35,12 +37,14 @@ namespace MITD.Fuel.Domain.Model.DomainObjects
         }
 
         public InventoryOperation(
+            long inventoryOperationId,
             string actionNumber,
             DateTime actionDate,
             InventoryActionType actionType,
             long? fuelReportDetailId,
             long? charterId)
         {
+            InventoryOperationId = inventoryOperationId;
             ActionNumber = actionNumber;
             ActionDate = actionDate;
             ActionType = actionType;

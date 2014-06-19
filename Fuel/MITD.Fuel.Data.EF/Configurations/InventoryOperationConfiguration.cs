@@ -17,6 +17,7 @@ namespace MITD.Fuel.Data.EF.Configurations
             // Properties:
             Property(p => p.Id).IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
 
+            Property(p => p.InventoryOperationId);
             Property(p => p.ActionDate);
             Property(p => p.ActionNumber).HasMaxLength(200);
             Property(p => p.ActionType);

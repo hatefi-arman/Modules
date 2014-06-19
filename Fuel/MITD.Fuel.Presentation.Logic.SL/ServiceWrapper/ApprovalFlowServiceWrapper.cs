@@ -26,7 +26,7 @@ namespace MITD.Fuel.Presentation.FuelApp.Logic.SL.ServiceWrapper
 
         #region  methodes
 
-        public void ActApproveFlow(Action<string, Exception> action, long entityId, ActionEntityTypeEnum entityTypeId)
+        public void ActApproveFlow(Action<ApprovmentDto, Exception> action, long entityId, ActionEntityTypeEnum entityTypeId)
         {
             var url = string.Format(approvalFlowAddressStringFormat, entityId);
             var ent = new ApprovmentDto
@@ -36,12 +36,12 @@ namespace MITD.Fuel.Presentation.FuelApp.Logic.SL.ServiceWrapper
                               ActionEntityType = entityTypeId
                           };
 
-            WebClientHelper.Put<string, ApprovmentDto>(new Uri(url, UriKind.Absolute),
+            WebClientHelper.Put<ApprovmentDto, ApprovmentDto>(new Uri(url, UriKind.Absolute),
                                                        (res, exp) => action(res, exp), ent,
                                                        WebClientHelper.MessageFormat.Json,ApiConfig.Headers);
         }
 
-        public void ActRejectFlow(Action<string, Exception> action, long entityId, ActionEntityTypeEnum entityTypeId)
+        public void ActRejectFlow(Action<ApprovmentDto, Exception> action, long entityId, ActionEntityTypeEnum entityTypeId)
         {
             var url = string.Format(approvalFlowAddressStringFormat, entityId);
             var ent = new ApprovmentDto
@@ -51,12 +51,12 @@ namespace MITD.Fuel.Presentation.FuelApp.Logic.SL.ServiceWrapper
                               ActionEntityType = entityTypeId
                           };
 
-            WebClientHelper.Put<string, ApprovmentDto>(new Uri(url, UriKind.Absolute),
+            WebClientHelper.Put<ApprovmentDto, ApprovmentDto>(new Uri(url, UriKind.Absolute),
                                                        (res, exp) => action(res, exp), ent,
                                                        WebClientHelper.MessageFormat.Json, ApiConfig.Headers);
         }
 
-        public void ActCancelFlow(Action<string, Exception> action, long entityId, ActionEntityTypeEnum entityTypeId)
+        public void ActCancelFlow(Action<ApprovmentDto, Exception> action, long entityId, ActionEntityTypeEnum entityTypeId)
         {
             var url = string.Format(approvalFlowAddressStringFormat, entityId);
             var ent = new ApprovmentDto
@@ -66,7 +66,7 @@ namespace MITD.Fuel.Presentation.FuelApp.Logic.SL.ServiceWrapper
                               ActionEntityType = entityTypeId
                           };
 
-            WebClientHelper.Put<string, ApprovmentDto>(new Uri(url, UriKind.Absolute),
+            WebClientHelper.Put<ApprovmentDto, ApprovmentDto>(new Uri(url, UriKind.Absolute),
                                                        (res, exp) => action(res, exp), ent,
                                                        WebClientHelper.MessageFormat.Json, ApiConfig.Headers);
         }

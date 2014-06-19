@@ -37,7 +37,7 @@ namespace MITD.Fuel.Domain.Model.IDomainServices
 
         Offhire GetCompanyValidOffhire(Company company, VesselInCompany vesselInCompany, DateTime startDate);
 
-        InventoryResult GetPricedIssueResult(long voyageId);
+        InventoryResult GetVoyagePricedConsumptionIssue(long companyId, long voyageId);
 
         List<PricingValue> GetIssueBasedPricingValues(Voyage voyage);
         Charter GetOffhireCharterContract(Offhire offhire);
@@ -45,7 +45,7 @@ namespace MITD.Fuel.Domain.Model.IDomainServices
 
         string GetCharteringReferenceNumber(Company company, VesselInCompany vesselInCompany, CharteringPartyType partyType, DateTime date);
 
-        string GetVoyageConsumptionIssueNumber(long voyageId);
+        InventoryOperation GetVoyageConsumptionIssueOperation(long voyageId);
 
         PricingValue GetPricingValue(Company introducer, VesselInCompany vesselInCompany, DateTime startDateTime, Good good);
         PricingValue GetPricingValue(Company introducer, VesselInCompany vesselInCompany, DateTime startDateTime, Good good, Currency currency, DateTime currencyDateTime);

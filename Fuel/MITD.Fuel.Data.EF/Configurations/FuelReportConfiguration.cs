@@ -45,6 +45,8 @@ namespace MITD.Fuel.Data.EF.Configurations
             HasOptional(p => p.Voyage).WithMany().HasForeignKey(p => p.VoyageId);
 
             HasRequired(p => p.VesselInCompany).WithMany().HasForeignKey(p => p.VesselInCompanyId);
+
+            HasMany(p => p.ConsumptionInventoryOperations).WithOptional();
         }
     }
 }

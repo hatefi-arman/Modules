@@ -52,7 +52,7 @@
         <sdk:Label Grid.Column="6"  Grid.Row="3" Content="شماره مرجع انتقال : "  />
         <sdk:Label Grid.Column="6"  Grid.Row="4" Content="شماره مرجع تصحیح : "  />
         <!--TextBox-->
-        <TextBox Width="180" Height="31" Text="{Binding Entity.Consumption, Mode=TwoWay}" IsReadOnly="True" Grid.Column="1"  Grid.Row="1" TextWrapping="Wrap" Grid.ColumnSpan="2"  />
+        <TextBox Width="180" Height="31" Text="{Binding Entity.Consumption, Mode=TwoWay}" Grid.Column="1"  Grid.Row="1" TextWrapping="Wrap" Grid.ColumnSpan="2"  />
         <TextBox Width="180" Height="31"
                 Text="{Binding Entity.Recieve, Mode=TwoWay,NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource EmptyValueConverter}}" Grid.Column="1"  Grid.Row="2" TextWrapping="Wrap" Grid.ColumnSpan="2" />
         <TextBox Width="180" Height="31"
@@ -60,7 +60,7 @@
         <TextBox Width="180" Height="31"
                 Text="{Binding Entity.CorrectionPrice, Mode=TwoWay,NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource EmptyValueConverter}}" IsEnabled="{Binding IsCorrectionTypeActive}" Grid.Column="1"  Grid.Row="5" TextWrapping="Wrap" Grid.ColumnSpan="2" />
         <TextBox Width="180" Height="31"
-                Text="{Binding Entity.ROB, Mode=TwoWay,NotifyOnValidationError=True,ValidatesOnDataErrors=True, Converter={StaticResource EmptyValueConverter}}" IsReadOnly="True" Grid.Column="4"  Grid.Row="1" TextWrapping="Wrap"  Grid.ColumnSpan="2"/>
+                Text="{Binding Entity.ROB, Mode=TwoWay,NotifyOnValidationError=True,ValidatesOnDataErrors=True, Converter={StaticResource EmptyValueConverter}}" Grid.Column="4"  Grid.Row="1" TextWrapping="Wrap"  Grid.ColumnSpan="2"/>
         <TextBox Width="180" Height="31"
                 Text="{Binding Entity.Transfer, Mode=TwoWay,NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource EmptyValueConverter}}"  Grid.Column="1"  Grid.Row="3" TextWrapping="Wrap" Grid.ColumnSpan="2" />
         
