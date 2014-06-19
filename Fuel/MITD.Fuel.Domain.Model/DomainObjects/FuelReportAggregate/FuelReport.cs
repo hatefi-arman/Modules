@@ -82,6 +82,7 @@ namespace MITD.Fuel.Domain.Model.DomainObjects
 
             this.ApproveWorkFlows = new List<FuelReportWorkflowLog>();
             this.FuelReportDetails = new Collection<FuelReportDetail>();
+            ConsumptionInventoryOperations = new List<InventoryOperation>();
         }
 
         internal FuelReport(
@@ -362,7 +363,7 @@ namespace MITD.Fuel.Domain.Model.DomainObjects
         /// </summary>
         private void validateVoyageValue(long? voyageId, IVoyageDomainService voyageDomainService)
         {
-            if (voyageId.HasValue &&
+            if (!voyageId.HasValue ||
                 !(
                     voyageDomainService.IsVoyageAvailable(voyageId.Value) &&
                     isVoyageDurationAndVesselValid(voyageId, voyageDomainService)

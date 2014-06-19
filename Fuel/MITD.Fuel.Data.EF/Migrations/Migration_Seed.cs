@@ -283,7 +283,7 @@ namespace MITD.Fuel.Data.EF.Migrations
 
             foreach (FuelReport fuelReport in context.FuelReports)
             {
-                fuelReport.ApproveWorkFlows.Add(new FuelReportWorkflowLog(fuelReport.Id, WorkflowEntities.FuelReport, fuelReport.ReportDate.AddHours(5), WorkflowActions.Approve, 1, "", workflowStepId, true));
+                fuelReport.ApproveWorkFlows.Add(new FuelReportWorkflowLog(fuelReport.Id, WorkflowEntities.FuelReport, fuelReport.ReportDate.AddHours(5), WorkflowActions.Approve, userId, "", workflowStepId, true));
             }
 
             context.SaveChanges();
