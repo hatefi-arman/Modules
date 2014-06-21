@@ -344,6 +344,7 @@ namespace MITD.Fuel.Integration.Inventory
             var issueItemIds = new SqlParameter("@IssueItemIds", SqlDbType.Structured, 4096, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Default, transactionItemsPricesTable);
             issueItemIds.TypeName = "Ids";
 
+
             dbContext.Database.ExecuteSqlCommand(
                 TransactionalBehavior.EnsureTransaction,
                 "dbo.[IssueItemPricesOperation] @UserCreatorId=@UserCreatorId, @IssueItemIds=@IssueItemIds,@TransactionItemPriceIds=@TransactionItemPriceIds OUT, @Message=@Message OUT, @NotPricedTransactionId=@NotPricedTransactionId OUT",
@@ -1328,6 +1329,18 @@ namespace MITD.Fuel.Integration.Inventory
             {
                 using (var transaction = dbContext.Database.BeginTransaction(System.Data.IsolationLevel.ReadCommitted))
                 {
+                    //try
+                    //{
+                    //    dbContext.Database.ExecuteSqlCommand(
+                    //                                         TransactionalBehavior.EnsureTransaction,
+                    //                                         "dbo.[IssueItemPricesOperation]");
+                    //}
+                    //catch (Exception)
+                    //{
+                    //    throw;
+                    //}
+
+
                     InventoryOperation result = null;
 
                     var reference = findInventoryOperationReference(dbContext, InventoryOperationType.Issue, CHARTER_OUT_START_ISSUE, charterOutStart.Id.ToString());
@@ -1373,14 +1386,9 @@ namespace MITD.Fuel.Integration.Inventory
                         string issuedItemsPricingMessage;
                         //TODO: Items Automatic Pricing
                         //Automatic Pricing
-                        try
-                        {
-                            priceIssuedItemsAutomatically(dbContext, registeredTransactionIds, userId, out issuedItemsPricingMessage, CHARTER_OUT_START_ISSUE_PRICING, charterOutStart.Id.ToString());
-                        }
-                        catch
-                        {
-                        }
-
+                        
+                        priceIssuedItemsAutomatically(dbContext, registeredTransactionIds, userId, out issuedItemsPricingMessage, CHARTER_OUT_START_ISSUE_PRICING, charterOutStart.Id.ToString());
+                        
                         deactivateWarehouse(dbContext, (int)charterOutStart.VesselInCompany.VesselInInventory.Id, userId);
 
                         result = new InventoryOperation(
