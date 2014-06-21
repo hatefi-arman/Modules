@@ -391,8 +391,8 @@ namespace MITD.Fuel.Domain.Model.DomainObjects.CharterAggregate
                 IsVesselCharterInOrOwned();
                 //B70
                 IsNotFinalApprove();
-                //72
-                IsSubmitedCharterInStart();
+                ////72
+                //this.IsSubmitedCharterOutStart();
             }
             else
             {
@@ -405,7 +405,7 @@ namespace MITD.Fuel.Domain.Model.DomainObjects.CharterAggregate
                 //B55
                 IsVesselCharterOut();
                 //72
-                IsSubmitedCharterInStart();
+                this.IsSubmitedCharterOutStart();
 
 
             }
@@ -416,14 +416,14 @@ namespace MITD.Fuel.Domain.Model.DomainObjects.CharterAggregate
 
             if (this.CharterType == CharterType.Start)
             {
-                if (_charterInDomainService.GetCharterState(this.Id) == States.Open)
+                if (_charterOutDomainService.GetCharterState(this.Id) == States.Open)
                     VesselInCompanyDomainService.StartCharterOutVessel(this.VesselInCompanyId.Value);
 
                 inventoryOperationResult = InventoryOperationNotifier.NotifySubmittingCharterOutStart(this);
             }
             else
             {
-                if (_charterInDomainService.GetCharterState(this.Id) == States.Open)
+                if (_charterOutDomainService.GetCharterState(this.Id) == States.Open)
                     VesselInCompanyDomainService.EndCharterOutVessel(this.VesselInCompanyId.Value);
 
                 inventoryOperationResult = InventoryOperationNotifier.NotifySubmittingCharterOutEnd(this);
@@ -747,11 +747,11 @@ namespace MITD.Fuel.Domain.Model.DomainObjects.CharterAggregate
 
         }
         //B72
-        void IsSubmitedCharterInStart()
+        void IsSubmitedCharterOutStart()
         {
-            var res = _charterOutDomainService.GetCharterStartState(this.VesselInCompanyId.Value, this.ChartererId.Value);
+            var res = _charterOutDomainService.GetCharterStartState(this.VesselInCompanyId.Value, this.OwnerId.Value);
             if (!(res == States.Submitted))
-                throw new BusinessRuleException("B67", "Charter In start is submited");
+                throw new BusinessRuleException("B67", "Charter Out start is submited");
         }
         #endregion
 

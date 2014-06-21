@@ -101,7 +101,12 @@
     <Compile Include="DomainObjects\VesselAggregate\VesselStates\CharteredOutVesselInCompanyState.cs" />
     <Compile Include="DomainObjects\VesselAggregate\Vessel.cs" />
     <Compile Include="DomainObjects\VesselAggregate\VesselInInventory.cs" />
+    <Compile Include="DomainObjects\VoucherAggregate\Account.cs" />
+    <Compile Include="DomainObjects\VoucherAggregate\SegmentType.cs" />
+    <Compile Include="DomainObjects\VoucherAggregate\VoucherDetailType.cs" />
+    <Compile Include="DomainObjects\VoucherAggregate\VoucherSeting.cs" />
     <Compile Include="DomainServices\VesselDomainService.cs" />
+    <Compile Include="Enums\VoucherType.cs" />
     <Compile Include="IDomainServices\ApprovableInvoiceDomainService.cs" />
     <Compile Include="DomainObjects\CharterAggregate\Events\CharterOutDisApproveArg.cs" />
     <Compile Include="DomainObjects\CharterAggregate\Events\CharterInApproveArg.cs" />

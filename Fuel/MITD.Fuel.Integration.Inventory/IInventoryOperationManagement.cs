@@ -26,7 +26,7 @@ namespace MITD.Fuel.Integration.Inventory
 
         List<InventoryOperation> ManageCharterInEnd(CharterIn charterInEnd, int userId);
 
-        List<InventoryOperation> ManageCharterOutStart(CharterOut charterOutStart, int userId);
+        InventoryOperation ManageCharterOutStart(CharterOut charterOutStart, int userId);
 
         List<InventoryOperation> ManageCharterOutEnd(CharterOut charterOutEnd, int userId);
 

@@ -31,7 +31,7 @@ namespace MITD.FuelSecurity.Domain.Model
 
         private  string className;
 
-        public virtual string ClassName
+        public virtual string ClassName                     
         {
             get { return className; }
             private set { className = value; }

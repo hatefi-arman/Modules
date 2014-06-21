@@ -27,16 +27,16 @@ namespace MITD.Fuel.Application
                 if (invocation.Method.DeclaringType.Name == "IApprovalFlowFacadeService")
                 {
 
-                    var dto = invocation.Arguments[0] as ApprovmentDto ;
-                    if (securityService.IsAuthorize(dto.ActionEntityType ,dto.DecisionType, user))
-                    {
-                        invocation.Proceed();
-                        logServicesAccess(invocation, user);
-                    }
-                    else
-                    {
-                        throw new FuelSecurityAccessException(7001, "Access Error");
-                    }
+                    //var dto = invocation.Arguments[0] as ApprovmentDto;
+                    //if (securityService.IsAuthorize(dto.ActionEntityType, dto.DecisionType, user))
+                    //{
+                    //    invocation.Proceed();
+                    //    logServicesAccess(invocation, user);
+                    //}
+                    //else
+                    //{
+                    //    throw new FuelSecurityAccessException(7001, "Access Error");
+                    //}
                 }
                 else
                 {
@@ -44,7 +44,7 @@ namespace MITD.Fuel.Application
                     {
                         invocation.Proceed();
                         logServicesAccess(invocation, user);
-                        
+
                     }
                     else
                     {
