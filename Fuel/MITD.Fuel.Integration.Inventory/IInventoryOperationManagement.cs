@@ -16,6 +16,8 @@ namespace MITD.Fuel.Integration.Inventory
 
         List<InventoryOperation> ManageFuelReportDetail(FuelReportDetail fuelReportDetail, int userId);
 
+        //List<InventoryOperation> ManageFuelReportDetailIncrementalCorrectionUsingReference(FuelReportDetail fuelReportDetail, long pricingReferenceId, int userId);
+
         List<InventoryOperation> ManageScrap(Scrap scrap, int userId);
 
         //List<InventoryOperation> ManageInvoice(Invoice invoice, int userId);

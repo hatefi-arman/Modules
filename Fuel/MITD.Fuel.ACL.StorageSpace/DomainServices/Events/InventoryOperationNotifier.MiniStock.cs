@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using MITD.Fuel.ACL.StorageSpace.DomainServices.Events.Inventory.DTOs;
 using MITD.Fuel.ACL.StorageSpace.Mappers.Inventory.Contracts;
 using MITD.Fuel.Domain.Model.DomainObjects;
@@ -17,6 +18,7 @@ namespace MITD.Fuel.ACL.StorageSpace.DomainServices.Events
 {
     public class InventoryOperationNotifier : IInventoryOperationNotifier
     {
+        private readonly IFuelReportDomainService fuelReportDomainService;
         private readonly IFuelReportFuelReportDtoMapper fuelReportDtoMapper;
         private IFuelReportDetailToFuelReportDetailDtoMapper fuelReportDetailDtoMapper;
         private readonly IInvoiceToDtoMapper invoiceToDtoMapper;
@@ -24,11 +26,13 @@ namespace MITD.Fuel.ACL.StorageSpace.DomainServices.Events
         private readonly IInventoryOperationManager inventoryOperationManager;
 
         public InventoryOperationNotifier(
+            IFuelReportDomainService fuelReportDomainService
             //IFuelReportFuelReportDtoMapper fuelReportDtoMapper,
             //IInvoiceToDtoMapper invoiceToDtoMapper,
             //IFuelReportDetailToFuelReportDetailDtoMapper fuelReportDetailDtoMapper
             )
         {
+            this.fuelReportDomainService = fuelReportDomainService;
             this.inventoryOperationManager = new InventoryOperationManager();
 
             //this.fuelReportDtoMapper = fuelReportDtoMapper;
@@ -55,6 +59,41 @@ namespace MITD.Fuel.ACL.StorageSpace.DomainServices.Events
         {
             try
             {
+                //var result = new List<InventoryOperation>();
+
+                //if (source.Correction.HasValue && source.CorrectionType.HasValue)
+                //{
+                //    if (source.CorrectionType.Value == CorrectionTypes.Plus)
+                //    {
+                //        if (source.CorrectionReference.IsEmpty())
+                //        {
+                //            if (source.IsCorrectionPriceEmpty())
+                //            {
+
+                //            }
+                //            else
+                //            {
+                                
+                //            }
+                //        }
+                //        else
+                //        {
+                //            if (source.CorrectionReference.ReferenceType.Value == ReferenceType.Voyage)
+                //            {
+                //                var eovFuelReport = fuelReportDomainService.GetVoyageValidEndOfVoyageFuelReport(source.CorrectionReference.ReferenceId.Value);
+
+                //                var consumptionInventoryOperationId = eovFuelReport.ConsumptionInventoryOperations.Last().InventoryOperationId;
+
+                //                result.AddRange(this.inventoryOperationManager.ManageFuelReportDetailIncrementalCorrectionUsingReference(source, consumptionInventoryOperationId, 1101));
+                //            }
+                //        }
+                //    }
+                //    else
+                //    {
+                        
+                //    }
+                //}
+                
                 return this.inventoryOperationManager.ManageFuelReportDetail(source,
                     //TODO: Fake ActorId
                     1101);
@@ -193,9 +232,8 @@ namespace MITD.Fuel.ACL.StorageSpace.DomainServices.Events
                                         1101)
                        };
             }
-            catch (Exception)
+            catch
             {
-
                 throw;
             }
         }

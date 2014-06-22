@@ -123,23 +123,29 @@ namespace MITD.Fuel.Integration.Inventory
             var transactionIdParameter = new SqlParameter("@TransactionId", SqlDbType.Int, sizeof(int), ParameterDirection.Output, false, 0, 0, "", DataRowVersion.Default, 0);
             var codeParameter = new SqlParameter("@Code", SqlDbType.Decimal, sizeof(decimal), ParameterDirection.Output, false, 20, 2, "", DataRowVersion.Default, 0);
             var messageParameter = new SqlParameter("@Message", SqlDbType.NVarChar, 4096, ParameterDirection.Output, false, 0, 0, "", DataRowVersion.Default, "");
+            try
+            {
+                dbContext.Database.ExecuteSqlCommand(TransactionalBehavior.EnsureTransaction,
+                                                     "dbo.[TransactionOperation] @Action=@Action, @TransactionAction=@TransactionAction, @CompanyId=@CompanyId, @WarehouseId=@WarehouseId, @TimeBucketId=@TimeBucketId, @StoreTypesId=@StoreTypesId, @RegistrationDate=@RegistrationDate, @ReferenceType=@ReferenceType, @ReferenceNo=@ReferenceNo, @UserCreatorId=@UserCreatorId, @TransactionId=@TransactionId OUT, @Code=@Code OUT, @Message=@Message OUT",
+                                                     new SqlParameter("@Action", INVENTORY_ADD_ACTION_VALUE),
+                                                     new SqlParameter("@TransactionAction", (byte)TransactionActionType.Issue),
+                                                     new SqlParameter("@CompanyId", companyId),
+                                                     new SqlParameter("@WarehouseId", warehouseId),
+                                                     new SqlParameter("@TimeBucketId", timeBucketId),
+                                                     new SqlParameter("@StoreTypesId", storeTypesId),
+                                                     new SqlParameter("@RegistrationDate", DateTime.Now),
+                                                     new SqlParameter("@ReferenceType", referenceType),
+                                                     new SqlParameter("@ReferenceNo", referenceNumber),
+                                                     new SqlParameter("@UserCreatorId", userId),
+                                                     transactionIdParameter,
+                                                     codeParameter,
+                                                     messageParameter);
 
-            dbContext.Database.ExecuteSqlCommand(TransactionalBehavior.EnsureTransaction,
-                "dbo.[TransactionOperation] @Action=@Action, @TransactionAction=@TransactionAction, @CompanyId=@CompanyId, @WarehouseId=@WarehouseId, @TimeBucketId=@TimeBucketId, @StoreTypesId=@StoreTypesId, @RegistrationDate=@RegistrationDate, @ReferenceType=@ReferenceType, @ReferenceNo=@ReferenceNo, @UserCreatorId=@UserCreatorId, @TransactionId=@TransactionId OUT, @Code=@Code OUT, @Message=@Message OUT",
-                               new SqlParameter("@Action", INVENTORY_ADD_ACTION_VALUE),
-                               new SqlParameter("@TransactionAction", (byte)TransactionActionType.Issue),
-                               new SqlParameter("@CompanyId", companyId),
-                               new SqlParameter("@WarehouseId", warehouseId),
-                               new SqlParameter("@TimeBucketId", timeBucketId),
-                               new SqlParameter("@StoreTypesId", storeTypesId),
-                               new SqlParameter("@RegistrationDate", DateTime.Now),
-                               new SqlParameter("@ReferenceType", referenceType),
-                               new SqlParameter("@ReferenceNo", referenceNumber),
-                               new SqlParameter("@UserCreatorId", userId),
-                               transactionIdParameter,
-                               codeParameter,
-                               messageParameter);
-
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidOperation("AddIssue", ex.Message);
+            }
 
             var transactionId = (int)transactionIdParameter.Value;
 
@@ -162,22 +168,28 @@ namespace MITD.Fuel.Integration.Inventory
             var codeParameter = new SqlParameter("@Code", SqlDbType.Decimal, sizeof(decimal), ParameterDirection.Output, false, 20, 2, "", DataRowVersion.Default, 0);
             var messageParameter = new SqlParameter("@Message", SqlDbType.NVarChar, 4096, ParameterDirection.Output, false, 0, 0, "", DataRowVersion.Default, "");
 
-            dbContext.Database.ExecuteSqlCommand(TransactionalBehavior.EnsureTransaction,
-                "dbo.[TransactionOperation] @Action=@Action, @TransactionAction=@TransactionAction, @CompanyId=@CompanyId, @WarehouseId=@WarehouseId, @TimeBucketId=@TimeBucketId, @StoreTypesId=@StoreTypesId, @RegistrationDate=@RegistrationDate, @ReferenceType=@ReferenceType, @ReferenceNo=@ReferenceNo, @UserCreatorId=@UserCreatorId, @TransactionId=@TransactionId OUT, @Code=@Code OUT, @Message=@Message OUT",
-                               new SqlParameter("@Action", INVENTORY_ADD_ACTION_VALUE),
-                               new SqlParameter("@TransactionAction", (byte)TransactionActionType.Receipt),
-                               new SqlParameter("@CompanyId", companyId),
-                               new SqlParameter("@WarehouseId", warehouseId),
-                               new SqlParameter("@TimeBucketId", timeBucketId),
-                               new SqlParameter("@StoreTypesId", storeTypesId),
-                               new SqlParameter("@RegistrationDate", DateTime.Now),
-                               new SqlParameter("@ReferenceType", referenceType),
-                               new SqlParameter("@ReferenceNo", referenceNumber),
-                               new SqlParameter("@UserCreatorId", userId),
-                               transactionIdParameter,
-                               codeParameter,
-                               messageParameter);
-
+            try
+            {
+                dbContext.Database.ExecuteSqlCommand(TransactionalBehavior.EnsureTransaction,
+                    "dbo.[TransactionOperation] @Action=@Action, @TransactionAction=@TransactionAction, @CompanyId=@CompanyId, @WarehouseId=@WarehouseId, @TimeBucketId=@TimeBucketId, @StoreTypesId=@StoreTypesId, @RegistrationDate=@RegistrationDate, @ReferenceType=@ReferenceType, @ReferenceNo=@ReferenceNo, @UserCreatorId=@UserCreatorId, @TransactionId=@TransactionId OUT, @Code=@Code OUT, @Message=@Message OUT",
+                                   new SqlParameter("@Action", INVENTORY_ADD_ACTION_VALUE),
+                                   new SqlParameter("@TransactionAction", (byte)TransactionActionType.Receipt),
+                                   new SqlParameter("@CompanyId", companyId),
+                                   new SqlParameter("@WarehouseId", warehouseId),
+                                   new SqlParameter("@TimeBucketId", timeBucketId),
+                                   new SqlParameter("@StoreTypesId", storeTypesId),
+                                   new SqlParameter("@RegistrationDate", DateTime.Now),
+                                   new SqlParameter("@ReferenceType", referenceType),
+                                   new SqlParameter("@ReferenceNo", referenceNumber),
+                                   new SqlParameter("@UserCreatorId", userId),
+                                   transactionIdParameter,
+                                   codeParameter,
+                                   messageParameter);
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidOperation("AddReceipt", ex.Message);
+            }
 
             var transactionId = (int)transactionIdParameter.Value;
 
@@ -224,15 +236,22 @@ namespace MITD.Fuel.Integration.Inventory
             var transactionItemsParameter = new SqlParameter("@TransactionItems", SqlDbType.Structured, 4096, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Default, transactionItemsTable);
             transactionItemsParameter.TypeName = "TypeTransactionItems";
 
-            dbContext.Database.ExecuteSqlCommand(
-                TransactionalBehavior.EnsureTransaction,
-                "dbo.[TransactionItemsOperation] @Action=@Action, @TransactionId=@TransactionId, @UserCreatorId=@UserCreatorId, @TransactionItems=@TransactionItems, @TransactionItemsId=@TransactionItemsId OUT, @Message=@Message OUT",
-                               new SqlParameter("@Action", INVENTORY_ADD_ACTION_VALUE),
-                               new SqlParameter("@TransactionId", transactionId),
-                               new SqlParameter("@UserCreatorId", userId),
-                               transactionItemsParameter,
-                               transactionItemIdsParameter,
-                               messageParameter);
+            try
+            {
+                dbContext.Database.ExecuteSqlCommand(
+                    TransactionalBehavior.EnsureTransaction,
+                    "dbo.[TransactionItemsOperation] @Action=@Action, @TransactionId=@TransactionId, @UserCreatorId=@UserCreatorId, @TransactionItems=@TransactionItems, @TransactionItemsId=@TransactionItemsId OUT, @Message=@Message OUT",
+                                   new SqlParameter("@Action", INVENTORY_ADD_ACTION_VALUE),
+                                   new SqlParameter("@TransactionId", transactionId),
+                                   new SqlParameter("@UserCreatorId", userId),
+                                   transactionItemsParameter,
+                                   transactionItemIdsParameter,
+                                   messageParameter);
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidOperation("AddTransactionItem", ex.Message);
+            }
 
             message = messageParameter.Value as string;
 
@@ -288,14 +307,21 @@ namespace MITD.Fuel.Integration.Inventory
             var transactionItemsPricesParameter = new SqlParameter("@TransactionItemPrices", SqlDbType.Structured, 4096, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Default, transactionItemsPricesTable);
             transactionItemsPricesParameter.TypeName = "TypeTransactionItemPrices";
 
-            dbContext.Database.ExecuteSqlCommand(
-                TransactionalBehavior.EnsureTransaction,
-                "dbo.[TransactionItemPricesOperation] @Action=@Action, @UserCreatorId=@UserCreatorId, @TransactionItemPrices=@TransactionItemPrices,@TransactionItemPriceIds=@TransactionItemPriceIds OUT, @Message=@Message OUT",
-                               new SqlParameter("@Action", INVENTORY_ADD_ACTION_VALUE),
-                               new SqlParameter("@UserCreatorId", userId),
-                               transactionItemsPricesParameter,
-                               transactionItemPriceIdsParameter,
-                               messageParameter);
+            try
+            {
+                dbContext.Database.ExecuteSqlCommand(
+                                                     TransactionalBehavior.EnsureTransaction,
+                                                     "dbo.[TransactionItemPricesOperation] @Action=@Action, @UserCreatorId=@UserCreatorId, @TransactionItemPrices=@TransactionItemPrices,@TransactionItemPriceIds=@TransactionItemPriceIds OUT, @Message=@Message OUT",
+                                                     new SqlParameter("@Action", INVENTORY_ADD_ACTION_VALUE),
+                                                     new SqlParameter("@UserCreatorId", userId),
+                                                     transactionItemsPricesParameter,
+                                                     transactionItemPriceIdsParameter,
+                                                     messageParameter);
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidOperation("AddTransactionItemPrices", ex.Message);
+            }
 
             message = messageParameter.Value as string;
 
@@ -320,7 +346,7 @@ namespace MITD.Fuel.Integration.Inventory
 
         //================================================================================
 
-        private void priceIssuedItemsAutomatically(InventoryDbContext dbContext, IEnumerable<int> transactionItemsIds,
+        private void priceIssuedItemsInFIFO(InventoryDbContext dbContext, IEnumerable<int> transactionItemsIds,
             int userId, out string message, string pricingReferenceType, string pricingReferenceNumber)
         {
             var messageParameter = new SqlParameter("@Message", SqlDbType.NVarChar, 4096, ParameterDirection.Output, false, 0, 0, "", DataRowVersion.Default, "");
@@ -344,15 +370,21 @@ namespace MITD.Fuel.Integration.Inventory
             var issueItemIds = new SqlParameter("@IssueItemIds", SqlDbType.Structured, 4096, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Default, transactionItemsPricesTable);
             issueItemIds.TypeName = "Ids";
 
-
-            dbContext.Database.ExecuteSqlCommand(
-                TransactionalBehavior.EnsureTransaction,
-                "dbo.[IssueItemPricesOperation] @UserCreatorId=@UserCreatorId, @IssueItemIds=@IssueItemIds,@TransactionItemPriceIds=@TransactionItemPriceIds OUT, @Message=@Message OUT, @NotPricedTransactionId=@NotPricedTransactionId OUT",
-                               new SqlParameter("@UserCreatorId", userId),
-                               issueItemIds,
-                               transactionItemPriceIdsParameter,
-                               messageParameter,
-                               notPricedTransactionIdParameter);
+            try
+            {
+                dbContext.Database.ExecuteSqlCommand(
+                    TransactionalBehavior.EnsureTransaction,
+                    "dbo.[IssueItemPricesOperation] @UserCreatorId=@UserCreatorId, @IssueItemIds=@IssueItemIds,@TransactionItemPriceIds=@TransactionItemPriceIds OUT, @Message=@Message OUT, @NotPricedTransactionId=@NotPricedTransactionId OUT",
+                                   new SqlParameter("@UserCreatorId", userId),
+                                   issueItemIds,
+                                   transactionItemPriceIdsParameter,
+                                   messageParameter,
+                                   notPricedTransactionIdParameter);
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidOperation("PriceIssuedItemsAutomatically", ex.Message);
+            }
 
             var notPricedTransactionId = notPricedTransactionIdParameter.Value == null ? null : (int?)(int)notPricedTransactionIdParameter.Value;
 
@@ -360,24 +392,24 @@ namespace MITD.Fuel.Integration.Inventory
             {
                 var transactionCode = dbContext.Transactions.Single(t => t.Id == notPricedTransactionId.Value).Code;
 
-                throw new InvalidOperation("PriceIssuedTransactionItem", "The issue pricing procedure reached to a not priced Receipt. Receipt Code : " + transactionCode);
+                throw new InvalidOperation("priceIssuedItemsAutomatically", "The issue pricing procedure reached to a not priced Receipt. Receipt Code : " + transactionCode);
             }
             message = messageParameter.Value as string;
 
             if (message != OPERATION_SUCCESSFUL_MESSAGE)
-                throw new InvalidOperation("PriceIssuedTransactionItem", message);
+                throw new InvalidOperation("priceIssuedItemsAutomatically", message);
 
             addPricingOperationReferences(dbContext, pricingReferenceType, pricingReferenceNumber, transactionItemPriceIdsParameter.Value.ToString());
         }
 
         //================================================================================
 
-        private void priceIssuedItemAutomatically(InventoryDbContext dbContext, int transactionItemId,
+        private void priceIssuedItemInFIFO(InventoryDbContext dbContext, int transactionItemId,
             int userId, out string message, string pricingReferenceType, string pricingReferenceNumber)
         {
             var transactionItemsIds = new List<int> { transactionItemId };
 
-            priceIssuedItemsAutomatically(dbContext, transactionItemsIds, userId,
+            priceIssuedItemsInFIFO(dbContext, transactionItemsIds, userId,
                 out message, pricingReferenceType, pricingReferenceNumber);
         }
 
@@ -509,12 +541,7 @@ namespace MITD.Fuel.Integration.Inventory
                 {
                     InventoryOperation result = null;
 
-                    //if (fuelReport.FuelReportType == FuelReportTypes.EndOfVoyage ||
-                    //    fuelReport.FuelReportType == FuelReportTypes.EndOfYear ||
-                    //    fuelReport.FuelReportType == FuelReportTypes.EndOfMonth)
-                    //{
                     //TODO: EOV-EOM-EOY
-
                     #region EOV-EOM-EOY
 
                     var goodsConsumption = new Dictionary<long, decimal>();
@@ -568,12 +595,10 @@ namespace MITD.Fuel.Integration.Inventory
                         var registeredTransactionIds = addTransactionItems(dbContext, (int)operationReference.OperationId, transactionItems, userId, out transactionItemMessage);
 
                         string issuedItemsPricingMessage;
-                        //TODO: Items Automatic Pricing
-                        //Automatic Pricing
-
+                       
                         try
                         {
-                            priceIssuedItemsAutomatically(dbContext, registeredTransactionIds, userId, out issuedItemsPricingMessage, EOV_EOM_EOY_FUEL_REPORT_CONSUMPTION_PRICING, fuelReport.Id.ToString());  //FuelReportDetail ID
+                            priceIssuedItemsInFIFO(dbContext, registeredTransactionIds, userId, out issuedItemsPricingMessage, EOV_EOM_EOY_FUEL_REPORT_CONSUMPTION_PRICING, fuelReport.Id.ToString());  //FuelReportDetail ID
                         }
                         catch
                         {
@@ -594,7 +619,6 @@ namespace MITD.Fuel.Integration.Inventory
                     }
 
                     #endregion
-                    //}
 
                     transaction.Commit();
 
@@ -793,7 +817,7 @@ namespace MITD.Fuel.Integration.Inventory
                                 string pricingMessage;
                                 //int? notPricedTransactionId;
 
-                                priceIssuedItemAutomatically(dbContext, transactionItemIds[0], userId,
+                                priceIssuedItemInFIFO(dbContext, transactionItemIds[0], userId,
                                     out pricingMessage, FUEL_REPORT_DETAIL_DECREMENTAL_CORRECTION_PRICING,
                                     fuelReportDetail.Id.ToString());
 
@@ -1146,7 +1170,7 @@ namespace MITD.Fuel.Integration.Inventory
 
         private string generateOrderItemBalancePricingReferenceNumber(Domain.Model.DomainObjects.OrderAggreate.OrderItemBalance orderItemBalance)
         {
-            return string.Format("{0},{1}", orderItemBalance.FuelReportDetailId, orderItemBalance.InventoryOperationId);
+            return string.Format("{0},{1}", orderItemBalance.FuelReportDetailId, orderItemBalance.InvoiceItemId);
         }
 
         //================================================================================
@@ -1386,9 +1410,9 @@ namespace MITD.Fuel.Integration.Inventory
                         string issuedItemsPricingMessage;
                         //TODO: Items Automatic Pricing
                         //Automatic Pricing
-                        
-                        priceIssuedItemsAutomatically(dbContext, registeredTransactionIds, userId, out issuedItemsPricingMessage, CHARTER_OUT_START_ISSUE_PRICING, charterOutStart.Id.ToString());
-                        
+
+                        priceIssuedItemsInFIFO(dbContext, registeredTransactionIds, userId, out issuedItemsPricingMessage, CHARTER_OUT_START_ISSUE_PRICING, charterOutStart.Id.ToString());
+
                         deactivateWarehouse(dbContext, (int)charterOutStart.VesselInCompany.VesselInInventory.Id, userId);
 
                         result = new InventoryOperation(
@@ -1413,117 +1437,117 @@ namespace MITD.Fuel.Integration.Inventory
                     return result;
                 }
             }
-           /* return null;
-            try
-            {
-                var result = new List<Domain.Model.DomainObjects.InventoryOperation>();
+            /* return null;
+             try
+             {
+                 var result = new List<Domain.Model.DomainObjects.InventoryOperation>();
 
-                var reference = findInventoryOperationReference(dbContext, InventoryOperationType.Receipt, CHARTER_IN_START_RECEIPT, charterInStart.Id.ToString());
-
-
-                //if (reference.OperationId == INVALID_ID)
-                if (reference == null)
-                {
-                    activateWarehouse(dbContext, (int)charterInStart.VesselInCompany.VesselInInventory.Id, userId);
-
-                    string transactionCode, transactionMessage;
+                 var reference = findInventoryOperationReference(dbContext, InventoryOperationType.Receipt, CHARTER_IN_START_RECEIPT, charterInStart.Id.ToString());
 
 
-                    var operationReference = receipt(
-                              dbContext,
-                              (int)charterInStart.VesselInCompany.CompanyId,
-                              (int)charterInStart.VesselInCompany.VesselInInventory.Id,
-                              1,
-                              1,
-                              CHARTER_IN_START_RECEIPT,
-                              charterInStart.Id.ToString(),
-                              userId,
-                              out transactionCode,
-                              out transactionMessage);
+                 //if (reference.OperationId == INVALID_ID)
+                 if (reference == null)
+                 {
+                     activateWarehouse(dbContext, (int)charterInStart.VesselInCompany.VesselInInventory.Id, userId);
 
-                    //TODO: Items
-                    string transactionItemMessage;
-
-                    var transactionItems = new List<TransactionItem>();
-
-                    foreach (var charterItem in charterInStart.CharterItems)
-                    {
-
-                        transactionItems.Add(new TransactionItem()
-                        {
-                            GoodId = (int)charterItem.Good.SharedGoodId,
-                            CreateDate = DateTime.Now,
-                            Description = "Charter In Start > " + charterItem.Good.Code,
-                            QuantityAmount = charterItem.Rob,
-                            QuantityUnitId = getMeasurementUnitId(dbContext, charterItem.GoodUnit.Abbreviation),
-                            TransactionId = (int)operationReference.OperationId,
-                            UserCreatorId = userId
-                        });
-                    }
-
-                    addTransactionItems(dbContext, (int)operationReference.OperationId, transactionItems, userId, out transactionItemMessage);
+                     string transactionCode, transactionMessage;
 
 
-                    //Manual Items Pricing
-                    var registeredTransaction = dbContext.Transactions.Single(t => t.Id == (int)operationReference.OperationId);
+                     var operationReference = receipt(
+                               dbContext,
+                               (int)charterInStart.VesselInCompany.CompanyId,
+                               (int)charterInStart.VesselInCompany.VesselInInventory.Id,
+                               1,
+                               1,
+                               CHARTER_IN_START_RECEIPT,
+                               charterInStart.Id.ToString(),
+                               userId,
+                               out transactionCode,
+                               out transactionMessage);
+
+                     //TODO: Items
+                     string transactionItemMessage;
+
+                     var transactionItems = new List<TransactionItem>();
+
+                     foreach (var charterItem in charterInStart.CharterItems)
+                     {
+
+                         transactionItems.Add(new TransactionItem()
+                         {
+                             GoodId = (int)charterItem.Good.SharedGoodId,
+                             CreateDate = DateTime.Now,
+                             Description = "Charter In Start > " + charterItem.Good.Code,
+                             QuantityAmount = charterItem.Rob,
+                             QuantityUnitId = getMeasurementUnitId(dbContext, charterItem.GoodUnit.Abbreviation),
+                             TransactionId = (int)operationReference.OperationId,
+                             UserCreatorId = userId
+                         });
+                     }
+
+                     addTransactionItems(dbContext, (int)operationReference.OperationId, transactionItems, userId, out transactionItemMessage);
 
 
-                    var transactionItemPrices = new List<TransactionItemPrice>();
-
-                    foreach (var charterItem in charterInStart.CharterItems)
-                    {
-                        var registeredTransactionItem = registeredTransaction.TransactionItems.Single(ti => ti.GoodId == charterItem.Good.SharedGoodId);
-
-                        var transactionItemPrice = new TransactionItemPrice()
-                        {
-                            TransactionItemId = registeredTransactionItem.Id,
-                            QuantityUnitId = getMeasurementUnitId(dbContext, charterItem.GoodUnit.Abbreviation),
-                            QuantityAmount = charterItem.Rob,
-                            PriceUnitId = getCurrencyId(dbContext, charterInStart.Currency.Abbreviation),
-                            Fee = charterItem.Fee,
-                            RegistrationDate = DateTime.Now,
-                            Description = "Charter In Start Pricing > " + charterItem.Good.Code,
-                            UserCreatorId = userId
-                        };
-
-                        transactionItemPrices.Add(transactionItemPrice);
-                        //priceTransactionItemsManually(dbContext, transactionItemPrice, userId, out pricingMessage, CHARTER_IN_START_RECEIPT_PRICING, charterItem.Id.ToString());
-                    }
-
-                    string pricingMessage;
-                    priceTransactionItemsManually(dbContext, transactionItemPrices, userId, out pricingMessage, CHARTER_IN_START_RECEIPT_PRICING, charterInStart.Id.ToString());
-
-                    result.Add(new InventoryOperation(
-                        inventoryOperationId: operationReference.OperationId,
-                        actionNumber: string.Format("{0}/{1}", (InventoryOperationType)operationReference.OperationType, transactionCode),
-                        actionDate: DateTime.Now,
-                        actionType: InventoryActionType.Receipt,
-                        fuelReportDetailId: null,
-                        charterId: charterInStart.Id));
-                }
-                else
-                {
-                    throw new InvalidOperation("CharterInStart disapprovement", "CharterInStart disapprovement is invalid.");
-
-                    var transactionItems = dbContext.TransactionItems.Where(ti => ti.TransactionId == reference.OperationId);
+                     //Manual Items Pricing
+                     var registeredTransaction = dbContext.Transactions.Single(t => t.Id == (int)operationReference.OperationId);
 
 
-                }
+                     var transactionItemPrices = new List<TransactionItemPrice>();
 
-                transaction.Commit();
+                     foreach (var charterItem in charterInStart.CharterItems)
+                     {
+                         var registeredTransactionItem = registeredTransaction.TransactionItems.Single(ti => ti.GoodId == charterItem.Good.SharedGoodId);
 
-                return result;
-            }
-            catch (Exception)
-            {
-                //transaction.Rollback();
-                throw;
-            }
+                         var transactionItemPrice = new TransactionItemPrice()
+                         {
+                             TransactionItemId = registeredTransactionItem.Id,
+                             QuantityUnitId = getMeasurementUnitId(dbContext, charterItem.GoodUnit.Abbreviation),
+                             QuantityAmount = charterItem.Rob,
+                             PriceUnitId = getCurrencyId(dbContext, charterInStart.Currency.Abbreviation),
+                             Fee = charterItem.Fee,
+                             RegistrationDate = DateTime.Now,
+                             Description = "Charter In Start Pricing > " + charterItem.Good.Code,
+                             UserCreatorId = userId
+                         };
+
+                         transactionItemPrices.Add(transactionItemPrice);
+                         //priceTransactionItemsManually(dbContext, transactionItemPrice, userId, out pricingMessage, CHARTER_IN_START_RECEIPT_PRICING, charterItem.Id.ToString());
+                     }
+
+                     string pricingMessage;
+                     priceTransactionItemsManually(dbContext, transactionItemPrices, userId, out pricingMessage, CHARTER_IN_START_RECEIPT_PRICING, charterInStart.Id.ToString());
+
+                     result.Add(new InventoryOperation(
+                         inventoryOperationId: operationReference.OperationId,
+                         actionNumber: string.Format("{0}/{1}", (InventoryOperationType)operationReference.OperationType, transactionCode),
+                         actionDate: DateTime.Now,
+                         actionType: InventoryActionType.Receipt,
+                         fuelReportDetailId: null,
+                         charterId: charterInStart.Id));
+                 }
+                 else
+                 {
+                     throw new InvalidOperation("CharterInStart disapprovement", "CharterInStart disapprovement is invalid.");
+
+                     var transactionItems = dbContext.TransactionItems.Where(ti => ti.TransactionId == reference.OperationId);
+
+
+                 }
+
+                 transaction.Commit();
+
+                 return result;
+             }
+             catch (Exception)
+             {
+                 //transaction.Rollback();
+                 throw;
+             }
 
 
 
-            return null;
-            */
+             return null;
+             */
         }
 
         //================================================================================
