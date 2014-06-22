@@ -26,13 +26,13 @@ namespace MITD.Fuel.ACL.StorageSpace.DomainServices.Events
         private readonly IInventoryOperationManager inventoryOperationManager;
 
         public InventoryOperationNotifier(
-            IFuelReportDomainService fuelReportDomainService
+            //IFuelReportDomainService fuelReportDomainService
             //IFuelReportFuelReportDtoMapper fuelReportDtoMapper,
             //IInvoiceToDtoMapper invoiceToDtoMapper,
             //IFuelReportDetailToFuelReportDetailDtoMapper fuelReportDetailDtoMapper
             )
         {
-            this.fuelReportDomainService = fuelReportDomainService;
+            //this.fuelReportDomainService = fuelReportDomainService;
             this.inventoryOperationManager = new InventoryOperationManager();
 
             //this.fuelReportDtoMapper = fuelReportDtoMapper;
