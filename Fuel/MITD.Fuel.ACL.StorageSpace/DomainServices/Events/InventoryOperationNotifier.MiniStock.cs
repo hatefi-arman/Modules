@@ -18,7 +18,6 @@ namespace MITD.Fuel.ACL.StorageSpace.DomainServices.Events
 {
     public class InventoryOperationNotifier : IInventoryOperationNotifier
     {
-        private readonly IFuelReportDomainService fuelReportDomainService;
         private readonly IFuelReportFuelReportDtoMapper fuelReportDtoMapper;
         private IFuelReportDetailToFuelReportDetailDtoMapper fuelReportDetailDtoMapper;
         private readonly IInvoiceToDtoMapper invoiceToDtoMapper;
@@ -26,13 +25,11 @@ namespace MITD.Fuel.ACL.StorageSpace.DomainServices.Events
         private readonly IInventoryOperationManager inventoryOperationManager;
 
         public InventoryOperationNotifier(
-            //IFuelReportDomainService fuelReportDomainService
             //IFuelReportFuelReportDtoMapper fuelReportDtoMapper,
             //IInvoiceToDtoMapper invoiceToDtoMapper,
             //IFuelReportDetailToFuelReportDetailDtoMapper fuelReportDetailDtoMapper
             )
         {
-            //this.fuelReportDomainService = fuelReportDomainService;
             this.inventoryOperationManager = new InventoryOperationManager();
 
             //this.fuelReportDtoMapper = fuelReportDtoMapper;
@@ -55,45 +52,59 @@ namespace MITD.Fuel.ACL.StorageSpace.DomainServices.Events
             }
         }
 
-        public List<InventoryOperation> NotifySubmittingFuelReportDetail(FuelReportDetail source)
+        public List<InventoryOperation> NotifySubmittingFuelReportDetail(FuelReportDetail source, IFuelReportDomainService fuelReportDomainService)
         {
             try
             {
-                //var result = new List<InventoryOperation>();
+                var result = new List<InventoryOperation>();
 
-                //if (source.Correction.HasValue && source.CorrectionType.HasValue)
-                //{
-                //    if (source.CorrectionType.Value == CorrectionTypes.Plus)
-                //    {
-                //        if (source.CorrectionReference.IsEmpty())
-                //        {
-                //            if (source.IsCorrectionPriceEmpty())
-                //            {
+                if (source.Correction.HasValue && source.CorrectionType.HasValue)
+                {
+                    if (source.CorrectionType.Value == CorrectionTypes.Plus)
+                    {
+                        if (source.CorrectionReference.IsEmpty())
+                        {
+                            if (source.IsCorrectionPriceEmpty())
+                            {
+                                var lastReceiveFuelReportDetailBefore = fuelReportDomainService.GetLastReceiveFuelReportDetailBefore(source);
 
-                //            }
-                //            else
-                //            {
-                                
-                //            }
-                //        }
-                //        else
-                //        {
-                //            if (source.CorrectionReference.ReferenceType.Value == ReferenceType.Voyage)
-                //            {
-                //                var eovFuelReport = fuelReportDomainService.GetVoyageValidEndOfVoyageFuelReport(source.CorrectionReference.ReferenceId.Value);
+                                var lastReceiveInventoryOperationId = inventoryOperationManager.GetFueReportDetailReceiveOperationReference(lastReceiveFuelReportDetailBefore).OperationId;
 
-                //                var consumptionInventoryOperationId = eovFuelReport.ConsumptionInventoryOperations.Last().InventoryOperationId;
+                                result.AddRange(this.inventoryOperationManager.ManageFuelReportDetailIncrementalCorrectionUsingReferencePricing(source, lastReceiveInventoryOperationId,
+                                    //TODO: Fake ActorId
+                                    1101));
+                            }
+                            else
+                            {
+                                result.AddRange(this.inventoryOperationManager.ManageFuelReportDetailIncrementalCorrectionDirectPricing(source, 
+                                    //TODO: Fake ActorId
+                                    1101));
+                            }
+                        }
+                        else
+                        {
+                            if (source.CorrectionReference.ReferenceType.Value == ReferenceType.Voyage)
+                            {
+                                //var eovFuelReport = fuelReportDomainService.GetVoyageValidEndOfVoyageFuelReport(source.CorrectionReference.ReferenceId.Value);
 
-                //                result.AddRange(this.inventoryOperationManager.ManageFuelReportDetailIncrementalCorrectionUsingReference(source, consumptionInventoryOperationId, 1101));
-                //            }
-                //        }
-                //    }
-                //    else
-                //    {
-                        
-                //    }
-                //}
-                
+                                //var consumptionInventoryOperationId = eovFuelReport.ConsumptionInventoryOperations.Last().InventoryOperationId;
+
+                                var consumptionInventoryOperationId = fuelReportDomainService.GetVoyageConsumptionIssueOperation(source.CorrectionReference.ReferenceId.Value).InventoryOperationId;
+
+                                result.AddRange(this.inventoryOperationManager.ManageFuelReportDetailIncrementalCorrectionUsingReferencePricing(source, consumptionInventoryOperationId, 
+                                    //TODO: Fake ActorId
+                                    1101));
+                            }
+                        }
+                    }
+                    else
+                    {
+
+                    }
+                }
+
+                return result;
+
                 return this.inventoryOperationManager.ManageFuelReportDetail(source,
                     //TODO: Fake ActorId
                     1101);

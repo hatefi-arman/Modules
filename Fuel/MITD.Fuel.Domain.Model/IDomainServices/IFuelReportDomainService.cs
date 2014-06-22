@@ -49,6 +49,8 @@ namespace MITD.Fuel.Domain.Model.IDomainServices
         List<Reference> GetFuelReportDetailRejectedTransferReferences(FuelReportDetail fuelReportDetail);
 
         decimal CalculateReportingConsumption(FuelReportDetail fuelReportDetail);
+
+        FuelReportDetail GetLastReceiveFuelReportDetailBefore(FuelReportDetail fuelReportDetail);
     }
 
     public class InventoryResultCommand

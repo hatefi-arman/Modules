@@ -22,6 +22,14 @@ namespace MITD.Fuel.Integration.Inventory.Data.ReversePOCO
         public int OperationType { get; set; } // OperationType
         public string ReferenceType { get; set; } // ReferenceType
         public string ReferenceNumber { get; set; } // ReferenceNumber
+        public DateTime RegistrationDate { get; set; } // RegistrationDate
+
+        public OperationReference()
+        {
+            RegistrationDate = System.DateTime.Now;
+            InitializePartial();
+        }
+        partial void InitializePartial();
     }
 
 }

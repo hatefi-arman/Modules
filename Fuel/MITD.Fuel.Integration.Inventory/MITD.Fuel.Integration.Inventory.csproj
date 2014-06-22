@@ -186,8 +186,8 @@
     <Compile Include="Data\ReversePOCO\WarehouseConfiguration.cs">
       <DependentUpon>InventoryDatabaseTemplate.tt</DependentUpon>
     </Compile>
-    <Compile Include="IInventoryOperationManagement.cs" />
-    <Compile Include="InventoryOperationManagement.cs" />
+    <Compile Include="IInventoryOperationManager.cs" />
+    <Compile Include="InventoryOperationManager.cs" />
     <Compile Include="InventoryTransactionType.cs" />
     <Compile Include="UnitOfMeasuresAndCurrenciesRegsitrar.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

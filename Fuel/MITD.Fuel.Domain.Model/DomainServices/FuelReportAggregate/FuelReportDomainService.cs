@@ -395,7 +395,7 @@ namespace MITD.Fuel.Domain.Model.DomainServices
 
             var notIssuedEOVFuelReportsOfPreviousVoyages =
                 previousEOVFuelReports
-                    .FindAll(eovfr => !isFuelReportIssued.IsSatisfiedBy(eovfr));
+                    .FindAll(eovfr => eovfr.ConsumptionInventoryOperations == null || eovfr.ConsumptionInventoryOperations.Count == 0);
 
             return notIssuedEOVFuelReportsOfPreviousVoyages;
         }
@@ -622,11 +622,11 @@ namespace MITD.Fuel.Domain.Model.DomainServices
             if (lastConsumptionIssuingFuelReport != null && !isFuelReportIssued.IsSatisfiedBy(lastConsumptionIssuingFuelReport))
                 throw new BusinessRuleException("", "Previous EOV, EOM or EOY FuelReport is not issued yet.");
 
-            var startDateToCalculateConsumption = (lastConsumptionIssuingFuelReport != null) 
-                ? lastConsumptionIssuingFuelReport.EventDate 
+            var startDateToCalculateConsumption = (lastConsumptionIssuingFuelReport != null)
+                ? lastConsumptionIssuingFuelReport.EventDate
                 : startDateOfVesselActivation;
 
-            Expression<Func<FuelReport , bool>> queryToFindPreviousFuelReportsForCalculation = 
+            Expression<Func<FuelReport, bool>> queryToFindPreviousFuelReportsForCalculation =
                 fr =>
                     fr.VesselInCompanyId == processingFuelReport.VesselInCompanyId &&
                     fr.EventDate > startDateToCalculateConsumption &&
@@ -636,15 +636,33 @@ namespace MITD.Fuel.Domain.Model.DomainServices
             var notSubmittedFuelReportsCount = fuelReportRepository.Count(
                 isFuelReportSubmitted.Not().Predicate.And(queryToFindPreviousFuelReportsForCalculation));
 
-            if(notSubmittedFuelReportsCount != 0)
-                throw new BusinessRuleException("","There are some not approved FuelReports.");
+            if (notSubmittedFuelReportsCount != 0)
+                throw new BusinessRuleException("", "There are some not approved FuelReports.");
 
-            var calculatedPreviousConsumptions = 
+            var calculatedPreviousConsumptions =
                 fuelReportRepository.Find(queryToFindPreviousFuelReportsForCalculation)
                     .SelectMany(fr => fr.FuelReportDetails.Where(frd => frd.GoodId == fuelReportDetail.GoodId))
                     .Sum(frd => frd.Consumption);
 
             return new decimal(calculatedPreviousConsumptions + fuelReportDetail.Consumption);
+        }
+
+        public FuelReportDetail GetLastReceiveFuelReportDetailBefore(FuelReportDetail fuelReportDetail)
+        {
+            var fetchStrategy = new SingleResultFetchStrategy<FuelReport>().OrderByDescending( fr => fr.EventDate);
+
+            var lastFuelReportWithReceivedGood = fuelReportRepository.First(
+                isFuelReportSubmitted.Predicate.And(
+                    isFuelReportNotCancelled.Predicate.And(
+                        fr =>
+                            fr.EventDate < fuelReportDetail.FuelReport.EventDate &&
+                            fr.FuelReportDetails.Any(
+                                frd =>
+                                    frd.GoodId == fuelReportDetail.GoodId &&
+                                    frd.Receive.HasValue))), 
+                fetchStrategy);
+
+            return lastFuelReportWithReceivedGood.FuelReportDetails.Single(frd=>frd.GoodId == fuelReportDetail.GoodId);
         }
 
         //================================================================================

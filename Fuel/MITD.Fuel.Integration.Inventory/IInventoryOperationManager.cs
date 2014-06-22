@@ -16,7 +16,9 @@ namespace MITD.Fuel.Integration.Inventory
 
         List<InventoryOperation> ManageFuelReportDetail(FuelReportDetail fuelReportDetail, int userId);
 
-        //List<InventoryOperation> ManageFuelReportDetailIncrementalCorrectionUsingReference(FuelReportDetail fuelReportDetail, long pricingReferenceId, int userId);
+        List<InventoryOperation> ManageFuelReportDetailIncrementalCorrectionUsingReferencePricing(FuelReportDetail fuelReportDetail, long pricingReferenceId, int userId);
+
+        List<InventoryOperation> ManageFuelReportDetailIncrementalCorrectionDirectPricing(FuelReportDetail fuelReportDetail, int userId);
 
         List<InventoryOperation> ManageScrap(Scrap scrap, int userId);
 
@@ -33,6 +35,8 @@ namespace MITD.Fuel.Integration.Inventory
         List<InventoryOperation> ManageCharterOutEnd(CharterOut charterOutEnd, int userId);
 
         Transaction GetTransaction(long transactionId, InventoryOperationType operationType);
+        
+        OperationReference GetFueReportDetailReceiveOperationReference(FuelReportDetail fuelReportDetail);
 
         decimal GetAveragePrice(long transactionId, MITD.Fuel.Integration.Inventory.InventoryOperationManager.TransactionActionType actionType, long goodId, long unitId);
     }
