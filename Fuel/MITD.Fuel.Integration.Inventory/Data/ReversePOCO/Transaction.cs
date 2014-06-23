@@ -25,6 +25,7 @@ namespace MITD.Fuel.Integration.Inventory.Data.ReversePOCO
         public int WarehouseId { get; set; } // WarehouseId
         public int StoreTypesId { get; set; } // StoreTypesId
         public int TimeBucketId { get; set; } // TimeBucketId
+        public int? PricingReferenceId { get; set; } // PricingReferenceId
         public byte? Status { get; set; } // Status
         public DateTime? RegistrationDate { get; set; } // RegistrationDate
         public int? SenderReciver { get; set; } // SenderReciver

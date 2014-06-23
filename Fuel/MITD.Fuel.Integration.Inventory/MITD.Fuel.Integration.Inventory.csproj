@@ -186,8 +186,8 @@
     <Compile Include="Data\ReversePOCO\WarehouseConfiguration.cs">
       <DependentUpon>InventoryDatabaseTemplate.tt</DependentUpon>
     </Compile>
-    <Compile Include="IInventoryOperationManagement.cs" />
-    <Compile Include="InventoryOperationManagement.cs" />
+    <Compile Include="IInventoryOperationManager.cs" />
+    <Compile Include="InventoryOperationManager.cs" />
     <Compile Include="InventoryTransactionType.cs" />
     <Compile Include="UnitOfMeasuresAndCurrenciesRegsitrar.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -214,6 +214,7 @@
     <Content Include="Data\Stock Scripts\009-Stored Procedures.sql" />
     <Content Include="Data\Stock Scripts\010-Triggers.sql" />
     <Content Include="Data\Stock Scripts\011-Initial Values.sql" />
+    <Content Include="Data\Stock Scripts\Inv Test Query1.sql" />
     <Content Include="Data\Stock Scripts\Inventory Quantity Query.sql" />
   </ItemGroup>
   <ItemGroup>

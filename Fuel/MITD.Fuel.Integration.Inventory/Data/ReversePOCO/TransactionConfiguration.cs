@@ -30,6 +30,7 @@ namespace MITD.Fuel.Integration.Inventory.Data.ReversePOCO
             Property(x => x.WarehouseId).HasColumnName("WarehouseId").IsRequired();
             Property(x => x.StoreTypesId).HasColumnName("StoreTypesId").IsRequired();
             Property(x => x.TimeBucketId).HasColumnName("TimeBucketId").IsRequired();
+            Property(x => x.PricingReferenceId).HasColumnName("PricingReferenceId").IsOptional();
             Property(x => x.Status).HasColumnName("Status").IsOptional();
             Property(x => x.RegistrationDate).HasColumnName("RegistrationDate").IsOptional();
             Property(x => x.SenderReciver).HasColumnName("SenderReciver").IsOptional();

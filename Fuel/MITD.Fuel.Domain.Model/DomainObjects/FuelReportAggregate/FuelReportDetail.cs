@@ -106,7 +106,7 @@ namespace MITD.Fuel.Domain.Model.DomainObjects
         {
             //Id = id;
             FuelReportId = fuelReportId;
-            
+
             //No validation performed due to unavailability of such validation.
             Consumption = consumption;
             Correction = correction;
@@ -207,8 +207,13 @@ namespace MITD.Fuel.Domain.Model.DomainObjects
             validateTransferType(transfer, transferType);
 
             //BR_FR7
-            validateCorrectionTypeCurrencyAndPriceValues(correction, correctionType, correctionPriceCurrencyId,
+            validateCorrectionType(correction, correctionType, correctionPriceCurrencyId,
                                                          correctionPrice, currencyDomainService);
+           
+            //validatePositiveCorrectionTypeCurrencyAndPriceValues(correction, correctionType, correctionPriceCurrencyId,
+            //                                             correctionPrice, currencyDomainService);
+
+
 
             //BR_FR8
             validateNotNegativeReceiveTransferCorrection(receive, transfer, correction);
@@ -397,7 +402,7 @@ namespace MITD.Fuel.Domain.Model.DomainObjects
         /// <summary>
         ///     BR_FR7
         /// </summary>
-        private void validateCorrectionTypeCurrencyAndPriceValues(
+        private void validateCorrectionType(
             double? correction, CorrectionTypes? correctionType,
             long? currencyId, decimal? correctionPrice,
             ICurrencyDomainService currencyDomainService)
@@ -409,22 +414,60 @@ namespace MITD.Fuel.Domain.Model.DomainObjects
             {
                 if (correction.HasValue &&
                     (
-                        !( //Check correctionType
-                         correctionType.HasValue &&
-                         Enum.IsDefined(typeof(CorrectionTypes), correctionType.Value)/* &&
-                         correctionType.Value != CorrectionTypes.NotDefined*/
-                         ) ||
+                        !(correctionType.HasValue && Enum.IsDefined(typeof(CorrectionTypes), correctionType.Value))
+
+                        /*||
                         !( //Check currencyId
                          currencyId.HasValue && currencyDomainService.Get(currencyId.Value) != null
                          ) ||
                         !( //Check correctionPrice
                          correctionPrice.HasValue && correctionPrice > 0
-                         )
+                         )*/
                     )
                     )
                     throw new BusinessRuleException("BR_FR7", string.Format("CorrectionType, Currency or Price are not specified for '{0}'.", this.Good.Name));
             }
         }
+
+        //private void validatePositiveCorrectionTypeCurrencyAndPriceValues(
+        //   double? correction, CorrectionTypes? correctionType,
+        //   long? currencyId, decimal? correctionPrice,
+        //   ICurrencyDomainService currencyDomainService)
+        //{
+        //    //This business rule must be checked for non EndOfVoyage, EndOfMonth, EndOfYear FuelReports.
+        //    if (FuelReport.FuelReportType != FuelReportTypes.EndOfVoyage &&
+        //        FuelReport.FuelReportType != FuelReportTypes.EndOfMonth &&
+        //        FuelReport.FuelReportType != FuelReportTypes.EndOfYear)
+        //    {
+        //        if ((correction.HasValue && correctionType.HasValue && correctionType.Value == CorrectionTypes.Plus) &&
+        //            (
+        //                (currencyId.HasValue && currencyDomainService.Get(currencyId.Value) == null) || //Check currencyId
+        //                (correctionPrice.HasValue && correctionPrice <= 0) //Check correctionPrice
+        //            ))
+        //            throw new BusinessRuleException("BR_FR7", string.Format("CorrectionType, Currency or Price are not specified for '{0}'.", this.Good.Name));
+        //    }
+        //}
+
+        ////===================================================================================
+
+        //private void validateNegativeCorrectionTypeCurrencyAndPriceValues(
+        //   double? correction, CorrectionTypes? correctionType,
+        //   long? currencyId, decimal? correctionPrice,
+        //   ICurrencyDomainService currencyDomainService)
+        //{
+        //    //This business rule must be checked for non EndOfVoyage, EndOfMonth, EndOfYear FuelReports.
+        //    if (FuelReport.FuelReportType != FuelReportTypes.EndOfVoyage &&
+        //        FuelReport.FuelReportType != FuelReportTypes.EndOfMonth &&
+        //        FuelReport.FuelReportType != FuelReportTypes.EndOfYear)
+        //    {
+        //        if ((correction.HasValue && correctionType.HasValue && correctionType.Value == CorrectionTypes.Plus) &&
+        //            (
+        //                (currencyId.HasValue && currencyDomainService.Get(currencyId.Value) == null) || //Check currencyId
+        //                (correctionPrice.HasValue && correctionPrice <= 0) //Check correctionPrice
+        //            ))
+        //            throw new BusinessRuleException("BR_FR7", string.Format("CorrectionType, Currency or Price are not specified for '{0}'.", this.Good.Name));
+        //    }
+        //}
 
         //===================================================================================
 
@@ -1179,5 +1222,10 @@ namespace MITD.Fuel.Domain.Model.DomainObjects
         }
 
         //===================================================================================
+
+        public bool IsCorrectionPriceEmpty()
+        {
+            return !(this.CorrectionPrice.HasValue && CorrectionPriceCurrencyId.HasValue);
+        }
     }
 }

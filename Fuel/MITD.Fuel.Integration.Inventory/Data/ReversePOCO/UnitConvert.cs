@@ -28,7 +28,7 @@ namespace MITD.Fuel.Integration.Inventory.Data.ReversePOCO
         // Foreign keys
         public virtual Unit Unit_SubUnitId { get; set; } // FK_UnitConverts_SubUnitId
         public virtual Unit Unit_UnitId { get; set; } // FK_UnitConverts_UnitId
-        public virtual Unit Unit_UserCreatorId { get; set; } // FK_UnitConverts_UserCreatorId
+        public virtual User User { get; set; } // FK_UnitConverts_UserCreatorId
 
         public UnitConvert()
         {

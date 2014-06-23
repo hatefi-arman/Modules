@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using MITD.Fuel.ACL.StorageSpace.DomainServices.Events.Inventory.DTOs;
 using MITD.Fuel.ACL.StorageSpace.Mappers.Inventory.Contracts;
 using MITD.Fuel.Domain.Model.DomainObjects;
@@ -51,10 +52,59 @@ namespace MITD.Fuel.ACL.StorageSpace.DomainServices.Events
             }
         }
 
-        public List<InventoryOperation> NotifySubmittingFuelReportDetail(FuelReportDetail source)
+        public List<InventoryOperation> NotifySubmittingFuelReportDetail(FuelReportDetail source, IFuelReportDomainService fuelReportDomainService)
         {
             try
             {
+                var result = new List<InventoryOperation>();
+
+                if (source.Correction.HasValue && source.CorrectionType.HasValue)
+                {
+                    if (source.CorrectionType.Value == CorrectionTypes.Plus)
+                    {
+                        if (source.CorrectionReference.IsEmpty())
+                        {
+                            if (source.IsCorrectionPriceEmpty())
+                            {
+                                var lastReceiveFuelReportDetailBefore = fuelReportDomainService.GetLastReceiveFuelReportDetailBefore(source);
+
+                                var lastReceiveInventoryOperationId = inventoryOperationManager.GetFueReportDetailReceiveOperationReference(lastReceiveFuelReportDetailBefore).OperationId;
+
+                                result.AddRange(this.inventoryOperationManager.ManageFuelReportDetailIncrementalCorrectionUsingReferencePricing(source, lastReceiveInventoryOperationId,
+                                    //TODO: Fake ActorId
+                                    1101));
+                            }
+                            else
+                            {
+                                result.AddRange(this.inventoryOperationManager.ManageFuelReportDetailIncrementalCorrectionDirectPricing(source, 
+                                    //TODO: Fake ActorId
+                                    1101));
+                            }
+                        }
+                        else
+                        {
+                            if (source.CorrectionReference.ReferenceType.Value == ReferenceType.Voyage)
+                            {
+                                //var eovFuelReport = fuelReportDomainService.GetVoyageValidEndOfVoyageFuelReport(source.CorrectionReference.ReferenceId.Value);
+
+                                //var consumptionInventoryOperationId = eovFuelReport.ConsumptionInventoryOperations.Last().InventoryOperationId;
+
+                                var consumptionInventoryOperationId = fuelReportDomainService.GetVoyageConsumptionIssueOperation(source.CorrectionReference.ReferenceId.Value).InventoryOperationId;
+
+                                result.AddRange(this.inventoryOperationManager.ManageFuelReportDetailIncrementalCorrectionUsingReferencePricing(source, consumptionInventoryOperationId, 
+                                    //TODO: Fake ActorId
+                                    1101));
+                            }
+                        }
+                    }
+                    else
+                    {
+
+                    }
+                }
+
+                return result;
+
                 return this.inventoryOperationManager.ManageFuelReportDetail(source,
                     //TODO: Fake ActorId
                     1101);
@@ -193,9 +243,8 @@ namespace MITD.Fuel.ACL.StorageSpace.DomainServices.Events
                                         1101)
                        };
             }
-            catch (Exception)
+            catch
             {
-
                 throw;
             }
         }
