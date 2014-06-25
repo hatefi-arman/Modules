@@ -1,3 +1,6 @@
+using System;
+using System.Windows;
+using System.Windows.Browser;
 using MITD.Core;
 using MITD.Fuel.Presentation.FuelApp.Logic.SL.ViewModels;
 using MITD.Fuel.Presentation.Logic.SL.Controllers;

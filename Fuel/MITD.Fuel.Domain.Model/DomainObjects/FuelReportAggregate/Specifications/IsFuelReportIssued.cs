@@ -12,11 +12,11 @@ namespace MITD.Fuel.Domain.Model.Specifications
 {
     public class IsFuelReportIssued : SpecificationBase<FuelReport>
     {
-        public IsFuelReportIssued(IInventoryOperationDomainService iInventoryOperationDomainService)
+        public IsFuelReportIssued(IInventoryOperationDomainService inventoryOperationDomainService)
             : base(
                 fuelReport =>
                     fuelReport.State == States.Submitted &&
-                    iInventoryOperationDomainService.
+                    inventoryOperationDomainService.
                         GetFuelReportInventoryOperations(fuelReport).
                             Count(inv => inv.ActionType == InventoryActionType.Issue) > 0
             )

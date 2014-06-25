@@ -108,7 +108,7 @@
                                 <toolkit:Accordion Grid.Row="1" Grid.Column="0" HorizontalAlignment="Stretch" BorderThickness="0"
                                   VerticalAlignment="Stretch"  Margin="5,10,5,0" >
                                     <toolkit:AccordionItem  >
-                                        <ContentControl Content="{Binding Path=PersonalRequestCommands}" ContentTemplate="{StaticResource CommandViewModelTemplate}" />
+                                        <ContentControl Content="{Binding Path=ReportCommands}" ContentTemplate="{StaticResource CommandViewModelTemplate}" />
                                     </toolkit:AccordionItem>
                                 </toolkit:Accordion>
 

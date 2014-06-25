@@ -16,7 +16,7 @@ namespace MITD.Fuel.Integration.Inventory
 
         List<InventoryOperation> ManageFuelReportDetail(FuelReportDetail fuelReportDetail, int userId);
 
-        List<InventoryOperation> ManageFuelReportDetailIncrementalCorrectionUsingReferencePricing(FuelReportDetail fuelReportDetail, long pricingReferenceId, int userId);
+        List<InventoryOperation> ManageFuelReportDetailIncrementalCorrectionUsingReferencePricing(FuelReportDetail fuelReportDetail, long pricingReferenceId, string pricingReferenceType, int userId);
 
         List<InventoryOperation> ManageFuelReportDetailIncrementalCorrectionDirectPricing(FuelReportDetail fuelReportDetail, int userId);
 

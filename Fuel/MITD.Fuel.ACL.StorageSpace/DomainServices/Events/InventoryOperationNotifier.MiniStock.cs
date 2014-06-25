@@ -54,10 +54,10 @@ namespace MITD.Fuel.ACL.StorageSpace.DomainServices.Events
 
         public List<InventoryOperation> NotifySubmittingFuelReportDetail(FuelReportDetail source, IFuelReportDomainService fuelReportDomainService)
         {
+            var result = new List<InventoryOperation>();
+
             try
             {
-                var result = new List<InventoryOperation>();
-
                 if (source.Correction.HasValue && source.CorrectionType.HasValue)
                 {
                     if (source.CorrectionType.Value == CorrectionTypes.Plus)
@@ -70,13 +70,13 @@ namespace MITD.Fuel.ACL.StorageSpace.DomainServices.Events
 
                                 var lastReceiveInventoryOperationId = inventoryOperationManager.GetFueReportDetailReceiveOperationReference(lastReceiveFuelReportDetailBefore).OperationId;
 
-                                result.AddRange(this.inventoryOperationManager.ManageFuelReportDetailIncrementalCorrectionUsingReferencePricing(source, lastReceiveInventoryOperationId,
+                                result.AddRange(this.inventoryOperationManager.ManageFuelReportDetailIncrementalCorrectionUsingReferencePricing(source, lastReceiveInventoryOperationId, "PricingByLastReceipt",
                                     //TODO: Fake ActorId
                                     1101));
                             }
                             else
                             {
-                                result.AddRange(this.inventoryOperationManager.ManageFuelReportDetailIncrementalCorrectionDirectPricing(source, 
+                                result.AddRange(this.inventoryOperationManager.ManageFuelReportDetailIncrementalCorrectionDirectPricing(source,
                                     //TODO: Fake ActorId
                                     1101));
                             }
@@ -91,7 +91,7 @@ namespace MITD.Fuel.ACL.StorageSpace.DomainServices.Events
 
                                 var consumptionInventoryOperationId = fuelReportDomainService.GetVoyageConsumptionIssueOperation(source.CorrectionReference.ReferenceId.Value).InventoryOperationId;
 
-                                result.AddRange(this.inventoryOperationManager.ManageFuelReportDetailIncrementalCorrectionUsingReferencePricing(source, consumptionInventoryOperationId, 
+                                result.AddRange(this.inventoryOperationManager.ManageFuelReportDetailIncrementalCorrectionUsingReferencePricing(source, consumptionInventoryOperationId, "PricingByIssuedVoyage",
                                     //TODO: Fake ActorId
                                     1101));
                             }
@@ -103,11 +103,9 @@ namespace MITD.Fuel.ACL.StorageSpace.DomainServices.Events
                     }
                 }
 
-                return result;
-
-                return this.inventoryOperationManager.ManageFuelReportDetail(source,
+                result.AddRange(this.inventoryOperationManager.ManageFuelReportDetail(source,
                     //TODO: Fake ActorId
-                    1101);
+                    1101));
             }
             catch (Exception)
             {
@@ -115,21 +113,7 @@ namespace MITD.Fuel.ACL.StorageSpace.DomainServices.Events
                 throw;
             }
 
-            var dto = fuelReportDetailDtoMapper.MapToModel(source);
-            dto.FuelReport = fuelReportDtoMapper.MapToModel(source.FuelReport);
-
-            setConsumption(dto, source);
-
-            return new List<InventoryOperation>(new InventoryOperation[]
-                    {
-                     new InventoryOperation(
-                         312,
-                        "INV# - " +DateTime.Now.Ticks,
-                        DateTime.Now,
-                        InventoryActionType.Issue,
-                        (long? )null,
-                        (long? )null)
-                    });
+            return result;
         }
 
         private void setConsumption(FuelReportDetailDto dto, FuelReportDetail source)
@@ -203,10 +187,10 @@ namespace MITD.Fuel.ACL.StorageSpace.DomainServices.Events
             }
             catch (Exception)
             {
-                
+
                 throw;
             }
-            
+
 
             return new List<InventoryOperation>(new InventoryOperation[]
                     {

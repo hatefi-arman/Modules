@@ -62,6 +62,7 @@ namespace MITD.Main.Presentation.UI.SL.Infrastructure
                     typeof(IVoyageController),
                     typeof(IScrapController),
                     typeof(IOffhireController),
+                    typeof(ICardexReportController),
                 }}
                 
             });

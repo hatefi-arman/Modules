@@ -98,6 +98,7 @@
   <ItemGroup>
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\CharterController.cs" />
+    <Compile Include="Controllers\CardexReportController.cs" />
     <Compile Include="Controllers\OffhireController.cs" />
     <Compile Include="Controllers\ScrapController.cs" />
     <Compile Include="Controllers\InvoiceItemController.cs" />

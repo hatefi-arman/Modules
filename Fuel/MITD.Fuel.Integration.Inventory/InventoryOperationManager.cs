@@ -120,7 +120,7 @@ namespace MITD.Fuel.Integration.Inventory
         //================================================================================
 
         private OperationReference issue(InventoryDbContext dbContext, int companyId, int warehouseId, int timeBucketId,
-            int storeTypesId, string referenceType, string referenceNumber, int userId, out string code, out string message)
+            int storeTypesId, int? pricingReferenceId, string referenceType, string referenceNumber, int userId, out string code, out string message)
         {
             var transactionIdParameter = new SqlParameter("@TransactionId", SqlDbType.Int, sizeof(int), ParameterDirection.Output, false, 0, 0, "", DataRowVersion.Default, 0);
             var codeParameter = new SqlParameter("@Code", SqlDbType.Decimal, sizeof(decimal), ParameterDirection.Output, false, 20, 2, "", DataRowVersion.Default, 0);
@@ -128,20 +128,21 @@ namespace MITD.Fuel.Integration.Inventory
             try
             {
                 dbContext.Database.ExecuteSqlCommand(TransactionalBehavior.EnsureTransaction,
-                                                     "dbo.[TransactionOperation] @Action=@Action, @TransactionAction=@TransactionAction, @CompanyId=@CompanyId, @WarehouseId=@WarehouseId, @TimeBucketId=@TimeBucketId, @StoreTypesId=@StoreTypesId, @RegistrationDate=@RegistrationDate, @ReferenceType=@ReferenceType, @ReferenceNo=@ReferenceNo, @UserCreatorId=@UserCreatorId, @TransactionId=@TransactionId OUT, @Code=@Code OUT, @Message=@Message OUT",
-                                                     new SqlParameter("@Action", INVENTORY_ADD_ACTION_VALUE),
-                                                     new SqlParameter("@TransactionAction", (byte)TransactionActionType.Issue),
-                                                     new SqlParameter("@CompanyId", companyId),
-                                                     new SqlParameter("@WarehouseId", warehouseId),
-                                                     new SqlParameter("@TimeBucketId", timeBucketId),
-                                                     new SqlParameter("@StoreTypesId", storeTypesId),
-                                                     new SqlParameter("@RegistrationDate", DateTime.Now),
-                                                     new SqlParameter("@ReferenceType", referenceType),
-                                                     new SqlParameter("@ReferenceNo", referenceNumber),
-                                                     new SqlParameter("@UserCreatorId", userId),
-                                                     transactionIdParameter,
-                                                     codeParameter,
-                                                     messageParameter);
+                                    "dbo.[TransactionOperation] @Action=@Action, @TransactionAction=@TransactionAction, @CompanyId=@CompanyId, @WarehouseId=@WarehouseId, @TimeBucketId=@TimeBucketId, @StoreTypesId=@StoreTypesId, @PricingReferenceId=@PricingReferenceId, @RegistrationDate=@RegistrationDate, @ReferenceType=@ReferenceType, @ReferenceNo=@ReferenceNo, @UserCreatorId=@UserCreatorId, @TransactionId=@TransactionId OUT, @Code=@Code OUT, @Message=@Message OUT",
+                                    new SqlParameter("@Action", INVENTORY_ADD_ACTION_VALUE),
+                                    new SqlParameter("@TransactionAction", (byte)TransactionActionType.Issue),
+                                    new SqlParameter("@CompanyId", companyId),
+                                    new SqlParameter("@WarehouseId", warehouseId),
+                                    new SqlParameter("@TimeBucketId", timeBucketId),
+                                    new SqlParameter("@StoreTypesId", storeTypesId),
+                                    new SqlParameter("@PricingReferenceId", pricingReferenceId),
+                                    new SqlParameter("@RegistrationDate", DateTime.Now),
+                                    new SqlParameter("@ReferenceType", referenceType),
+                                    new SqlParameter("@ReferenceNo", referenceNumber),
+                                    new SqlParameter("@UserCreatorId", userId),
+                                    transactionIdParameter,
+                                    codeParameter,
+                                    messageParameter);
 
             }
             catch (Exception ex)
@@ -164,7 +165,7 @@ namespace MITD.Fuel.Integration.Inventory
         //================================================================================
 
         private OperationReference receipt(InventoryDbContext dbContext, int companyId, int warehouseId, int timeBucketId,
-            int storeTypesId, string referenceType, string referenceNumber, int userId, out string code, out string message)
+            int storeTypesId, int? pricingReferenceId, string referenceType, string referenceNumber, int userId, out string code, out string message)
         {
             var transactionIdParameter = new SqlParameter("@TransactionId", SqlDbType.Int, sizeof(int), ParameterDirection.Output, false, 0, 0, "", DataRowVersion.Default, 0);
             var codeParameter = new SqlParameter("@Code", SqlDbType.Decimal, sizeof(decimal), ParameterDirection.Output, false, 20, 2, "", DataRowVersion.Default, 0);
@@ -173,13 +174,14 @@ namespace MITD.Fuel.Integration.Inventory
             try
             {
                 dbContext.Database.ExecuteSqlCommand(TransactionalBehavior.EnsureTransaction,
-                    "dbo.[TransactionOperation] @Action=@Action, @TransactionAction=@TransactionAction, @CompanyId=@CompanyId, @WarehouseId=@WarehouseId, @TimeBucketId=@TimeBucketId, @StoreTypesId=@StoreTypesId, @RegistrationDate=@RegistrationDate, @ReferenceType=@ReferenceType, @ReferenceNo=@ReferenceNo, @UserCreatorId=@UserCreatorId, @TransactionId=@TransactionId OUT, @Code=@Code OUT, @Message=@Message OUT",
+                    "dbo.[TransactionOperation] @Action=@Action, @TransactionAction=@TransactionAction, @CompanyId=@CompanyId, @WarehouseId=@WarehouseId, @TimeBucketId=@TimeBucketId, @StoreTypesId=@StoreTypesId, @PricingReferenceId=@PricingReferenceId, @RegistrationDate=@RegistrationDate, @ReferenceType=@ReferenceType, @ReferenceNo=@ReferenceNo, @UserCreatorId=@UserCreatorId, @TransactionId=@TransactionId OUT, @Code=@Code OUT, @Message=@Message OUT",
                                    new SqlParameter("@Action", INVENTORY_ADD_ACTION_VALUE),
                                    new SqlParameter("@TransactionAction", (byte)TransactionActionType.Receipt),
                                    new SqlParameter("@CompanyId", companyId),
                                    new SqlParameter("@WarehouseId", warehouseId),
                                    new SqlParameter("@TimeBucketId", timeBucketId),
                                    new SqlParameter("@StoreTypesId", storeTypesId),
+                                   new SqlParameter("@PricingReferenceId", pricingReferenceId),
                                    new SqlParameter("@RegistrationDate", DateTime.Now),
                                    new SqlParameter("@ReferenceType", referenceType),
                                    new SqlParameter("@ReferenceNo", referenceNumber),
@@ -419,6 +421,38 @@ namespace MITD.Fuel.Integration.Inventory
 
         //================================================================================
 
+        private void priceSuspendedTransactionUsingReference(InventoryDbContext dbContext, int transactionId, string description,
+            int userId, out string message, string pricingReferenceType, string pricingReferenceNumber)
+        {
+            var messageParameter = new SqlParameter("@Message", SqlDbType.NVarChar, 4096, ParameterDirection.Output, false, 0, 0, "", DataRowVersion.Default, "");
+            var transactionItemPriceIdsParameter = new SqlParameter("@TransactionItemPriceIds", SqlDbType.NVarChar, 4096, ParameterDirection.Output, false, 0, 0, "", DataRowVersion.Default, "");
+
+            try
+            {
+                dbContext.Database.ExecuteSqlCommand(
+                            TransactionalBehavior.EnsureTransaction,
+                            "dbo.[PriceSuspendedTransactionUsingReference] @TransactionId=@TransactionId, @Description=@Description, @UserCreatorId=@UserCreatorId, @TransactionItemPriceIds=@TransactionItemPriceIds OUT, @Message=@Message OUT",
+                            new SqlParameter("@TransactionId", transactionId),
+                            new SqlParameter("@Description", description),
+                            new SqlParameter("@UserCreatorId", userId),
+                            transactionItemPriceIdsParameter,
+                            messageParameter);
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidOperation("PriceSuspendedTransactionUsingReference", ex.Message);
+            }
+
+            message = messageParameter.Value as string;
+
+            if (message != OPERATION_SUCCESSFUL_MESSAGE)
+                throw new InvalidOperation("PriceSuspendedTransactionUsingReference", message);
+
+            addPricingOperationReferences(dbContext, pricingReferenceType, pricingReferenceNumber, transactionItemPriceIdsParameter.Value.ToString());
+        }
+
+        //================================================================================
+
         private OperationReference addPricingOperationReference(InventoryDbContext dbContext, string pricingReferenceType, string pricingReferenceNumber, long operationId)
         {
             var result = dbContext.OperationReferences.Add(new OperationReference()
@@ -574,6 +608,7 @@ namespace MITD.Fuel.Integration.Inventory
                                   (int)fuelReport.VesselInCompany.VesselInInventory.Id,
                                   1,
                                   convertFuelReportConsumptionTypeToStoreType(fuelReport),
+                                    null,
                                   EOV_EOM_EOY_FUEL_REPORT_CONSUMPTION,
                                   transactionReferenceNumber,
                                   userId,
@@ -661,6 +696,7 @@ namespace MITD.Fuel.Integration.Inventory
                                     (int)fuelReportDetail.FuelReport.VesselInCompany.VesselInInventory.Id,
                                     1,
                                     convertFuelReportReceiveTypeToStoreType(fuelReportDetail),
+                                    null,
                                     FUEL_REPORT_DETAIL_RECEIVE,
                                     fuelReportDetail.Id.ToString(),
                                     userId,
@@ -721,6 +757,7 @@ namespace MITD.Fuel.Integration.Inventory
                                     (int)fuelReportDetail.FuelReport.VesselInCompany.VesselInInventory.Id,
                                     1,
                                     convertFuelReportTransferTypeToStoreType(fuelReportDetail),
+                                    null,
                                     FUEL_REPORT_DETAIL_TRANSFER,
                                     fuelReportDetail.Id.ToString(),
                                     userId,
@@ -787,6 +824,7 @@ namespace MITD.Fuel.Integration.Inventory
                                         (int)fuelReportDetail.FuelReport.VesselInCompany.VesselInInventory.Id,
                                         1,
                                         convertFuelReportCorrectionTypeToStoreType(fuelReportDetail),
+                                    null,
                                         FUEL_REPORT_DETAIL_DECREMENTAL_CORRECTION,
                                         transactionReferenceNumber,
                                         userId,
@@ -1242,7 +1280,8 @@ namespace MITD.Fuel.Integration.Inventory
                                   (int)charterInStart.VesselInCompany.CompanyId,
                                   (int)charterInStart.VesselInCompany.VesselInInventory.Id,
                                   1,
-                                  1,
+                                  convertCharterInTypeToStoreType(charterInStart),
+                                    null,
                                   CHARTER_IN_START_RECEIPT,
                                   charterInStart.Id.ToString(),
                                   userId,
@@ -1392,6 +1431,7 @@ namespace MITD.Fuel.Integration.Inventory
                                   (int)charterOutStart.VesselInCompany.VesselInInventory.Id,
                                   1,
                                   convertCharterOutTypeToStoreType(charterOutStart),
+                                    null,
                                   CHARTER_OUT_START_ISSUE,
                                   charterOutStart.Id.ToString(),
                                   userId,
@@ -1549,7 +1589,7 @@ namespace MITD.Fuel.Integration.Inventory
 
         //================================================================================
 
-        public List<InventoryOperation> ManageFuelReportDetailIncrementalCorrectionUsingReferencePricing(FuelReportDetail fuelReportDetail, long pricingReferenceId, int userId)
+        public List<InventoryOperation> ManageFuelReportDetailIncrementalCorrectionUsingReferencePricing(FuelReportDetail fuelReportDetail, long pricingReferenceId, string pricingReferenceType,int userId)
         {
             using (var dbContext = new InventoryDbContext())
             {
@@ -1575,6 +1615,7 @@ namespace MITD.Fuel.Integration.Inventory
                                   (int)fuelReportDetail.FuelReport.VesselInCompany.VesselInInventory.Id,
                                   1,
                                   convertFuelReportCorrectionTypeToStoreType(fuelReportDetail),
+                                    (int)pricingReferenceId,
                                   FUEL_REPORT_DETAIL_INCREMENTAL_CORRECTION,
                                   transactionReferenceNumber,
                                   userId,
@@ -1597,22 +1638,9 @@ namespace MITD.Fuel.Integration.Inventory
 
                         var transactionItemIds = addTransactionItems(dbContext, (int)operationReference.OperationId, transactionItems, userId, out transactionItemMessage);
 
-                        //TODO: Items Pricing.
-                        var transactionItemPrice = new TransactionItemPrice()
-                        {
-                            TransactionItemId = transactionItemIds[0],
-                            QuantityUnitId = getMeasurementUnitId(dbContext, fuelReportDetail.MeasuringUnit.Abbreviation),
-                            QuantityAmount = (decimal?)fuelReportDetail.Correction,
-                            PriceUnitId = getCurrencyId(dbContext, fuelReportDetail.CorrectionPriceCurrency.Abbreviation),
-                            Fee = fuelReportDetail.CorrectionPrice,
-                            RegistrationDate = DateTime.Now,
-                            Description = "Inceremental Correction Pricing By Reference > " + fuelReportDetail.Good.Code,
-                            UserCreatorId = userId
-                        };
-
                         string pricingMessage;
 
-                        priceTransactionItemManually(dbContext, transactionItemPrice, userId, out pricingMessage, FUEL_REPORT_DETAIL_INCREMENTAL_CORRECTION_PRICING, transactionReferenceNumber);
+                        priceSuspendedTransactionUsingReference(dbContext, (int)operationReference.OperationId, pricingReferenceType, userId, out pricingMessage, FUEL_REPORT_DETAIL_INCREMENTAL_CORRECTION_PRICING, transactionReferenceNumber);
 
                         result.Add(new InventoryOperation(
                                        inventoryOperationId: operationReference.OperationId,
@@ -1666,6 +1694,7 @@ namespace MITD.Fuel.Integration.Inventory
                                   (int)fuelReportDetail.FuelReport.VesselInCompany.VesselInInventory.Id,
                                   1,
                                   convertFuelReportCorrectionTypeToStoreType(fuelReportDetail),
+                                    null,
                                   FUEL_REPORT_DETAIL_INCREMENTAL_CORRECTION,
                                   transactionReferenceNumber,
                                   userId,

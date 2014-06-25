@@ -284,6 +284,7 @@
     <Compile Include="..\MITD.Fuel.Presentation.Contracts\Infrastructure\ValidationDto.cs">
       <Link>Infrastructure\ValidationDto.cs</Link>
     </Compile>
+    <Compile Include="Controllers\ICardexReportController.cs" />
     <Compile Include="Controllers\IOffhireController.cs" />
     <Compile Include="Controllers\IScrapController.cs" />
     <Compile Include="Controllers\ICharterController.cs" />

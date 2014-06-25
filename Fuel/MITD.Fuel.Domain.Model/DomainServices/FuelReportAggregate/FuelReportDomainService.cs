@@ -381,8 +381,9 @@ namespace MITD.Fuel.Domain.Model.DomainServices
 
             var lastIssuedEOVFuelReportOfPreviousVoyages =
                 previousEOVFuelReports
-                    .FindAll(eovfr => isFuelReportIssued.IsSatisfiedBy(eovfr))
-                    .OrderBy(fr => fr.EventDate).FirstOrDefault();
+                    .FindAll(eovfr => eovfr.ConsumptionInventoryOperations != null && eovfr.ConsumptionInventoryOperations.Count > 0)
+                    .OrderBy(eovfr=>eovfr.EventDate)
+                    .LastOrDefault();
 
             return lastIssuedEOVFuelReportOfPreviousVoyages;
         }
@@ -418,26 +419,6 @@ namespace MITD.Fuel.Domain.Model.DomainServices
             DateTime previousDayDate = fuelReport.EventDate.Date.AddDays(-1);
 
             return GetVesselFuelReports(fuelReport.VesselInCompany, previousDayDate, fuelReport.EventDate.AddMilliseconds(-1));
-        }
-
-        //================================================================================
-
-        public FuelReport GetLastIssuedFuelReportBefore(FuelReport fuelReport)
-        {
-            var previousFuelReports = this.fuelReportRepository.Find(
-                fr =>
-                    (fr.FuelReportType == Enums.FuelReportTypes.EndOfVoyage ||
-                    fr.FuelReportType == Enums.FuelReportTypes.EndOfMonth ||
-                    fr.FuelReportType == Enums.FuelReportTypes.EndOfYear) &&
-                    fr.EventDate < fuelReport.EventDate
-                ).ToList();
-
-            var lastIssuedFuelReport =
-                    previousFuelReports
-                        .FindAll(fr => isFuelReportIssued.IsSatisfiedBy(fr))
-                        .OrderBy(fr => fr.EventDate).FirstOrDefault();
-
-            return lastIssuedFuelReport;
         }
 
         //================================================================================
@@ -646,6 +627,8 @@ namespace MITD.Fuel.Domain.Model.DomainServices
 
             return new decimal(calculatedPreviousConsumptions + fuelReportDetail.Consumption);
         }
+
+        //================================================================================
 
         public FuelReportDetail GetLastReceiveFuelReportDetailBefore(FuelReportDetail fuelReportDetail)
         {
