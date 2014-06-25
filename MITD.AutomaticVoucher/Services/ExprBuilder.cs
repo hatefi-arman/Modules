@@ -45,14 +45,14 @@ namespace MITD.AutomaticVoucher.Services
             return voucher;
         }
 
-        public static Voucher ReferenceTypeV(this Voucher voucher, ReferenceType referenceType)
+        public static Voucher SetReferenceType(this Voucher voucher, ReferenceType referenceType)
         {
             voucher.ReferenceType = referenceType;
             voucher.ReferenceTypeId = referenceType.Id;
             return voucher;
         }
 
-        public static Voucher Currency(this Voucher voucher, Currency currency)
+        public static Voucher SetCurrency(this Voucher voucher,MITD.Fuel.Domain.Model.DomainObjects.Currency currency)
         {
             voucher.CurrencyId=currency.Id;
             return voucher;
@@ -104,14 +104,14 @@ namespace MITD.AutomaticVoucher.Services
 
         }
 
-        public static JournalEntry Segment(this JournalEntry journalEntry, Action<Segment> action, Segment segment)
+        public static JournalEntry SetSegment(this JournalEntry journalEntry, Action<Segment> action, Segment segment)
         {
 
              action(segment);
 
             return journalEntry;
         }
-        public static JournalEntry SegmentType(this JournalEntry journalEntry, SegmentType segment)
+        public static JournalEntry SetSegmentType(this JournalEntry journalEntry, SegmentType segment)
         {
             journalEntry.Segment.SegmentType = segment;
             journalEntry.Segment.SegmentTypeId = segment.Id;

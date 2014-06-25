@@ -37,8 +37,8 @@ namespace MITD.AutomaticVoucher.Services
                 .ReferenceNo(receiptNumber)
                 .LocalVoucherNo("01")
                 .VoucherRef(Int64.Parse(voucherSeting.VoucherMainRefDescription))
-                .ReferenceTypeV(ReferenceType.CharterIn)
-                .Currency(charterIn.Currency);
+                .SetReferenceType(ReferenceType.CharterIn)
+                .SetCurrency(charterIn.Currency);
 
 
 
@@ -55,10 +55,10 @@ namespace MITD.AutomaticVoucher.Services
                     ? voucherSeting.DebitAccounts[0].Code
                     : voucherSeting.CreditAccounts[0].Code)
                 .ForeignAmount(receiptFee * receiptQuantity)
-                .SegmentType(journalEntry.IsDebit 
+                .SetSegmentType(journalEntry.IsDebit 
                     ? SegmentType.Vessel 
                     : SegmentType.Company)
-                .Segment(segment =>
+                .SetSegment(segment =>
                          {
                              if (segment.SegmentType.Id == 1)
                              {

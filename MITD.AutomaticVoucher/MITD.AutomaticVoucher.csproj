@@ -33,6 +33,9 @@
     <Reference Include="MITD.Core">
       <HintPath>..\Dependencies\MITD.Core.dll</HintPath>
     </Reference>
+    <Reference Include="MITD.CurrencyAndMeasurement.Domain.Contracts">
+      <HintPath>..\Dependencies\MITD.CurrencyAndMeasurement.Domain.Contracts.dll</HintPath>
+    </Reference>
     <Reference Include="MITD.Domain.Model">
       <HintPath>..\Dependencies\MITD.Domain.Model.dll</HintPath>
     </Reference>
