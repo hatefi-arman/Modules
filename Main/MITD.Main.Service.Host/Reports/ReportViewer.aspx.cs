@@ -16,11 +16,15 @@ namespace MITD.Main.Service.Host.Reports
         {
             if (!IsPostBack)
             {
+                var reportServerUrlAddress = System.Configuration.ConfigurationManager.AppSettings["ReportServerUrl"];
+                var reportsRootPathAddress = System.Configuration.ConfigurationManager.AppSettings["ReportsRootPath"];
+                var reportPath = reportsRootPathAddress + "/" + Request.QueryString["ItemPath"];
+
                 MainReportViewer.ProcessingMode = ProcessingMode.Remote;
-                MainReportViewer.ServerReport.ReportServerCredentials = new CustomReportCredentials("administrator", "123456");
-                MainReportViewer.ServerReport.ReportServerUrl = new Uri("http://hatefi-pc:802/ReportServer_SQL2012", UriKind.Absolute);
-                MainReportViewer.ServerReport.ReportPath = "/MiniStock_Cardex";
-                MainReportViewer.ServerReport.SetParameters(new ReportParameter("User", "Arman"));
+                MainReportViewer.ServerReport.ReportServerCredentials = new CustomReportCredentials("ReportViewer", "MnHoPAXw$");
+                MainReportViewer.ServerReport.ReportServerUrl = new Uri(reportServerUrlAddress, UriKind.Absolute);
+                MainReportViewer.ServerReport.ReportPath = reportPath;
+                MainReportViewer.ServerReport.SetParameters(new ReportParameter("User", "User"));
                 MainReportViewer.ServerReport.Timeout = 10000;
                 MainReportViewer.ServerReport.Refresh();
             }

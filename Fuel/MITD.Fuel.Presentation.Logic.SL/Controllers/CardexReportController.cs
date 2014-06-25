@@ -31,15 +31,17 @@ namespace MITD.Fuel.Presentation.FuelApp.Logic.SL.Controllers
                 Resizeable = true,
                 Scrollbars = true,
                 Status = false,
-                Width = 800,
-                Height = 800,
+                Width = 1000,
+                Height = 1000,
             };
 
             var hostingSiteBaseAddress = Application.Current.Host.Source.AbsoluteUri.Replace(Application.Current.Host.Source.AbsolutePath, string.Empty);
 
-            var reportViewerPageUri = new Uri(hostingSiteBaseAddress + "/Reports/ReportViewer.aspx", UriKind.Absolute);
+            var reportViewerPageUri = new Uri(hostingSiteBaseAddress + "/Reports/ReportViewer.aspx?ItemPath=MiniStock_Cardex", UriKind.Absolute);
 
-            System.Windows.Browser.HtmlPage.PopupWindow(reportViewerPageUri, string.Empty, windowOption);
+            //System.Windows.MessageBox.Show(hostingSiteBaseAddress + "/Reports/ReportViewer.aspx?ItemPath=" + "MiniStock_Cardex");
+
+            System.Windows.Browser.HtmlPage.PopupWindow(reportViewerPageUri, "_blank", windowOption);
         }
     }
 }

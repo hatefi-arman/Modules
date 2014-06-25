@@ -229,8 +229,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="ClientBin\Debug\MITD.Fuel.Presentation.UI.SL.xap" />
-    <Content Include="ClientBin\Debug\MITD.Main.Presentation.UI.SL.xap" />
     <Content Include="ClientBin\MITD.Fuel.Presentation.UI.SL.xap" />
     <Content Include="ClientBin\MITD.Main.Presentation.UI.SL.xap" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
@@ -289,22 +287,6 @@
     <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
-    <Content Include="ClientBin\Debug\MITD.Core.Config.Castle.SL.zip" />
-    <Content Include="ClientBin\Debug\MITD.Core.SL.zip" />
-    <Content Include="ClientBin\Debug\MITD.Presentation.Config.Castle.SL.zip" />
-    <Content Include="ClientBin\Debug\MITD.Presentation.SL.zip" />
-    <Content Include="ClientBin\Debug\MITD.Presentation.UI.SL.zip" />
-    <Content Include="ClientBin\Debug\System.ComponentModel.DataAnnotations.zip" />
-    <Content Include="ClientBin\Debug\System.Windows.Controls.Data.zip" />
-    <Content Include="ClientBin\Debug\System.Windows.Controls.Data.Input.zip" />
-    <Content Include="ClientBin\Debug\System.Windows.Controls.zip" />
-    <Content Include="ClientBin\Debug\System.Windows.Controls.Toolkit.zip" />
-    <Content Include="ClientBin\Debug\System.Windows.Data.zip" />
-    <Content Include="ClientBin\Debug\System.Windows.Controls.DataVisualization.Toolkit.zip" />
-    <Content Include="ClientBin\Debug\System.Windows.Controls.Input.Toolkit.zip" />
-    <Content Include="ClientBin\Debug\System.Windows.Controls.Layout.Toolkit.zip" />
-    <Content Include="ClientBin\Debug\System.Windows.Controls.Theming.Toolkit.zip" />
-    <Content Include="ClientBin\Debug\System.Windows.Controls.Theming.TwilightBlue.zip" />
     <Content Include="ClientBin\MITD.Core.Config.Castle.SL.zip" />
     <Content Include="ClientBin\MITD.Core.SL.zip" />
     <Content Include="ClientBin\MITD.Presentation.Config.Castle.SL.zip" />
