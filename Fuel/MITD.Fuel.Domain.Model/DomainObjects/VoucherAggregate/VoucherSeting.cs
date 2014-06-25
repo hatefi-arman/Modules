@@ -41,6 +41,11 @@ namespace MITD.Fuel.Domain.Model.DomainObjects.VoucherAggregate
 
         #region ctor
 
+        public VoucherSeting()
+        {
+            
+        }
+
         public VoucherSeting(
             long id, long goodId,
             long companyId,

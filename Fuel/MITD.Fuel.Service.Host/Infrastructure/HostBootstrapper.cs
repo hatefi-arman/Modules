@@ -16,6 +16,7 @@ using MITD.DataAccess.Config;
 using MITD.DataAccess.EF;
 using MITD.Domain.Model;
 using MITD.Domain.Repository;
+using MITD.Fuel.ACL.Contracts.AutomaticVoucher;
 using MITD.Fuel.Application;
 using MITD.Fuel.Application.Facade;
 using MITD.Fuel.Application.Service.Security;
@@ -223,6 +224,13 @@ namespace MITD.Fuel.Service.Host.Infrastructure
                                    .BasedOn(typeof(IDomainService))
                                    .WithServiceAllInterfaces()
                                    .LifestyleTransient());
+
+
+            container.Register(fromAssemblyDescriptor
+                              .BasedOn<IAutomaticVoucher>()
+                              .WithServiceFromInterface()
+                              .LifestyleTransient());
+
 
 
             #region register Repositories

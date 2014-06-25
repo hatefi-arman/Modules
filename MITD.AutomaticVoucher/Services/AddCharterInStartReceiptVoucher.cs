@@ -5,6 +5,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using MITD.Domain.Repository;
+using MITD.Fuel.ACL.Contracts.AutomaticVoucher;
 using MITD.Fuel.Domain.Model.DomainObjects;
 using MITD.Fuel.Domain.Model.DomainObjects.CharterAggregate;
 using MITD.Fuel.Domain.Model.DomainObjects.VoucherAggregate;
@@ -12,7 +13,7 @@ using MITD.Fuel.Domain.Model.Repositories;
 
 namespace MITD.AutomaticVoucher.Services
 {
-    public class AddCharterInStartReceiptVoucher
+    public class AddCharterInStartReceiptVoucher : IAddCharterInStartReceiptVoucher
     {
 
         private readonly IVoucherRepository _voucherRepository;
@@ -25,10 +26,11 @@ namespace MITD.AutomaticVoucher.Services
         }
         
         public void Execute(
-            CharterIn charterIn, string receiptNumber,
-            int receiptQuantity, decimal receiptFee,
-            string receiptWarehouseCode, VoucherSeting voucherSeting, decimal coefficient)
+            CharterIn charterIn, List<Receipt> receipts, string receiptNumber, string receiptWarehouseCode
+            )
         {
+
+            VoucherSeting voucherSeting=new VoucherSeting();
 
             var voucher = new Voucher();
             voucher.LocalVoucherDate()
@@ -41,36 +43,56 @@ namespace MITD.AutomaticVoucher.Services
                 .SetCurrency(charterIn.Currency);
 
 
-
-
-            var journalEntry = new JournalEntry();
-            journalEntry.IrrAmount(receiptQuantity * receiptFee * coefficient)
-                .VoucherRef((journalEntry.IsDebit)
-                    ? voucherSeting.VoucherDebitRefDescription
-                    : voucherSeting.VoucherCeditRefDescription)
-                .Description((journalEntry.IsDebit)
-                    ? voucherSeting.VoucherDebitDescription
-                    : voucherSeting.VoucherCreditDescription)
-                .AccountNo(journalEntry.IsDebit
-                    ? voucherSeting.DebitAccounts[0].Code
-                    : voucherSeting.CreditAccounts[0].Code)
-                .ForeignAmount(receiptFee * receiptQuantity)
-                .SetSegmentType(journalEntry.IsDebit 
-                    ? SegmentType.Vessel 
-                    : SegmentType.Company)
-                .SetSegment(segment =>
-                         {
-                             if (segment.SegmentType.Id == 1)
+            receipts.ForEach(c =>
                              {
-                                 segment.Code = receiptWarehouseCode;
-                             }
-                             else if (segment.SegmentType.Id == 4)
-                             {
-                                 segment.Code = charterIn.Owner.Code;
-                             }
-                         }, journalEntry.Segment);
+                                 var debiJournalEntry = new JournalEntry();
+                                 debiJournalEntry.IrrAmount(c.ReceiptQuantity * c.ReceiptFee * c.Coefficient)
+                                     .VoucherRef(voucherSeting.VoucherDebitRefDescription)
+                                     .Description(voucherSeting.VoucherDebitDescription)
+                                     .AccountNo(voucherSeting.DebitAccounts[0].Code)
+                                     .ForeignAmount(c.ReceiptFee * c.ReceiptQuantity)
+                                     .SetSegmentType(SegmentType.Vessel)
+                                     .SetSegment(segment =>
+                                     {
+                                         if (segment.SegmentType.Id == 1)
+                                         {
+                                             segment.Code = receiptWarehouseCode;
+                                         }
+                                         else if (segment.SegmentType.Id == 4)
+                                         {
+                                             segment.Code = charterIn.Owner.Code;
+                                         }
+                                     }, debiJournalEntry.Segment);
 
-            voucher.JournalEntrieses.Add(journalEntry);
+                                 voucher.JournalEntrieses.Add(debiJournalEntry);
+
+
+                                var creditJournalEntry = new JournalEntry();
+                                 creditJournalEntry.IrrAmount(c.ReceiptQuantity * c.ReceiptFee * c.Coefficient)
+                                     .VoucherRef(voucherSeting.VoucherCeditRefDescription)
+                                     .Description(voucherSeting.VoucherCreditDescription)
+                                     .AccountNo( voucherSeting.CreditAccounts[0].Code)
+                                     .ForeignAmount(c.ReceiptFee * c.ReceiptQuantity)
+                                     .SetSegmentType( SegmentType.Company)
+                                     .SetSegment(segment =>
+                                     {
+                                         if (segment.SegmentType.Id == 1)
+                                         {
+                                             segment.Code = receiptWarehouseCode;
+                                         }
+                                         else if (segment.SegmentType.Id == 4)
+                                         {
+                                             segment.Code = charterIn.Owner.Code;
+                                         }
+                                     }, creditJournalEntry.Segment);
+
+                                 voucher.JournalEntrieses.Add(creditJournalEntry);
+
+
+                             });
+
+            
+            
             _voucherRepository.Add(voucher);
             _unitOfWorkScope.Commit();
 

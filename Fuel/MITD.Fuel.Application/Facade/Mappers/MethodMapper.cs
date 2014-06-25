@@ -80,7 +80,7 @@ namespace MITD.Fuel.Application.Facade
              
             #endregion
       
-           #region chrter in
+           #region chrter Out
              new MethodAction(ActionEntityTypeEnum.CharterOut.ToString(),DecisionTypeEnum.Approved.ToString(),new List<ActionType>(){ActionType.ApproveCharterOut}),
              new MethodAction(ActionEntityTypeEnum.CharterOut.ToString(),DecisionTypeEnum.Canceled.ToString(),new List<ActionType>(){ActionType.FinalApproveCharterOut}),
              new MethodAction(ActionEntityTypeEnum.CharterOut.ToString(),DecisionTypeEnum.Rejected.ToString(),new List<ActionType>(){ActionType.RejectCharterOut}),

@@ -111,6 +111,7 @@
     <Compile Include="DomainObjects\VoucherAggregate\AsgnVoucherAconts.cs" />
     <Compile Include="DomainObjects\VoucherAggregate\AsgnVoucherSegments.cs" />
     <Compile Include="DomainObjects\VoucherAggregate\JournalEntry.cs" />
+    <Compile Include="DomainObjects\VoucherAggregate\Receipt.cs" />
     <Compile Include="DomainObjects\VoucherAggregate\ReferenceType.cs" />
     <Compile Include="DomainObjects\VoucherAggregate\Segment.cs" />
     <Compile Include="DomainObjects\VoucherAggregate\SegmentType.cs" />
