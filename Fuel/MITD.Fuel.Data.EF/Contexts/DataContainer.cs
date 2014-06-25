@@ -1,11 +1,13 @@
 using System.Data.Entity;
 using MITD.Fuel.Data.EF.Configurations;
 using MITD.Fuel.Data.EF.Configurations.BaseInfo;
+using MITD.Fuel.Data.EF.Configurations.Financial;
 using MITD.Fuel.Data.EF.Configurations.Security;
 using MITD.Fuel.Domain.Model.DomainObjects;
 using MITD.Fuel.Domain.Model.DomainObjects.CharterAggregate;
 using MITD.Fuel.Domain.Model.DomainObjects.InvoiceAggreate;
 using MITD.Fuel.Domain.Model.DomainObjects.OrderAggreate;
+using MITD.Fuel.Domain.Model.DomainObjects.VoucherAggregate;
 using MITD.FuelSecurity.Domain.Model;
 using User = MITD.FuelSecurity.Domain.Model.User;
 using UserConfiguration = MITD.Fuel.Data.EF.Configurations.Security.UserConfiguration;
@@ -119,6 +121,16 @@ namespace MITD.Fuel.Data.EF.Context
 
         #endregion
 
+        #region  Financial 
+
+        public DbSet<Account> Accounts { get; set; }
+
+        public DbSet<VoucherSeting> VoucherSetings { get; set; }
+
+
+        #endregion
+
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.ComplexType<OffhirePricingReference>();
@@ -162,7 +174,10 @@ namespace MITD.Fuel.Data.EF.Context
 
             #endregion
 
-
+            #region Financial
+            modelBuilder.Configurations.Add(new AccountConfiguration());
+            modelBuilder.Configurations.Add(new VoucherSetingConfiguration());
+            #endregion
             modelBuilder.Configurations.Add(new VesselConfiguration());
             modelBuilder.Configurations.Add(new VesselInCompanyConfiguration());
             modelBuilder.Configurations.Add(new VesselInInventoryConfiguration());

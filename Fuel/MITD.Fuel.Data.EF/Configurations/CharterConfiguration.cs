@@ -18,7 +18,7 @@ namespace MITD.Fuel.Data.EF.Configurations
            Property(t => t.TimeStamp).IsRowVersion();
            Ignore(p => p.CharterState);
 
-           HasOptional(p => p.Owner).WithMany().HasForeignKey(p => p.OwnerId).WillCascadeOnDelete(false);
+           HasOptional(p => p.Owner).WithMany().HasForeignKey(p =>  p.OwnerId).WillCascadeOnDelete(false);
            HasOptional(p => p.Charterer).WithMany().HasForeignKey(p => p.ChartererId).WillCascadeOnDelete(false);
            HasOptional(p => p.VesselInCompany).WithMany().HasForeignKey(p => p.VesselInCompanyId).WillCascadeOnDelete(false);
            HasOptional(p => p.Currency).WithMany().HasForeignKey(p => p.CurrencyId).WillCascadeOnDelete(false);

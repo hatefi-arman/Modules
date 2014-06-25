@@ -751,7 +751,7 @@ namespace MITD.Fuel.Domain.Model.DomainObjects.CharterAggregate
         {
             var res = _charterOutDomainService.GetCharterStartState(this.VesselInCompanyId.Value, this.ChartererId.Value);
             if (!(res == States.Submitted))
-                throw new BusinessRuleException("B67", "Charter In start is submited");
+                throw new BusinessRuleException("B67", "Charter Out start is submited");
         }
         #endregion
 
