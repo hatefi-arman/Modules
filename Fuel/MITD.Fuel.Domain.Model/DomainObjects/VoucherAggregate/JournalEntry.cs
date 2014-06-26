@@ -30,6 +30,8 @@ namespace MITD.Fuel.Domain.Model.DomainObjects.VoucherAggregate
 
         public Segment Segment { get; set; }
 
+        public long SegmentId { get; set; }
+
         public Voucher Voucher { get; set; }
 
         public string VoucherRef { get; set; }
@@ -48,7 +50,7 @@ namespace MITD.Fuel.Domain.Model.DomainObjects.VoucherAggregate
 
         public JournalEntry(long id,long voucherId, int typ, string accountNo,
                             string description, decimal foreignAmount,
-                             decimal irrAmount, Segment segment,string voucherRef)
+                             decimal irrAmount, long segmentId, string voucherRef)
         {
             Id = id;
             VoucherId = voucherId;
@@ -57,7 +59,7 @@ namespace MITD.Fuel.Domain.Model.DomainObjects.VoucherAggregate
             Description = description;
             ForeignAmount = foreignAmount;
             IrrAmount = irrAmount;
-            Segment = segment;
+            SegmentId = segmentId;
             VoucherRef = voucherRef;
         }
         #endregion

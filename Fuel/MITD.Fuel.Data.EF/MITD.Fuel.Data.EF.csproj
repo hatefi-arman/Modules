@@ -180,6 +180,7 @@
     <Compile Include="Repositories\VesselInInventoryRepository.cs" />
     <Compile Include="Repositories\VesselInCompanyRepository.cs" />
     <Compile Include="Repositories\VoucherRepository.cs" />
+    <Compile Include="Repositories\VoucherSetingRepository.cs" />
     <Compile Include="Repositories\VoyageLogRepository.cs" />
     <Compile Include="Repositories\InvoiceRepository.cs" />
     <Compile Include="Repositories\WorkflowLogRepository.cs" />

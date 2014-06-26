@@ -26,7 +26,9 @@ namespace MITD.Fuel.Domain.Model.DomainObjects.VoucherAggregate
         public virtual List<SegmentType> DebitSegmentTypes { get; private set; }
         public virtual List<Account> DebitAccounts { get; private set; }
 
+        public int VoucherDetailTypeId { get; set; }
 
+        public int VoucherTypeId { get; set; } 
         public string VoucherCeditRefDescription { get; set; }
 
         public string VoucherMainRefDescription { get; set; }
@@ -51,7 +53,8 @@ namespace MITD.Fuel.Domain.Model.DomainObjects.VoucherAggregate
             long companyId,
             List<Account>creditaccounts
             , List<Account> debitaccounts
-            , VoucherDetailType voucherDetailType,
+            , int voucherDetailTypeId
+            ,int voucherTypeId,
             List<SegmentType> creditsegmentTypes,
             List<SegmentType> debitsegmentTypes,
             string voucherMainRefDescription,
@@ -66,7 +69,8 @@ namespace MITD.Fuel.Domain.Model.DomainObjects.VoucherAggregate
             Id=id;
             GoodId = goodId;
             CompanyId = companyId;
-            VoucherDetailType = voucherDetailType;
+            VoucherDetailTypeId = voucherDetailTypeId;
+            VoucherTypeId = voucherTypeId;
             CreditAccounts = creditaccounts;
             DebitAccounts = debitaccounts;
             CreditSegmentTypes = creditsegmentTypes;

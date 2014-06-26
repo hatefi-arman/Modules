@@ -23,6 +23,7 @@ namespace MITD.Fuel.Service.Host.Areas.Fuel.Controllers
 
         #region Ctor
 
+       
 
 
         public CharterController(ICharterInFacadeService charterInFacadeService, ICharterOutFacadeService charterOutFacadeService)

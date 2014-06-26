@@ -10,7 +10,7 @@ namespace MITD.Fuel.Domain.Model.DomainObjects.VoucherAggregate
     {
         #region Prop
         public long  Id { get; private set; }
-        public string ReceiptNumber { get; private set; }
+       // public string ReceiptNumber { get; private set; }
         public int ReceiptQuantity { get; private set; }
         public decimal ReceiptFee { get; private set; }
 
@@ -27,14 +27,18 @@ namespace MITD.Fuel.Domain.Model.DomainObjects.VoucherAggregate
                 
         }
 
-        public Receipt(long id, string receiptNumber,int receiptQuantity,
-            decimal receiptFee, string receiptWarehouseCode, decimal coefficient)
+        public Receipt(long id,
+            //string receiptNumber,
+            int receiptQuantity,
+            decimal receiptFee,
+            //string receiptWarehouseCode,
+            decimal coefficient)
         {
 
             Id = id;
             ReceiptFee = receiptFee;
             ReceiptQuantity = receiptQuantity;
-            ReceiptNumber = receiptNumber;
+            //ReceiptNumber = receiptNumber;
             //ReceiptWarehouseCode = receiptWarehouseCode;
             Coefficient = coefficient;
 

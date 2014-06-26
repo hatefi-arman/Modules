@@ -23,7 +23,7 @@ using MITD.Services.Facade;
 
 namespace MITD.Fuel.Application.Facade
 {
-    [Interceptor(typeof(SecurityInterception))]
+//    [Interceptor(typeof(SecurityInterception))]
     public class CharterInFacadeService : ICharterInFacadeService,IFacadeService
     {
 

@@ -30,7 +30,7 @@ namespace MITD.Fuel.Application
                     //var dto = invocation.Arguments[0] as ApprovmentDto;
                     //if (securityService.IsAuthorize(dto.ActionEntityType, dto.DecisionType, user))
                     //{
-                    //    invocation.Proceed();
+                        invocation.Proceed();
                     //    logServicesAccess(invocation, user);
                     //}
                     //else

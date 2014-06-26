@@ -20,7 +20,7 @@ namespace MITD.Fuel.Domain.Model.DomainObjects.VoucherAggregate
         public string LocalVoucherNo { get; set; }
 
         public string ReferenceNo { get; set; }
-        public long VoucherRef { get; set; }
+        public string VoucherRef { get; set; }
 
         public ReferenceType ReferenceType { get; set; }
 
@@ -43,7 +43,7 @@ namespace MITD.Fuel.Domain.Model.DomainObjects.VoucherAggregate
             long id, long currencyId, 
             string description, DateTime financialVoucherDate,
             DateTime localVoucherDate, string localVoucherNo,
-            string referenceNo, long voucherRef, int referenceTypeId,
+            string referenceNo, string voucherRef, int referenceTypeId,
             List<JournalEntry> journalEntrieses 
             )
         {

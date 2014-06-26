@@ -19,7 +19,7 @@ using MITD.Presentation.Contracts;
 
 namespace MITD.Fuel.Application.Facade
 {
-    [Interceptor(typeof(SecurityInterception))]
+   // [Interceptor(typeof(SecurityInterception))]
     public class CharterOutFacadeService : ICharterOutFacadeService
     {
         #region Prop

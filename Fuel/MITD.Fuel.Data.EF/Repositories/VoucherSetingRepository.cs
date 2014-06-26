@@ -10,15 +10,14 @@ using MITD.Fuel.Domain.Model.Repositories;
 
 namespace MITD.Fuel.Data.EF.Repositories
 {
-    public class VoucherRepository:EFRepository<Voucher>,IVoucherRepository
+    public class VoucherSetingRepository : EFRepository<VoucherSeting>, IVoucherSetingRepository
     {
-        public VoucherRepository(EFUnitOfWork unitofwork) : base(unitofwork)
+        public VoucherSetingRepository(EFUnitOfWork unitofwork) : base(unitofwork)
         {
         }
 
-        public VoucherRepository(IUnitOfWorkScope unitofworkscope) : base(unitofworkscope)
+        public VoucherSetingRepository(IUnitOfWorkScope unitofworkscope) : base(unitofworkscope)
         {
-
         }
     }
 }

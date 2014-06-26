@@ -15,8 +15,8 @@ namespace MITD.Fuel.Data.EF.Configurations.Financial
        {
            ToTable("JournalEntries", "Fuel").HasKey(c => c.Id);
            Property(c => c.Id).IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
-           HasOptional(c=>c.Segment).WithMany().HasForeignKey(c=>c.Segment.Id).WillCascadeOnDelete(false);
-           HasOptional(c => c.Voucher).WithMany().HasForeignKey(c => c.VoucherId).WillCascadeOnDelete(false);
+           HasRequired(c=>c.Segment).WithMany().HasForeignKey(c=>c.SegmentId).WillCascadeOnDelete(false);
+           HasRequired(c => c.Voucher).WithMany().HasForeignKey(c => c.VoucherId).WillCascadeOnDelete(false);
            Property(c => c.TimeStamp).IsRowVersion();
 
        }

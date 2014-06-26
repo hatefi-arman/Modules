@@ -127,6 +127,11 @@ namespace MITD.Fuel.Data.EF.Context
 
         public DbSet<VoucherSeting> VoucherSetings { get; set; }
 
+        public DbSet<Voucher> Vouchers { get; set; }
+
+        public DbSet<Segment> Segments { get; set; }
+
+        public DbSet<JournalEntry> JournalEntries { get; set; }
 
         #endregion
 
@@ -177,6 +182,9 @@ namespace MITD.Fuel.Data.EF.Context
             #region Financial
             modelBuilder.Configurations.Add(new AccountConfiguration());
             modelBuilder.Configurations.Add(new VoucherSetingConfiguration());
+            modelBuilder.Configurations.Add(new VoucherConfiguration());
+            modelBuilder.Configurations.Add(new SegmentConfiguration());
+            modelBuilder.Configurations.Add(new JournalEntryConfiguration());
             #endregion
             modelBuilder.Configurations.Add(new VesselConfiguration());
             modelBuilder.Configurations.Add(new VesselInCompanyConfiguration());

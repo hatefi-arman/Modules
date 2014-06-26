@@ -225,13 +225,13 @@ namespace MITD.Fuel.Service.Host.Infrastructure
                                    .WithServiceAllInterfaces()
                                    .LifestyleTransient());
 
-
-            container.Register(fromAssemblyDescriptor
+            var assemblyDescriptor = Classes.FromAssemblyInDirectory(new AssemblyFilter("bin", "*AutomaticVoucher*"));
+            container.Register(assemblyDescriptor
                               .BasedOn<IAutomaticVoucher>()
                               .WithServiceFromInterface()
                               .LifestyleTransient());
 
-
+           
 
             #region register Repositories
             container.Register(Component.For(typeof(MITD.Domain.Repository.IRepository<>))
