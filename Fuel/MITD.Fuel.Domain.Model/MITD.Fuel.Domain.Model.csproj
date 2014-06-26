@@ -44,6 +44,9 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Iesi.Collections">
+      <HintPath>..\..\packages\Iesi.Collections.3.2.0.1001\lib\Net35\Iesi.Collections.dll</HintPath>
+    </Reference>
     <Reference Include="MITD.Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\Dependencies\MITD.Core.dll</HintPath>
     </Reference>
@@ -55,6 +58,9 @@
     </Reference>
     <Reference Include="MITD.Domain.Repository, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\Dependencies\MITD.Domain.Repository.dll</HintPath>
+    </Reference>
+    <Reference Include="NHibernate">
+      <HintPath>..\..\packages\NHibernate.3.3.3.4001\lib\Net35\NHibernate.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
@@ -102,7 +108,14 @@
     <Compile Include="DomainObjects\VesselAggregate\Vessel.cs" />
     <Compile Include="DomainObjects\VesselAggregate\VesselInInventory.cs" />
     <Compile Include="DomainObjects\VoucherAggregate\Account.cs" />
+    <Compile Include="DomainObjects\VoucherAggregate\AsgnVoucherAconts.cs" />
+    <Compile Include="DomainObjects\VoucherAggregate\AsgnVoucherSegments.cs" />
+    <Compile Include="DomainObjects\VoucherAggregate\JournalEntry.cs" />
+    <Compile Include="DomainObjects\VoucherAggregate\Receipt.cs" />
+    <Compile Include="DomainObjects\VoucherAggregate\ReferenceType.cs" />
+    <Compile Include="DomainObjects\VoucherAggregate\Segment.cs" />
     <Compile Include="DomainObjects\VoucherAggregate\SegmentType.cs" />
+    <Compile Include="DomainObjects\VoucherAggregate\Voucher.cs" />
     <Compile Include="DomainObjects\VoucherAggregate\VoucherDetailType.cs" />
     <Compile Include="DomainObjects\VoucherAggregate\VoucherSeting.cs" />
     <Compile Include="DomainServices\VesselDomainService.cs" />
@@ -340,6 +353,7 @@
     <Compile Include="DomainObjects\FuelReportAggregate\Reference.cs" />
     <Compile Include="DomainServices\OrderCodeGenerator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\IVoucherSetingRepository.cs" />
     <Compile Include="Repositories\IOffhireRepository.cs" />
     <Compile Include="Repositories\IGoodRepository.cs" />
     <Compile Include="Repositories\IScrapRepository.cs" />
@@ -349,6 +363,7 @@
     <Compile Include="Repositories\IVesselInCompanyRepository.cs" />
     <Compile Include="Repositories\IVesselInInventoryRepository.cs" />
     <Compile Include="Repositories\IVesselRepository.cs" />
+    <Compile Include="Repositories\IVoucherRepository.cs" />
     <Compile Include="Repositories\IVoyageLogRepository.cs" />
     <Compile Include="Repositories\IInvoiceRepository.cs" />
     <Compile Include="Repositories\IInventoryOperationRepository.cs" />
@@ -374,6 +389,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="IDomainServices\Events\Charter\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

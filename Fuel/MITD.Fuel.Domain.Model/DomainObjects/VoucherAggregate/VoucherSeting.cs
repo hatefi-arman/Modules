@@ -16,10 +16,19 @@ namespace MITD.Fuel.Domain.Model.DomainObjects.VoucherAggregate
         public long CompanyId { get; private set; }
         public virtual Company Company { get; private set; }
 
-        public virtual VoucherDetailType VoucherDetailType { get; private set; }
-        public virtual List<SegmentType> SegmentTypes { get; private set; }
-        public virtual List<Account> Accounts { get; private set; }
+        public virtual Good Good { get; private set; }
 
+        public virtual VoucherDetailType VoucherDetailType { get; private set; }
+        public virtual List<SegmentType> CreditSegmentTypes { get; private set; }
+        public virtual List<Account> CreditAccounts { get; private set; }
+
+
+        public virtual List<SegmentType> DebitSegmentTypes { get; private set; }
+        public virtual List<Account> DebitAccounts { get; private set; }
+
+        public int VoucherDetailTypeId { get; set; }
+
+        public int VoucherTypeId { get; set; } 
         public string VoucherCeditRefDescription { get; set; }
 
         public string VoucherMainRefDescription { get; set; }
@@ -34,32 +43,47 @@ namespace MITD.Fuel.Domain.Model.DomainObjects.VoucherAggregate
 
         #region ctor
 
+        public VoucherSeting()
+        {
+            
+        }
+
         public VoucherSeting(
             long id, long goodId,
             long companyId,
-            List<Account>accounts
-            , VoucherDetailType voucherDetailType,
-            List<SegmentType> segmentTypes,
+            List<Account>creditaccounts
+            , List<Account> debitaccounts
+            , int voucherDetailTypeId
+            ,int voucherTypeId,
+            List<SegmentType> creditsegmentTypes,
+            List<SegmentType> debitsegmentTypes,
             string voucherMainRefDescription,
             string voucherDebitDescription,
             string voucherDebitRefDescription,
             string voucherCreditDescription,
             string voucherMainDescription,
-            string voucherCeditRefDescription)
+            string voucherCeditRefDescription,
+            Good good)
         {
             
             Id=id;
             GoodId = goodId;
             CompanyId = companyId;
-            VoucherDetailType = voucherDetailType;
-            Accounts = accounts;
-            SegmentTypes = segmentTypes;
+            VoucherDetailTypeId = voucherDetailTypeId;
+            VoucherTypeId = voucherTypeId;
+            CreditAccounts = creditaccounts;
+            DebitAccounts = debitaccounts;
+            CreditSegmentTypes = creditsegmentTypes;
+            DebitSegmentTypes = debitsegmentTypes;
             VoucherMainRefDescription=voucherMainRefDescription;
             VoucherDebitDescription = voucherDebitDescription;
             VoucherDebitRefDescription = voucherDebitRefDescription;
             VoucherCreditDescription = voucherCreditDescription;
             VoucherMainDescription = voucherMainDescription;
             VoucherCeditRefDescription = voucherCeditRefDescription;
+            //Good = good;
+            Good = new Good();
+            Company=new Company();
         }
 
         #endregion

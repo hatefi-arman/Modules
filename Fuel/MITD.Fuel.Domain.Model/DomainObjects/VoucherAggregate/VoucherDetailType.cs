@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using MITD.Fuel.Domain.Model.Enums;
+using NHibernate.Linq;
+using Remotion.Linq.Parsing.ExpressionTreeVisitors.Transformation.PredefinedTransformations;
 
 namespace MITD.Fuel.Domain.Model.DomainObjects.VoucherAggregate
 {
@@ -11,7 +14,7 @@ namespace MITD.Fuel.Domain.Model.DomainObjects.VoucherAggregate
     {
 
         #region Prop
-
+        
         public int Id { get; set; }
         public string Name { get; set; }
 
@@ -20,23 +23,34 @@ namespace MITD.Fuel.Domain.Model.DomainObjects.VoucherAggregate
         public VoucherType VoucherType { get; set; }
 
 
-        public VoucherDetailType CharterInStart { get; set; }
+        public static VoucherDetailType CharterInStart {
+            get {return new VoucherDetailType(1,"CharterInStart","01" ); }
+        }
 
         #endregion
 
 
         #region Ctor
 
-        public VoucherDetailType(int id,string name,string code,VoucherType voucherType)
+        public VoucherDetailType(int id,string name,string code)
         {
             this.Id = id;
             this.Name = name;
             this.Code = code;
-            this.VoucherType = voucherType;
+            
+        
         }
 
         #endregion
 
+        #region Method
+
+        public  void SetVoucherType(VoucherType voucherType)
+        {
+            VoucherType = voucherType;
+        }
+
+        #endregion
 
 
     }

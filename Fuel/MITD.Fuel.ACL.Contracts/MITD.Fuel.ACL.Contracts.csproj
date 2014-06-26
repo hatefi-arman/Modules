@@ -50,8 +50,7 @@
     <Reference Include="MITD.Domain.Model, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\Dependencies\MITD.Domain.Model.dll</HintPath>
     </Reference>
-    <Reference Include="MITD.Presentation, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="MITD.Presentation">
       <HintPath>..\..\Dependencies\MITD.Presentation.dll</HintPath>
     </Reference>
     <Reference Include="MITD.Services">
@@ -71,6 +70,8 @@
   <ItemGroup>
     <Compile Include="Adapters\IEnterprisePartyAntiCorruptionAdapter.cs" />
     <Compile Include="Adapters\IGoodAntiCorruptionAdapter.cs" />
+    <Compile Include="AutomaticVoucher\IAddCharterInStartReceiptVoucher.cs" />
+    <Compile Include="AutomaticVoucher\IAutomaticVoucher.cs" />
     <Compile Include="ServiceWrappers\IVesselAntiCorruptionServiceWrapper.cs" />
     <Compile Include="Mappers\IGoodAntiCorruptionMapper.cs" />
     <Compile Include="Mappers\IEnterprisePartyAntiCorruptionMapper.cs" />

@@ -30,7 +30,8 @@ namespace MITD.Fuel.Presentation.Contracts.DTOs
             set { this.SetField(P => P.Date, ref date, value); }
         }
 
-        private ReferenceTypeEnum referenceType;
+        private
+            ReferenceTypeEnum referenceType;
         public ReferenceTypeEnum ReferenceType
         {
             get { return referenceType; }

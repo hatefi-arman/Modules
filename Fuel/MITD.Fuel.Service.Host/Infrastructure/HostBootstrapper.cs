@@ -16,6 +16,7 @@ using MITD.DataAccess.Config;
 using MITD.DataAccess.EF;
 using MITD.Domain.Model;
 using MITD.Domain.Repository;
+using MITD.Fuel.ACL.Contracts.AutomaticVoucher;
 using MITD.Fuel.Application;
 using MITD.Fuel.Application.Facade;
 using MITD.Fuel.Application.Service.Security;
@@ -224,6 +225,13 @@ namespace MITD.Fuel.Service.Host.Infrastructure
                                    .WithServiceAllInterfaces()
                                    .LifestyleTransient());
 
+            var assemblyDescriptor = Classes.FromAssemblyInDirectory(new AssemblyFilter("bin", "*AutomaticVoucher*"));
+            container.Register(assemblyDescriptor
+                              .BasedOn<IAutomaticVoucher>()
+                              .WithServiceFromInterface()
+                              .LifestyleTransient());
+
+           
 
             #region register Repositories
             container.Register(Component.For(typeof(MITD.Domain.Repository.IRepository<>))

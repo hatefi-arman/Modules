@@ -404,6 +404,10 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\MITD.AutomaticVoucher\MITD.AutomaticVoucher.csproj">
+      <Project>{af34f472-86f6-4aba-86c2-3ff63b84426e}</Project>
+      <Name>MITD.AutomaticVoucher</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MITD.Fuel.ACL.Contracts\MITD.Fuel.ACL.Contracts.csproj">
       <Project>{ab12495a-9a99-4f33-a9fa-507746bba754}</Project>
       <Name>MITD.Fuel.ACL.Contracts</Name>

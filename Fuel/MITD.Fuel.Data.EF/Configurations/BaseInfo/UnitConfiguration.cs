@@ -30,3 +30,4 @@ namespace MITD.Fuel.Data.EF.Configurations.BaseInfo
         }
     }
 }
+    

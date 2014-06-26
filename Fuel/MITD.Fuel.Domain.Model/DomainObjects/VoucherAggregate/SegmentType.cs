@@ -8,21 +8,26 @@ namespace MITD.Fuel.Domain.Model.DomainObjects.VoucherAggregate
 {
    public class SegmentType
     {
+       public int Id { get; set; }
        public string Name { get; set; }
        public string Code { get; set; }
 
-       public SegmentType None {
-           get { return new SegmentType("None","0"); }
+       public static SegmentType None {
+           get { return new SegmentType(0,"None","0"); }
        }
-       public SegmentType Vessel { get { return new SegmentType("Vessel", "1"); } }
-       public SegmentType Port { get { return new SegmentType("Port", "2"); } }
-       public SegmentType Voayage { get { return new SegmentType("Voayage", "3"); } }
-       public SegmentType Company { get { return new SegmentType("Compony", "4"); } }  
-       
-       
-        
-       public SegmentType(string name,string code)
+       public static SegmentType Vessel { get { return new SegmentType(1,"Vessel", "1"); } }
+       public static SegmentType Port { get { return new SegmentType(2, "Port", "2"); } }
+       public static SegmentType Voayage { get { return new SegmentType(3, "Voayage", "3"); } }
+       public static SegmentType Company { get { return new SegmentType(4, "Compony", "4"); } }
+
+       public SegmentType()
        {
+           
+       }
+        
+       public SegmentType(int id,string name,string code)
+       {
+           this.Id = id;
            this.Name = name;
            this.Code = code;
 

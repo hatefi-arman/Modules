@@ -13,11 +13,17 @@ namespace MITD.Fuel.Domain.Model.DomainObjects.VoucherAggregate
         public int Id { get; private set; }
         public string Code { get; private set; }
         public string  Name{ get; private set; }
+
+        public byte[] TimeStamp { get; set; }
         #endregion
 
 
         #region ctor
 
+        public Account()
+        {
+                
+        }
         public Account(int id,string code,string name)
         {
             this.Id = id;
