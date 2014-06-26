@@ -40,6 +40,7 @@ namespace MITD.Fuel.Integration.Inventory.Data.ReversePOCO
         public virtual ICollection<TransactionItem> TransactionItems { get; set; } // TransactionItems.FK_TransactionItems_UserCreatorId
         public virtual ICollection<TransactionItemPrice> TransactionItemPrices { get; set; } // TransactionItemPrices.FK_TransactionItemPrices_UserCreatorId
         public virtual ICollection<Unit> Units { get; set; } // Units.FK_Units_UserCreatorId
+        public virtual ICollection<UnitConvert> UnitConverts { get; set; } // UnitConverts.FK_UnitConverts_UserCreatorId
         public virtual ICollection<User> Users { get; set; } // Users.FK_Users_UserCreatorId
         public virtual ICollection<Warehouse> Warehouses { get; set; } // Warehouse.FK_Warehouse_UserCreatorId
 
@@ -59,6 +60,7 @@ namespace MITD.Fuel.Integration.Inventory.Data.ReversePOCO
             TransactionItemPrices = new List<TransactionItemPrice>();
             TransactionItems = new List<TransactionItem>();
             Transactions = new List<Transaction>();
+            UnitConverts = new List<UnitConvert>();
             Units = new List<Unit>();
             Users = new List<User>();
             Warehouses = new List<Warehouse>();

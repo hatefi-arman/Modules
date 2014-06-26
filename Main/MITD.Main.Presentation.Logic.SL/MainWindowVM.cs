@@ -10,7 +10,10 @@ namespace MITD.Main.Presentation.Logic.SL
     public class MainWindowVM : WorkspaceViewModel
     {
         #region Fields
+        
         ReadOnlyObservableCollection<CommandViewModel> commands;
+        ReadOnlyObservableCollection<CommandViewModel> reportCommands;
+        
         IFuelController controller;
         public UserStateDTO UserState { get; set; }
 
@@ -50,6 +53,19 @@ namespace MITD.Main.Presentation.Logic.SL
             }
         }
 
+        public ReadOnlyObservableCollection<CommandViewModel> ReportCommands
+        {
+            get
+            {
+                if (reportCommands == null)
+                {
+
+                    reportCommands = CreatReportMenu(); // new ReadOnlyObservableCollection<CommandViewModel>(createCommands());
+                }
+                return reportCommands;
+            }
+        }
+
         public ReadOnlyObservableCollection<CommandViewModel> CreatMenu()
         {
             MenuHelper menuHelper = new MenuHelper(controller);
@@ -72,6 +88,12 @@ namespace MITD.Main.Presentation.Logic.SL
             return menuHelper.ExcuteMenu();
         }
 
+        public ReadOnlyObservableCollection<CommandViewModel> CreatReportMenu()
+        {
+            MenuHelper menuHelper = new MenuHelper(controller);
+            menuHelper.AddMenuItem(new MenuItem<ICardexReportController>("کاردکس", "ShowReport"));
+            return menuHelper.ExcuteMenu();
+        }
 
 
         #endregion // Commands

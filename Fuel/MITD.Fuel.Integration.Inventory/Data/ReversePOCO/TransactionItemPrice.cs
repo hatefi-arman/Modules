@@ -52,6 +52,7 @@ namespace MITD.Fuel.Integration.Inventory.Data.ReversePOCO
             FeeInMainCurrency = 0m;
             RegistrationDate = System.DateTime.Now;
             QuantityAmountUseFifo = 0m;
+            IssueReferenceIds = "N''";
             CreateDate = System.DateTime.Now;
             TransactionItemPrices = new List<TransactionItemPrice>();
             InitializePartial();

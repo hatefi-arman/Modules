@@ -33,7 +33,7 @@ namespace MITD.Fuel.Integration.Inventory.Data.ReversePOCO
             // Foreign keys
             HasRequired(a => a.Unit_UnitId).WithMany(b => b.UnitConverts_UnitId).HasForeignKey(c => c.UnitId); // FK_UnitConverts_UnitId
             HasRequired(a => a.Unit_SubUnitId).WithMany(b => b.UnitConverts_SubUnitId).HasForeignKey(c => c.SubUnitId); // FK_UnitConverts_SubUnitId
-            HasRequired(a => a.Unit_UserCreatorId).WithMany(b => b.UnitConverts_UserCreatorId).HasForeignKey(c => c.UserCreatorId); // FK_UnitConverts_UserCreatorId
+            HasRequired(a => a.User).WithMany(b => b.UnitConverts).HasForeignKey(c => c.UserCreatorId); // FK_UnitConverts_UserCreatorId
             InitializePartial();
         }
         partial void InitializePartial();

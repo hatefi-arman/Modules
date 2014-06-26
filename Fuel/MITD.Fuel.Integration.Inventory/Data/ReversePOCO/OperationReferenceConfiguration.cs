@@ -27,6 +27,7 @@ namespace MITD.Fuel.Integration.Inventory.Data.ReversePOCO
             Property(x => x.OperationType).HasColumnName("OperationType").IsRequired();
             Property(x => x.ReferenceType).HasColumnName("ReferenceType").IsRequired().HasMaxLength(512);
             Property(x => x.ReferenceNumber).HasColumnName("ReferenceNumber").IsRequired().HasMaxLength(256);
+            Property(x => x.RegistrationDate).HasColumnName("RegistrationDate").IsRequired();
             InitializePartial();
         }
         partial void InitializePartial();

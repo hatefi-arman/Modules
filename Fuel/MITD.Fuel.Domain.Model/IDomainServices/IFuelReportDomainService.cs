@@ -34,8 +34,6 @@ namespace MITD.Fuel.Domain.Model.IDomainServices
 
         List<FuelReport> GetNotIssuedEOVFuelReportsOfPreviousVoyages(FuelReport fuelReport);
 
-        FuelReport GetLastIssuedFuelReportBefore(FuelReport fuelReport);
-
         void SetFuelReportInventoryResults(InventoryResultCommand resultCommand, FuelReport fuelReport);
 
         //Commented due to be unusable
@@ -49,6 +47,8 @@ namespace MITD.Fuel.Domain.Model.IDomainServices
         List<Reference> GetFuelReportDetailRejectedTransferReferences(FuelReportDetail fuelReportDetail);
 
         decimal CalculateReportingConsumption(FuelReportDetail fuelReportDetail);
+
+        FuelReportDetail GetLastReceiveFuelReportDetailBefore(FuelReportDetail fuelReportDetail);
     }
 
     public class InventoryResultCommand

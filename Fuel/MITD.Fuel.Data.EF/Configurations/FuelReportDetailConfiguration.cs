@@ -71,6 +71,10 @@ namespace MITD.Fuel.Data.EF.Configurations
 
             HasOptional(p => p.CorrectionPriceCurrency).WithMany().HasForeignKey(p => p.CorrectionPriceCurrencyId);
 
+            //Ignore(p => p.InventoryOperations);
+
+
+
             //HasOptional(p => p.ReceiveReference).WithMany().HasForeignKey(p => p.ReceiveReferenceOrderId);
             //HasOptional(p => p.TransferReference).WithMany().HasForeignKey(p => p.TransferReferenceOrderId);
             //HasOptional(p => p.CorrectionReference).WithMany().HasForeignKey(p => p.CorrectionReferenceVoyageId);

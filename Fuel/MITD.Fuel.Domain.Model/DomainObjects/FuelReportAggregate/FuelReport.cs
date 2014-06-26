@@ -548,13 +548,7 @@ namespace MITD.Fuel.Domain.Model.DomainObjects
             IFuelReportDomainService fuelReportDomainService,
             IInventoryOperationDomainService inventoryOperationDomainService)
         {
-            var previousEOVFuelReports = fuelReportDomainService.GetNotIssuedEOVFuelReportsOfPreviousVoyages(this);
-
-            var isFuelReportIssuedSpec = new IsFuelReportIssued(inventoryOperationDomainService);
-
-            var notIssuedEOVFuelReportsOfPreviousVoyages =
-                previousEOVFuelReports.FindAll(
-                    eovfr => !isFuelReportIssuedSpec.IsSatisfiedBy(eovfr));
+            var notIssuedEOVFuelReportsOfPreviousVoyages = fuelReportDomainService.GetNotIssuedEOVFuelReportsOfPreviousVoyages(this);
 
             if (notIssuedEOVFuelReportsOfPreviousVoyages.Count != 0)
                 throw new BusinessRuleException("BR_FR37", "There are some ended voyages before current Fuel Report with no issue for End Of Voyage Fuel Report.");
@@ -646,7 +640,7 @@ namespace MITD.Fuel.Domain.Model.DomainObjects
                     currencyDomainService,
                     inventoryManagementDomainService);
 
-            sendDataToOrderDomainService(balanceDomainService);
+            sendDataToBalancingDomainService(balanceDomainService);
 
             if (this.FuelReportType == FuelReportTypes.EndOfVoyage ||
                 this.FuelReportType == FuelReportTypes.EndOfYear ||
@@ -660,7 +654,7 @@ namespace MITD.Fuel.Domain.Model.DomainObjects
             {
                 foreach (var fuelReportDetail in this.FuelReportDetails)
                 {
-                    var inventoryResult = inventoryOperationNotifier.NotifySubmittingFuelReportDetail(fuelReportDetail);
+                    var inventoryResult = inventoryOperationNotifier.NotifySubmittingFuelReportDetail(fuelReportDetail, fuelReportDomainService);
 
                     if (inventoryResult != null)
                         fuelReportDetail.InventoryOperations.AddRange(inventoryResult);
@@ -668,165 +662,18 @@ namespace MITD.Fuel.Domain.Model.DomainObjects
                 
             }
 
-            //var notificationData = buildNotificationData(fuelReportDomainService);
-
-            //fuelReportDomainService.SetFuelReportInventoryResults(buildFakeResult(notificationData), this);
-
             setEntityState(entityNewState);
         }
 
         //===================================================================================
 
-        private void sendDataToOrderDomainService(IBalanceDomainService balanceDomainService)
+        private void sendDataToBalancingDomainService(IBalanceDomainService balanceDomainService)
         {
             foreach (var fuelReportDetail in FuelReportDetails)
             {
                 if (fuelReportDetail.Receive.HasValue && fuelReportDetail.ReceiveReference != null && fuelReportDetail.ReceiveReference.ReferenceId.HasValue)
                     balanceDomainService.SetReceivedData(fuelReportDetail.ReceiveReference.ReferenceId.Value, fuelReportDetail.Id, fuelReportDetail.GoodId, fuelReportDetail.MeasuringUnitId, (decimal)fuelReportDetail.Receive.Value);
             }
-        }
-
-        //===================================================================================
-
-        private FuelReportNotificationData buildNotificationData(IFuelReportDomainService fuelReportDomainService)
-        {
-            var notificationData = new FuelReportNotificationData();
-
-            notificationData.FuelReportId = this.Id;
-
-            notificationData.Items = buildNotificationDataItems(fuelReportDomainService);
-
-            return notificationData;
-        }
-
-        //===================================================================================
-
-        private List<FuelReportNotificationDataItem> buildNotificationDataItems(IFuelReportDomainService fuelReportDomainService)
-        {
-            List<FuelReportNotificationDataItem> dataItems = new List<FuelReportNotificationDataItem>();
-
-            foreach (var detail in this.FuelReportDetails)
-            {
-                dataItems.Add(detail.GetNotificationDataItem(fuelReportDomainService));
-            }
-
-            return dataItems;
-        }
-
-        //===================================================================================
-
-        private InventoryResultCommand buildFakeResult(FuelReportNotificationData notificationData)
-        {
-
-            var bag = new InventoryResultCommand
-                      {
-                          FuelReportId = notificationData.FuelReportId,
-                          Items = new List<InventoryResultCommandItem>()
-                      };
-
-            foreach (var item in notificationData.Items)
-            {
-                bag.Items.AddRange(getFuelReportInventoryResultItem(item));
-            }
-
-            return bag;
-        }
-
-        //===================================================================================
-
-        private List<InventoryResultCommandItem> getFuelReportInventoryResultItem(FuelReportNotificationDataItem dataItem)
-        {
-            List<InventoryResultCommandItem> items = new List<InventoryResultCommandItem>();
-
-            if (dataItem.EndOfVoyage != null)
-            {
-                InventoryResultCommandItem item = new InventoryResultCommandItem();
-
-                item.FuelReportDetailId = dataItem.FuelReportDetailId;
-                item.ActionDate = DateTime.Now;
-                item.ActionNumber = "INV" + DateTime.Now.ToString("yyyyMMddHHmmss");
-                item.ActionType = InventoryActionType.Issue;
-
-                items.Add(item);
-            }
-
-            if (dataItem.EndOfMonth != null)
-            {
-                InventoryResultCommandItem item = new InventoryResultCommandItem();
-
-                item.FuelReportDetailId = dataItem.FuelReportDetailId;
-                item.ActionDate = DateTime.Now;
-                item.ActionNumber = "INV" + DateTime.Now.ToString("yyyyMMddHHmmss");
-                item.ActionType = InventoryActionType.Issue;
-
-                items.Add(item);
-            }
-
-
-            if (dataItem.EndOfYear != null)
-            {
-                InventoryResultCommandItem item = new InventoryResultCommandItem();
-
-                item.FuelReportDetailId = dataItem.FuelReportDetailId;
-                item.ActionDate = DateTime.Now;
-                item.ActionNumber = "INV" + DateTime.Now.ToString("yyyyMMddHHmmss");
-                item.ActionType = InventoryActionType.Issue;
-
-                items.Add(item);
-            }
-
-            if (dataItem.NegativeCorrection != null)
-            {
-                InventoryResultCommandItem item = new InventoryResultCommandItem();
-
-                item.FuelReportDetailId = dataItem.FuelReportDetailId;
-                item.ActionDate = DateTime.Now;
-                item.ActionNumber = "INV" + DateTime.Now.ToString("yyyyMMddHHmmss");
-                item.ActionType = InventoryActionType.Issue;
-
-                items.Add(item);
-            }
-
-
-            if (dataItem.Transfer != null)
-            {
-                InventoryResultCommandItem item = new InventoryResultCommandItem();
-
-                item.FuelReportDetailId = dataItem.FuelReportDetailId;
-                item.ActionDate = DateTime.Now;
-                item.ActionNumber = "INV" + DateTime.Now.ToString("yyyyMMddHHmmss");
-                item.ActionType = InventoryActionType.Issue;
-
-                items.Add(item);
-            }
-
-
-            if (dataItem.Receive != null)
-            {
-                InventoryResultCommandItem item = new InventoryResultCommandItem();
-
-                item.FuelReportDetailId = dataItem.FuelReportDetailId;
-                item.ActionDate = DateTime.Now;
-                item.ActionNumber = "INV" + DateTime.Now.ToString("yyyyMMddHHmmss");
-                item.ActionType = InventoryActionType.Receipt;
-
-                items.Add(item);
-            }
-
-
-            if (dataItem.NegativeCorrection != null)
-            {
-                InventoryResultCommandItem item = new InventoryResultCommandItem();
-
-                item.FuelReportDetailId = dataItem.FuelReportDetailId;
-                item.ActionDate = DateTime.Now;
-                item.ActionNumber = "INV" + DateTime.Now.ToString("yyyyMMddHHmmss");
-                item.ActionType = InventoryActionType.Receipt;
-
-                items.Add(item);
-            }
-
-            return items;
         }
 
         //===================================================================================

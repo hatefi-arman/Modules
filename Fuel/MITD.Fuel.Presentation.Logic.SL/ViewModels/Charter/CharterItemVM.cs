@@ -29,7 +29,7 @@ namespace MITD.Fuel.Presentation.Logic.SL.ViewModels
         private IFuelController _fuelController;
         private ICharterInServiceWrapper _charterInServiceWrapper;
         private ICharterOutServiceWrapper _charterOutServiceWrapper;
-       
+
 
         private CharterItemDto entity;
         public CharterItemDto Entity
@@ -210,21 +210,21 @@ namespace MITD.Fuel.Presentation.Logic.SL.ViewModels
             this._charterInServiceWrapper = charterInServiceWrapper;
             this._charterOutServiceWrapper = charterOutServiceWrapper;
             Entity = new CharterItemDto();
-            Entity.Good=new GoodDto();
-            Entity.TankDto=new TankDto();
+            Entity.Good = new GoodDto();
+            Entity.TankDto = new TankDto();
             GoodDtos = new ObservableCollection<GoodDto>();
             CurrencyDtos = new ObservableCollection<CurrencyDto>();
-            TankDtos=new ObservableCollection<TankDto>();
+            TankDtos = new ObservableCollection<TankDto>();
             SelectedVesselId = 1;
-          
-            
+
+
         }
 
         #endregion
 
 
         #region Method
-        public void SetCharterType(CharterType charterType, CharterStateTypeEnum charterStateTypeEnum,long  charterId,long charterItemId)
+        public void SetCharterType(CharterType charterType, CharterStateTypeEnum charterStateTypeEnum, long charterId, long charterItemId)
         {
             CurrentCharterType = charterType;
             CurrentStateTypeEnum = charterStateTypeEnum;
@@ -239,7 +239,7 @@ namespace MITD.Fuel.Presentation.Logic.SL.ViewModels
             {
                 this.DisplayName = "چارتر Out";
             }
-            
+
         }
 
         public void Load()
@@ -332,11 +332,11 @@ namespace MITD.Fuel.Presentation.Logic.SL.ViewModels
                         GoodDtos.Add(goodDto);
                     }
 
-                    if (action!=null)
+                    if (action != null)
                     {
-                        action.Invoke(); 
+                        action.Invoke();
                     }
-                   
+
                 }
                 else
                 {
@@ -345,12 +345,12 @@ namespace MITD.Fuel.Presentation.Logic.SL.ViewModels
                         HandleException
                         (exp);
                 }
-                
 
-            }),_fuelController.GetCurrentUser().CompanyDto.Id);
 
-           //todo bzcomment
-            
+            }), _fuelController.GetCurrentUser().CompanyDto.Id);
+
+            //todo bzcomment
+
             _charterInServiceWrapper.GetByIdVessel((res, exp) => _fuelController.BeginInvokeOnDispatcher(() =>
             {
                 HideBusyIndicator();
@@ -385,15 +385,10 @@ namespace MITD.Fuel.Presentation.Logic.SL.ViewModels
                     {
                         CurrencyDtos.Add(cur);
                     }
-
-
                 }
                 else
                 {
-                    _fuelController
-                        .
-                        HandleException
-                        (exp);
+                    _fuelController.HandleException(exp);
                 }
 
 
@@ -403,17 +398,17 @@ namespace MITD.Fuel.Presentation.Logic.SL.ViewModels
 
         void SubmitCharterIn()
         {
-            
+
             //todo bz comment
-          
+
             Entity.Good = new GoodDto();
             Entity.Good.Id = GoodId;
-            Entity.Good.Unit=new GoodUnitDto();
+            Entity.Good.Unit = new GoodUnitDto();
             Entity.Good.Unit.Id = UnitId;
             Entity.CharterId = CharterId;
 
-            if (!Entity.Validate()) return;   
-            
+            if (!Entity.Validate()) return;
+
             if (Entity.Id > 0)
             {
                 _charterInServiceWrapper.UpdateItem((res, exp) => _fuelController.BeginInvokeOnDispatcher(() =>
@@ -425,7 +420,7 @@ namespace MITD.Fuel.Presentation.Logic.SL.ViewModels
                             =
                             res;
 
-                        if (CurrentStateTypeEnum ==CharterStateTypeEnum.Start)
+                        if (CurrentStateTypeEnum == CharterStateTypeEnum.Start)
                         {
                             _fuelController.Publish<CharterStartItemListChangeArg>(new CharterStartItemListChangeArg());
                         }
@@ -433,7 +428,7 @@ namespace MITD.Fuel.Presentation.Logic.SL.ViewModels
                         {
                             _fuelController.Publish<CharterEndItemListChangeArg>(new CharterEndItemListChangeArg());
                         }
-                        
+
                         _fuelController.Close(this);
                     }
                     else
@@ -441,11 +436,11 @@ namespace MITD.Fuel.Presentation.Logic.SL.ViewModels
                         _fuelController.HandleException(exp);
                     }
                     HideBusyIndicator();
-                }),charterId,charterItemId,CurrentStateTypeEnum, Entity);
+                }), charterId, charterItemId, CurrentStateTypeEnum, Entity);
             }
             else
             {
-               
+
                 _charterInServiceWrapper.AddItem((res, exp) => _fuelController.BeginInvokeOnDispatcher(() =>
                 {
                     ShowBusyIndicator("درحال انجام عملیات..");
@@ -475,11 +470,11 @@ namespace MITD.Fuel.Presentation.Logic.SL.ViewModels
 
         void SubmitCharterOut()
         {
-            
+
             //todo bz comment
 
-            Entity.Good.Id = GoodId;
             Entity.Good = new GoodDto();
+            Entity.Good.Id = GoodId;
             Entity.Good.Unit = new GoodUnitDto();
             Entity.Good.Unit.Id = UnitId;
             Entity.CharterId = CharterId;

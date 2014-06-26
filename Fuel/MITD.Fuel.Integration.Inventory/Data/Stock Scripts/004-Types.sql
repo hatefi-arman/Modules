@@ -12,7 +12,7 @@ CREATE TYPE TypeTransactionItems AS TABLE
 	GoodId int not null,
 	QuantityUnitId INT,
 	QuantityAmount DECIMAL(20,3) DEFAULT 0,
-	[Description] nvarchar(max) NULL
+	[Description] NVARCHAR(max) NULL
 )
  GO
  -------------------------------------------------------------
@@ -23,7 +23,8 @@ IF NOT EXISTS(
 )
 CREATE TYPE Ids AS TABLE 
 (
-    Id int Null
+    Id int NULL,
+    [Description] NVARCHAR(MAX) NULL
 )
  GO
  -------------------------------------------------------------
