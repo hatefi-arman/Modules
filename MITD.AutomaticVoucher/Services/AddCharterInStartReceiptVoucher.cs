@@ -17,12 +17,16 @@ namespace MITD.AutomaticVoucher.Services
     {
 
         private readonly IVoucherRepository _voucherRepository;
+        private readonly IVoucherSetingRepository _voucherSetingRepository;
         private IUnitOfWorkScope _unitOfWorkScope;
 
-        public AddCharterInStartReceiptVoucher(IVoucherRepository voucherRepository,IUnitOfWorkScope unitOfWorkScope)
+        public AddCharterInStartReceiptVoucher(IVoucherRepository voucherRepository,
+            IUnitOfWorkScope unitOfWorkScope
+            ,IVoucherSetingRepository voucherSetingRepository)
         {
             _voucherRepository = voucherRepository;
             _unitOfWorkScope = unitOfWorkScope;
+            _voucherSetingRepository = voucherSetingRepository;
         }
         
         public void Execute(
@@ -30,7 +34,9 @@ namespace MITD.AutomaticVoucher.Services
             )
         {
 
-            VoucherSeting voucherSeting=new VoucherSeting();
+            var voucherSeting =
+                _voucherSetingRepository.Find(c => c.VoucherDetailTypeId == VoucherDetailType.CharterInStart.Id)
+                    .FirstOrDefault();
 
             var voucher = new Voucher();
             voucher.LocalVoucherDate()
@@ -38,7 +44,7 @@ namespace MITD.AutomaticVoucher.Services
                 .Description(voucherSeting.VoucherMainDescription)
                 .ReferenceNo(receiptNumber)
                 .LocalVoucherNo("01")
-                .VoucherRef(Int64.Parse(voucherSeting.VoucherMainRefDescription))
+                .VoucherRef(voucherSeting.VoucherMainRefDescription)
                 .SetReferenceType(ReferenceType.CharterIn)
                 .SetCurrency(charterIn.Currency);
 

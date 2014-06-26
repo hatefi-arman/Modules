@@ -353,6 +353,7 @@
     <Compile Include="DomainObjects\FuelReportAggregate\Reference.cs" />
     <Compile Include="DomainServices\OrderCodeGenerator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\IVoucherSetingRepository.cs" />
     <Compile Include="Repositories\IOffhireRepository.cs" />
     <Compile Include="Repositories\IGoodRepository.cs" />
     <Compile Include="Repositories\IScrapRepository.cs" />

@@ -2,17 +2,20 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using MITD.Fuel.ACL.Contracts.AutomaticVoucher;
 using MITD.Fuel.ACL.StorageSpace.DomainServices.Events.Inventory.DTOs;
 using MITD.Fuel.ACL.StorageSpace.Mappers.Inventory.Contracts;
 using MITD.Fuel.Domain.Model.DomainObjects;
 using MITD.Fuel.Domain.Model.DomainObjects.CharterAggregate;
 using MITD.Fuel.Domain.Model.DomainObjects.InvoiceAggreate;
 using MITD.Fuel.Domain.Model.DomainObjects.OrderAggreate;
+using MITD.Fuel.Domain.Model.DomainObjects.VoucherAggregate;
 using MITD.Fuel.Domain.Model.IDomainServices;
 using MITD.Fuel.Domain.Model.IDomainServices.Events.InventoryOperations;
 using MITD.Fuel.Domain.Model.Enums;
 using MITD.Core;
 using MITD.Fuel.Integration.Inventory;
+using ReferenceType = MITD.Fuel.Domain.Model.Enums.ReferenceType;
 
 namespace MITD.Fuel.ACL.StorageSpace.DomainServices.Events
 {
@@ -21,17 +24,17 @@ namespace MITD.Fuel.ACL.StorageSpace.DomainServices.Events
         private readonly IFuelReportFuelReportDtoMapper fuelReportDtoMapper;
         private IFuelReportDetailToFuelReportDetailDtoMapper fuelReportDetailDtoMapper;
         private readonly IInvoiceToDtoMapper invoiceToDtoMapper;
-
+        private readonly IAddCharterInStartReceiptVoucher _addCharterInStartReceiptVoucher;
         private readonly IInventoryOperationManager inventoryOperationManager;
 
-        public InventoryOperationNotifier(
+        public InventoryOperationNotifier(IAddCharterInStartReceiptVoucher addCharterInStartReceiptVoucher
             //IFuelReportFuelReportDtoMapper fuelReportDtoMapper,
             //IInvoiceToDtoMapper invoiceToDtoMapper,
             //IFuelReportDetailToFuelReportDetailDtoMapper fuelReportDetailDtoMapper
             )
         {
             this.inventoryOperationManager = new InventoryOperationManager();
-
+            _addCharterInStartReceiptVoucher = addCharterInStartReceiptVoucher;
             //this.fuelReportDtoMapper = fuelReportDtoMapper;
             //this.invoiceToDtoMapper = invoiceToDtoMapper;
             //this.fuelReportDetailDtoMapper = fuelReportDetailDtoMapper;
@@ -181,9 +184,17 @@ namespace MITD.Fuel.ACL.StorageSpace.DomainServices.Events
         {
             try
             {
-                return this.inventoryOperationManager.ManageCharterInStart(charterInStart,
-                    //TODO: Fake ActorId
-                    1101);
+                //var res= this.inventoryOperationManager.ManageCharterInStart(charterInStart,
+                //    //TODO: Fake ActorId
+                //    1101);
+
+                _addCharterInStartReceiptVoucher.Execute(charterInStart,new List<Receipt>()
+                                                                        {
+                                                                          new Receipt(1,40,2500,1.5m)
+                                                                        },"001","050");
+
+
+                return null;
             }
             catch (Exception)
             {

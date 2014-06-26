@@ -39,7 +39,7 @@ namespace MITD.AutomaticVoucher.Services
             voucher.LocalVoucherNo = localVoucherNo;
             return voucher;
         }
-        public static Voucher VoucherRef(this Voucher voucher, long voucherRef)
+        public static Voucher VoucherRef(this Voucher voucher, string voucherRef)
         {
             voucher.VoucherRef = voucherRef;
             return voucher;

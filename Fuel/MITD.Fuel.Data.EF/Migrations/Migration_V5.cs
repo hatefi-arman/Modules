@@ -31,7 +31,7 @@ namespace MITD.Fuel.Data.EF.Migrations
                 .WithColumn("Code").AsString(50);
 
             Create.Table("VoucherSetings").InSchema("Fuel")
-                .WithColumn("Id").AsInt32().Identity().NotNullable().PrimaryKey()
+                .WithColumn("Id").AsInt64().Identity().NotNullable().PrimaryKey()
                 .WithColumn("VoucherCeditRefDescription").AsString(250)
                 .WithColumn("VoucherMainRefDescription").AsString(250)
                 .WithColumn("VoucherDebitDescription").AsString(250)
@@ -48,7 +48,7 @@ namespace MITD.Fuel.Data.EF.Migrations
 
             Create.Table("AsgnVoucherAconts").InSchema("Fuel")
                 .WithColumn("Id").AsInt32().Identity().PrimaryKey()
-                .WithColumn("VoucherSetingId").AsInt32()
+                .WithColumn("VoucherSetingId").AsInt64()
                   .ForeignKey("FK_VoucherSeting", "Fuel", "VoucherSetings", "Id")
                 .WithColumn("AccountId").AsInt32()
                   .ForeignKey("FK_Account_AsgnVoucherAcont", "Fuel", "Accounts", "Id")
@@ -60,7 +60,7 @@ namespace MITD.Fuel.Data.EF.Migrations
                 .WithColumn("Type").AsInt32()
                 .WithColumn("SegmentTypeId").AsInt32()
                 .WithColumn("TimeStamp").AsCustom("RowVersion")
-                .WithColumn("VoucherSetingId").AsInt32()
+                .WithColumn("VoucherSetingId").AsInt64()
                  .ForeignKey("FK_VoucherSeting_AsgnVoucherSegment", "Fuel", "VoucherSetings", "Id");
 
 

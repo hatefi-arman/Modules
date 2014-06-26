@@ -23,7 +23,7 @@ namespace MITD.Fuel.Domain.Model.DomainObjects.VoucherAggregate
         public VoucherType VoucherType { get; set; }
 
 
-        public VoucherDetailType CharterInStart {
+        public static VoucherDetailType CharterInStart {
             get {return new VoucherDetailType(1,"CharterInStart","01" ); }
         }
 

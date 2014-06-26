@@ -23,6 +23,8 @@ namespace MITD.Fuel.Data.EF.Configurations.Financial
             HasRequired(c=>c.Company).WithMany().HasForeignKey(c=>c.CompanyId).WillCascadeOnDelete(false);
             HasRequired(c => c.Good).WithMany().HasForeignKey(c => c.GoodId).WillCascadeOnDelete(false);
 
+            
+
         }
     }
 }
