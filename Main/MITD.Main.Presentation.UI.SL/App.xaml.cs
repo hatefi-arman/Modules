@@ -36,7 +36,7 @@ namespace MITD.Main.Presentation.UI.SL
             MITD.StorageSpace.Presentation.Contracts.SL.Infrastructure.ApiConfig.HostAddress = e.InitParams["WebApiStorageSpace"];
             new UIBootstrapper().Execute();
             var controller = ServiceLocator.Current.GetInstance<IFuelController>();
-            controller.Login(() => { });
+           // controller.Login(() => { });
 
         }
 

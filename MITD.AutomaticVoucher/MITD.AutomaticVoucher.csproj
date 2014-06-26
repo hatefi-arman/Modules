@@ -41,7 +41,7 @@
       <HintPath>..\Dependencies\MITD.Domain.Model.dll</HintPath>
     </Reference>
     <Reference Include="MITD.Domain.Repository">
-      <HintPath>..\..\..\Repository2012\FuelManagement\Main\Implementation\Modules\Dependencies\MITD.Domain.Repository.dll</HintPath>
+      <HintPath>..\Dependencies\MITD.Domain.Repository.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
