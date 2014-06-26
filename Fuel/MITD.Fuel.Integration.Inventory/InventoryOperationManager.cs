@@ -24,6 +24,7 @@ namespace MITD.Fuel.Integration.Inventory
         {
             Receipt = 1,
             Issue = 2,
+            SaleFactor = 3,
         }
 
         public enum TransactionStatus : byte
@@ -96,10 +97,10 @@ namespace MITD.Fuel.Integration.Inventory
         private OperationReference findInventoryOperationReference(InventoryDbContext dbContext, InventoryOperationType transactionType, string referenceType, string referenceNumber)
         {
             var foundOperationReference = dbContext.OperationReferences.Where(
-                tr => 
+                tr =>
                     tr.OperationType == (int)transactionType &&
                     tr.ReferenceType == referenceType &&
-                    tr.ReferenceNumber == referenceNumber).ToList().OrderBy(tr=>tr.RegistrationDate).LastOrDefault();
+                    tr.ReferenceNumber == referenceNumber).ToList().OrderBy(tr => tr.RegistrationDate).LastOrDefault();
 
             return foundOperationReference;
 
@@ -135,7 +136,7 @@ namespace MITD.Fuel.Integration.Inventory
                                     new SqlParameter("@WarehouseId", warehouseId),
                                     new SqlParameter("@TimeBucketId", timeBucketId),
                                     new SqlParameter("@StoreTypesId", storeTypesId),
-                                    new SqlParameter("@PricingReferenceId", pricingReferenceId),
+                                    new SqlParameter("@PricingReferenceId", pricingReferenceId.HasValue ? (object)pricingReferenceId : DBNull.Value),
                                     new SqlParameter("@RegistrationDate", DateTime.Now),
                                     new SqlParameter("@ReferenceType", referenceType),
                                     new SqlParameter("@ReferenceNo", referenceNumber),
@@ -181,7 +182,7 @@ namespace MITD.Fuel.Integration.Inventory
                                    new SqlParameter("@WarehouseId", warehouseId),
                                    new SqlParameter("@TimeBucketId", timeBucketId),
                                    new SqlParameter("@StoreTypesId", storeTypesId),
-                                   new SqlParameter("@PricingReferenceId", pricingReferenceId),
+                                   new SqlParameter("@PricingReferenceId", pricingReferenceId.HasValue ? (object)pricingReferenceId : DBNull.Value),
                                    new SqlParameter("@RegistrationDate", DateTime.Now),
                                    new SqlParameter("@ReferenceType", referenceType),
                                    new SqlParameter("@ReferenceNo", referenceNumber),
@@ -398,12 +399,13 @@ namespace MITD.Fuel.Integration.Inventory
             {
                 var transactionCode = dbContext.Transactions.Single(t => t.Id == notPricedTransactionId.Value).Code;
 
-                throw new InvalidOperation("priceIssuedItemsAutomatically", "The issue pricing procedure reached to a not priced Receipt. Receipt Code : " + transactionCode);
+                throw new InvalidOperation("PriceIssuedItemsInFIFO", "The issue pricing procedure reached to a not priced Receipt. Receipt Code : " + transactionCode);
             }
+
             message = messageParameter.Value as string;
 
             if (message != OPERATION_SUCCESSFUL_MESSAGE)
-                throw new InvalidOperation("priceIssuedItemsAutomatically", message);
+                throw new InvalidOperation("PriceIssuedItemsInFIFO", message);
 
             addPricingOperationReferences(dbContext, pricingReferenceType, pricingReferenceNumber, transactionItemPriceIdsParameter.Value.ToString());
         }
@@ -799,174 +801,6 @@ namespace MITD.Fuel.Integration.Inventory
                         #endregion
                     }
 
-                    if (fuelReportDetail.Correction.HasValue && fuelReportDetail.CorrectionType.HasValue &&
-                        fuelReportDetail.CorrectionPrice.HasValue &&
-                        !string.IsNullOrWhiteSpace(fuelReportDetail.CorrectionPriceCurrencyISOCode))
-                    {
-                        if (fuelReportDetail.CorrectionType.Value == CorrectionTypes.Minus)
-                        {
-                            //TODO: Decremental Correction
-                            #region Decremental Correction
-
-                            var transactionReferenceNumber = fuelReportDetail.Id.ToString();
-
-                            var reference = findInventoryOperationReference(dbContext, InventoryOperationType.Issue, FUEL_REPORT_DETAIL_DECREMENTAL_CORRECTION, transactionReferenceNumber);
-
-                            //if (reference.OperationId == INVALID_ID)
-                            if (reference == null)
-                            {
-                                string transactionCode, transactionMessage;
-
-                                var operationReference =
-                                    issue(
-                                        dbContext,
-                                        (int)fuelReportDetail.FuelReport.VesselInCompany.CompanyId,
-                                        (int)fuelReportDetail.FuelReport.VesselInCompany.VesselInInventory.Id,
-                                        1,
-                                        convertFuelReportCorrectionTypeToStoreType(fuelReportDetail),
-                                    null,
-                                        FUEL_REPORT_DETAIL_DECREMENTAL_CORRECTION,
-                                        transactionReferenceNumber,
-                                        userId,
-                                        out transactionCode,
-                                        out transactionMessage);
-
-                                string transactionItemMessage;
-
-                                var transactionItems = new List<TransactionItem>();
-                                transactionItems.Add(new TransactionItem()
-                                {
-                                    GoodId = (int)fuelReportDetail.Good.SharedGoodId,
-                                    CreateDate = DateTime.Now,
-                                    Description = fuelReportDetail.FuelReport.FuelReportType.ToString(),
-                                    QuantityAmount = (decimal?)fuelReportDetail.Correction,
-                                    QuantityUnitId = getMeasurementUnitId(dbContext, fuelReportDetail.MeasuringUnit.Abbreviation),
-                                    TransactionId = (int)operationReference.OperationId,
-                                    UserCreatorId = userId
-                                });
-
-                                var transactionItemIds = addTransactionItems(dbContext, (int)operationReference.OperationId, transactionItems, userId, out transactionItemMessage);
-
-                                //TODO: Items Pricing.
-
-
-                                var transactionItemPrice = new TransactionItemPrice()
-                                {
-                                    TransactionItemId = transactionItemIds[0],
-                                    QuantityUnitId = getMeasurementUnitId(dbContext, fuelReportDetail.MeasuringUnit.Abbreviation),
-                                    QuantityAmount = (decimal?)fuelReportDetail.Correction,
-                                    PriceUnitId = getCurrencyId(dbContext, fuelReportDetail.CorrectionPriceCurrency.Abbreviation),
-                                    Fee = fuelReportDetail.CorrectionPrice,
-                                    RegistrationDate = DateTime.Now,
-                                    Description = "Deceremental Correction Pricing > " + fuelReportDetail.Good.Code,
-                                    UserCreatorId = userId
-                                };
-
-                                string pricingMessage;
-                                //int? notPricedTransactionId;
-
-                                priceIssuedItemInFIFO(dbContext, transactionItemIds[0], "Decremental Correction FIFO Pricing", userId,
-                                    out pricingMessage, FUEL_REPORT_DETAIL_DECREMENTAL_CORRECTION_PRICING,
-                                    transactionReferenceNumber);
-
-                                result.Add(new InventoryOperation(
-                                            inventoryOperationId: operationReference.OperationId,
-                                            actionNumber: string.Format("{0}/{1}", (InventoryOperationType)operationReference.OperationType, transactionCode),
-                                            actionDate: DateTime.Now,
-                                            actionType: InventoryActionType.Issue,
-                                            fuelReportDetailId: fuelReportDetail.Id,
-                                            charterId: null));
-                            }
-                            else
-                            {
-                                throw new InvalidOperation("FR Decremental Correction Edit", "FueReport  Decremental Correction edit is invalid");
-                                var transactionItems = dbContext.TransactionItems.Where(ti => ti.TransactionId == reference.OperationId);
-                            }
-
-                            #endregion
-                        }
-                        else
-                        {
-                            //TODO: Incremental Correction
-                            #region Incremental Correction Commented
-                            /*
-                            var transactionReferenceNumber = fuelReportDetail.Id.ToString();
-
-                            var reference = findInventoryOperationReference(dbContext, InventoryOperationType.Receipt, FUEL_REPORT_DETAIL_INCREMENTAL_CORRECTION, fuelReportDetail.Id.ToString());
-
-                            //if (reference.OperationId == INVALID_ID)
-                            if (reference == null)
-                            {
-                                string transactionCode, transactionMessage;
-
-                                var operationReference =
-                                    issue(
-                                        dbContext,
-                                        (int)fuelReportDetail.FuelReport.VesselInCompany.CompanyId,
-                                        (int)fuelReportDetail.FuelReport.VesselInCompany.VesselInInventory.Id,
-                                        1,
-                                        convertFuelReportCorrectionTypeToStoreType(fuelReportDetail),
-                                        FUEL_REPORT_DETAIL_INCREMENTAL_CORRECTION,
-                                        fuelReportDetail.Id.ToString(),
-                                        userId,
-                                        out transactionCode,
-                                        out transactionMessage);
-
-                                string transactionItemMessage;
-
-                                var transactionItems = new List<TransactionItem>();
-                                transactionItems.Add(new TransactionItem()
-                                {
-                                    GoodId = (int)fuelReportDetail.Good.SharedGoodId,
-                                    CreateDate = DateTime.Now,
-                                    Description = fuelReportDetail.FuelReport.FuelReportType.ToString(),
-                                    QuantityAmount = calculateCorrectionAmount(fuelReportDetail),
-                                    QuantityUnitId = getMeasurementUnitId(dbContext, fuelReportDetail.MeasuringUnit.Abbreviation),
-                                    TransactionId = (int)operationReference.OperationId,
-                                    UserCreatorId = userId
-                                });
-
-                                var transactionItemIds = addTransactionItems(dbContext, (int)operationReference.OperationId, transactionItems, userId, out transactionItemMessage);
-
-                                //TODO: Items Pricing.
-
-
-                                //var transactionItemPrice = new TransactionItemPrice()
-                                //{
-                                //    TransactionItemId = transactionItemIds[0],
-                                //    QuantityUnitId = getMeasurementUnitId(dbContext, fuelReportDetail.MeasuringUnit.Abbreviation),
-                                //    QuantityAmount = (decimal?)fuelReportDetail.Correction,
-                                //    PriceUnitId = getCurrencyId(dbContext, fuelReportDetail.CorrectionPriceCurrency.Abbreviation),
-                                //    Fee = fuelReportDetail.CorrectionPrice,
-                                //    RegistrationDate = DateTime.Now,
-                                //    Description = "Inceremental Correction Pricing > " + fuelReportDetail.Good.Code,
-                                //    UserCreatorId = userId
-                                //};
-
-                                //string pricingMessage;
-
-                                //priceTransactionItemManually(dbContext, transactionItemPrice, userId, out pricingMessage, FUEL_REPORT_DETAIL_INCREMENTAL_CORRECTION_PRICING, fuelReportDetail.Id.ToString());
-
-
-                                result.Add(new InventoryOperation(
-                                            inventoryOperationId: operationReference.OperationId,
-                                            actionNumber: string.Format("{0}/{1}", (InventoryOperationType)operationReference.OperationType, transactionCode),
-                                            actionDate: DateTime.Now,
-                                            actionType: InventoryActionType.Receipt,
-                                            fuelReportDetailId: fuelReportDetail.Id,
-                                            charterId: null));
-
-                            }
-                            else
-                            {
-                                throw new InvalidOperation("FR Incremental Correction Edit", "FueReport  Incremental Correction edit is invalid");
-                                var transactionItems = dbContext.TransactionItems.Where(ti => ti.TransactionId == reference.OperationId);
-                            }
-                            */
-                            #endregion
-                        }
-                    }
-
                     transaction.Commit();
 
                     return result;
@@ -1061,6 +895,95 @@ namespace MITD.Fuel.Integration.Inventory
                     return 16;
                 default:
                     throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        //================================================================================
+
+        public List<InventoryOperation> ManageFuelReportDetailDecrementalCorrection(FuelReportDetail fuelReportDetail, int userId)
+        {
+            //if (fuelReportDetail.Correction.HasValue && 
+            //    fuelReportDetail.CorrectionType.HasValue &&
+            //    fuelReportDetail.CorrectionPrice.HasValue &&
+            //    !string.IsNullOrWhiteSpace(fuelReportDetail.CorrectionPriceCurrencyISOCode))
+
+            //if (fuelReportDetail.CorrectionType.Value == CorrectionTypes.Minus)
+            //{
+            using (var dbContext = new InventoryDbContext())
+            {
+                using (var transaction = dbContext.Database.BeginTransaction(System.Data.IsolationLevel.ReadCommitted))
+                {
+                    var result = new List<Domain.Model.DomainObjects.InventoryOperation>();
+
+                    //TODO: Decremental Correction
+                    #region Decremental Correction
+
+                    var transactionReferenceNumber = fuelReportDetail.Id.ToString();
+
+                    var reference = findInventoryOperationReference(dbContext, InventoryOperationType.Issue, FUEL_REPORT_DETAIL_DECREMENTAL_CORRECTION, transactionReferenceNumber);
+
+                    //if (reference.OperationId == INVALID_ID)
+                    if (reference == null)
+                    {
+                        string transactionCode, transactionMessage;
+
+                        var operationReference =
+                            issue(
+                                  dbContext,
+                                  (int)fuelReportDetail.FuelReport.VesselInCompany.CompanyId,
+                                  (int)fuelReportDetail.FuelReport.VesselInCompany.VesselInInventory.Id,
+                                  1,
+                                  convertFuelReportCorrectionTypeToStoreType(fuelReportDetail),
+                                  null,
+                                  FUEL_REPORT_DETAIL_DECREMENTAL_CORRECTION,
+                                  transactionReferenceNumber,
+                                  userId,
+                                  out transactionCode,
+                                  out transactionMessage);
+
+                        string transactionItemMessage;
+
+                        var transactionItems = new List<TransactionItem>();
+                        transactionItems.Add(new TransactionItem()
+                                             {
+                                                 GoodId = (int)fuelReportDetail.Good.SharedGoodId,
+                                                 CreateDate = DateTime.Now,
+                                                 Description = fuelReportDetail.FuelReport.FuelReportType.ToString(),
+                                                 QuantityAmount = (decimal?)fuelReportDetail.Correction,
+                                                 QuantityUnitId = getMeasurementUnitId(dbContext, fuelReportDetail.MeasuringUnit.Abbreviation),
+                                                 TransactionId = (int)operationReference.OperationId,
+                                                 UserCreatorId = userId
+                                             });
+
+                        var transactionItemIds = addTransactionItems(dbContext, (int)operationReference.OperationId, transactionItems, userId, out transactionItemMessage);
+
+                        string pricingMessage;
+                        //int? notPricedTransactionId;
+
+                        priceIssuedItemInFIFO(dbContext, transactionItemIds[0], "Decremental Correction FIFO Pricing", userId,
+                                              out pricingMessage, FUEL_REPORT_DETAIL_DECREMENTAL_CORRECTION_PRICING,
+                                              transactionReferenceNumber);
+
+                        result.Add(new InventoryOperation(
+                                       inventoryOperationId: operationReference.OperationId,
+                                       actionNumber: string.Format("{0}/{1}", (InventoryOperationType)operationReference.OperationType, transactionCode),
+                                       actionDate: DateTime.Now,
+                                       actionType: InventoryActionType.Issue,
+                                       fuelReportDetailId: fuelReportDetail.Id,
+                                       charterId: null));
+                    }
+                    else
+                    {
+                        throw new InvalidOperation("FR Decremental Correction Edit", "FueReport  Decremental Correction edit is invalid");
+                        var transactionItems = dbContext.TransactionItems.Where(ti => ti.TransactionId == reference.OperationId);
+                    }
+
+                    #endregion
+                    
+                    transaction.Commit();
+
+                    return result;
+                }
             }
         }
 
@@ -1589,7 +1512,7 @@ namespace MITD.Fuel.Integration.Inventory
 
         //================================================================================
 
-        public List<InventoryOperation> ManageFuelReportDetailIncrementalCorrectionUsingReferencePricing(FuelReportDetail fuelReportDetail, long pricingReferenceId, string pricingReferenceType,int userId)
+        public List<InventoryOperation> ManageFuelReportDetailIncrementalCorrectionUsingReferencePricing(FuelReportDetail fuelReportDetail, long pricingReferenceId, string pricingReferenceType, int userId)
         {
             using (var dbContext = new InventoryDbContext())
             {

@@ -19,9 +19,8 @@ namespace MITD.Fuel.ACL.StorageSpace.DomainServices.Events
     public class InventoryOperationNotifier : IInventoryOperationNotifier
     {
         private readonly IFuelReportFuelReportDtoMapper fuelReportDtoMapper;
-        private IFuelReportDetailToFuelReportDetailDtoMapper fuelReportDetailDtoMapper;
+        private readonly IFuelReportDetailToFuelReportDetailDtoMapper fuelReportDetailDtoMapper;
         private readonly IInvoiceToDtoMapper invoiceToDtoMapper;
-
         private readonly IInventoryOperationManager inventoryOperationManager;
 
         public InventoryOperationNotifier(
@@ -99,7 +98,9 @@ namespace MITD.Fuel.ACL.StorageSpace.DomainServices.Events
                     }
                     else
                     {
-
+                        result.AddRange(this.inventoryOperationManager.ManageFuelReportDetailDecrementalCorrection(source, 
+                            //TODO: Fake ActorId
+                            1101));
                     }
                 }
 
@@ -246,6 +247,4 @@ namespace MITD.Fuel.ACL.StorageSpace.DomainServices.Events
                         (long? )null)});
         }
     }
-
-
 }

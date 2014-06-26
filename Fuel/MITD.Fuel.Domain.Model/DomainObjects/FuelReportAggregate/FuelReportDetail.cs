@@ -874,30 +874,31 @@ namespace MITD.Fuel.Domain.Model.DomainObjects
 
             validatePositiveCorrectionPriceAndReference();
 
-            validateNegativeCorrectionReferenceValue(isTheFirstFuelReport, voyageDomainService);
+            //validateNegativeCorrectionReferenceValue(isTheFirstFuelReport, voyageDomainService);
 
-            validateNotEmptyCorrectionValues();
+            validateNegativeCorrectionWithEmptyPrice();
 
             validatePositiveCorrectionReferenceToBeTheLastIssuedVoyage(isTheFirstFuelReport, fuelReportDomainService);
+            validateNegativeCorrectionReferenceToBeTheLastIssuedVoyage(isTheFirstFuelReport, fuelReportDomainService);
         }
 
         //===================================================================================
 
-        private void validateNegativeCorrectionReferenceValue(bool isTheFirstFuelReport, IVoyageDomainService voyageDomainService)
-        {
-            if (this.Correction.HasValue &&
-                this.CorrectionType.HasValue &&
-                this.CorrectionType.Value == CorrectionTypes.Minus)
-            {
-                if (!isTheFirstFuelReport &&
-                    (this.CorrectionReference.IsEmpty() ||
-                    this.CorrectionReference.ReferenceType != ReferenceType.Voyage ||
-                        voyageDomainService.Get(this.CorrectionReference.ReferenceId.Value) == null))
-                    throw new BusinessRuleException("BR_FR 24", string.Format("BR_FR 24 : Reference for Negative Correction of '{0}' is not specified.", this.Good.Code));
-                //throw new BusinessRuleException("", "BR_FR 24 - چنانچه فیلد اصلاح مقداری مقداردهی شده است و نوع آن منفی است مرجع آن می تواند سفر انتخاب گردد تا در زمان ثبت سند برای سفر هزینه ثبت شود");
+        //private void validateNegativeCorrectionReferenceValue(bool isTheFirstFuelReport, IVoyageDomainService voyageDomainService)
+        //{
+        //    if (this.Correction.HasValue &&
+        //        this.CorrectionType.HasValue &&
+        //        this.CorrectionType.Value == CorrectionTypes.Minus)
+        //    {
+        //        //if (!isTheFirstFuelReport &&
+        //        //    (this.CorrectionReference.IsEmpty() ||
+        //        //    this.CorrectionReference.ReferenceType != ReferenceType.Voyage ||
+        //        //        voyageDomainService.Get(this.CorrectionReference.ReferenceId.Value) == null))
+        //        //    throw new BusinessRuleException("BR_FR 24", string.Format("BR_FR 24 : Reference for Negative Correction of '{0}' is not specified.", this.Good.Code));
+        //        ////throw new BusinessRuleException("", "BR_FR 24 - چنانچه فیلد اصلاح مقداری مقداردهی شده است و نوع آن منفی است مرجع آن می تواند سفر انتخاب گردد تا در زمان ثبت سند برای سفر هزینه ثبت شود");
 
-            }
-        }
+        //    }
+        //}
 
         //===================================================================================
 
@@ -914,16 +915,15 @@ namespace MITD.Fuel.Domain.Model.DomainObjects
 
         //===================================================================================
 
-        private void validateNotEmptyCorrectionValues()
+        private void validateNegativeCorrectionWithEmptyPrice()
         {
             if (this.Correction.HasValue &&
                 this.CorrectionType.HasValue &&
                 this.CorrectionType.Value == CorrectionTypes.Minus &&
-                 (!this.CorrectionType.HasValue ||
-                 !this.CorrectionPrice.HasValue ||
-                 !this.CorrectionPriceCurrencyId.HasValue)
+                 (this.CorrectionPrice.HasValue /*&&
+                 this.CorrectionPriceCurrencyId.HasValue*/)
                 )
-                throw new BusinessRuleException("", string.Format("Decremental Correction Values for '{0}' are not specified.", this.Good.Code));
+                throw new BusinessRuleException("", string.Format("Decremental Correction for '{0}' has Price.", this.Good.Code));
             //throw new BusinessRuleException("", "یکی از مقادیر نوع مقدار اصلاحی، مبلغ و یا نوع ارز برای مقدار اصلاحی وارد نشده است.");
         }
 
@@ -933,7 +933,37 @@ namespace MITD.Fuel.Domain.Model.DomainObjects
         {
             if (this.Correction.HasValue &&
                 !isTheFirstFuelReport &&
-                !this.CorrectionReference.IsEmpty())
+                !this.CorrectionReference.IsEmpty() &&
+                this.CorrectionType.HasValue &&
+                this.CorrectionType.Value == CorrectionTypes.Plus)
+            {
+                var lastIssuedEOVFuelReportOfPreviousVoyages = fuelReportDomainService.GetLastIssuedEOVFuelReportOfPreviousVoyages(this.FuelReport);
+
+                if (lastIssuedEOVFuelReportOfPreviousVoyages == null && !isTheFirstFuelReport)
+                    throw new ObjectNotFound("LastIssuedEndOfVoyageFuelReport");
+
+                Voyage lastIssuedVoyage = null;
+
+                if (lastIssuedEOVFuelReportOfPreviousVoyages != null)
+                    lastIssuedVoyage = lastIssuedEOVFuelReportOfPreviousVoyages.Voyage;
+
+
+                if (lastIssuedVoyage == null || this.CorrectionReference.ReferenceType != ReferenceType.Voyage ||
+                    this.CorrectionReference.ReferenceId != lastIssuedVoyage.Id)
+                    throw new BusinessRuleException("", string.Format("Correction Reference Is not The Last Issued Voyage for '{0}'.", this.Good.Code));
+                //throw new BusinessRuleException("", "سفر مرجع برای مقداراصلاحی آخرین سفر دارای حواله مصرف تائید نهایی شده باشد");
+            }
+        }
+
+        //===================================================================================
+
+        private void validateNegativeCorrectionReferenceToBeTheLastIssuedVoyage(bool isTheFirstFuelReport, IFuelReportDomainService fuelReportDomainService)
+        {
+            if (this.Correction.HasValue &&
+                !isTheFirstFuelReport &&
+                !this.CorrectionReference.IsEmpty() && 
+                this.CorrectionType.HasValue &&
+                this.CorrectionType.Value == CorrectionTypes.Minus)
             {
                 var lastIssuedEOVFuelReportOfPreviousVoyages = fuelReportDomainService.GetLastIssuedEOVFuelReportOfPreviousVoyages(this.FuelReport);
 

@@ -1,3 +1,7 @@
+USE MiniStock;
+
+GO;
+
 SELECT t.GoodId, SUM(t.s) AS CurrentMojodi
 FROM   (
 			SELECT ti.GoodId,
